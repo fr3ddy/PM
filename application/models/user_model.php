@@ -13,4 +13,24 @@ class User_Model extends CI_Model{
 		
 		return $data;
 	}
+	
+	function existiertBenutzer($benutzername){
+		return true;
+	}
+	
+	function loginKorrekt($benutzername , $passwort){
+		return true;
+	}
+	
+	function gibBenutzerdaten($benutzername){
+		return array("Benutzername" => "Test" , "Rolle" => "Mitarbeiter" , "Abteilung" => "2");
+	}
+	
+	function istAngemeldet(){
+		if($this->session->userdata("Benutzername") == ""){
+			return false;
+		}else{
+			return true;
+		}
+	}
 }
