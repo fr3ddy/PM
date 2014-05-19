@@ -1,1 +1,5 @@
-Hallo!
+<?php
+
+print_r($user);
+
+?>
