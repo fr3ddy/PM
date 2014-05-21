@@ -3,7 +3,7 @@
 class Projekte extends CI_Controller {
 	public function index() {
 		if ($this -> user_model -> istAngemeldet()) {
-			$data["title"] = "Projekte - PM";
+			$data["title"] = "Projekte";
 			
 			$data["projekte"] = $this->projekte_model->gibProjekteVonAktuellemMitarbeiter();
 			

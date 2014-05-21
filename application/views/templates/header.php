@@ -4,7 +4,7 @@
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title><?php echo $title; ?></title>
+		<title><?php echo $title; ?> - PM</title>
 		
 		<!--Favicon-->
 		<link rel="shortcut icon" href="<?php echo base_url(); ?>img/favicon.ico" type="image/x-icon" />
@@ -28,3 +28,21 @@
 	</head>
 	<body>
 		<div class="container">
+			<h1><?php if ($title != "Login"){ echo $title; ?></h1>
+			<div class="navigation">
+				<?php if($this->session->userdata("Rolle") == "Geschäftsführer"){ ?>
+				<a href="<?php echo base_url(); ?>projekte"><div>Projekt&uuml;bersicht</div></a>
+				<a href="<?php echo base_url(); ?>admin"><div>Administration</div></a>
+				<a style="float: right;" href="<?php echo base_url(); ?>user/logout"><div><span class="glyphicon glyphicon-off" style="margin-right: 5px;"></span>Abmelden</div></a>
+				<?php }} ?>
+			</div>
+			<?php
+			if(isset($sidenavigation)){
+				echo "<h2>".$sidenavigationtitle."</h2>";
+				echo '<div class="sidenavigation">';
+				foreach ($sidenavigation as $name => $link) {
+					echo '<a href="'.base_url().$link.'"><div>'.$name.'</div></a>';
+				}
+				echo '</div>';
+			} ?>	
+			<div <?php if($title != "Login") echo 'class="content"'; ?>>

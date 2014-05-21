@@ -2,7 +2,7 @@
 
 class Projekte_model extends CI_Model {
 
-	function gibProjekteVonAnderenProjekten() {
+	function gibProjekteVonAktuellemMitarbeiter() {
 		if ($this -> session -> userdata("Rolle") == "Mitarbeiter") {
 			$projekte = array();
 		} elseif ($this -> session -> userdata("Rolle") == "Abteilungsleiter") {
