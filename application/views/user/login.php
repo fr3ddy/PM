@@ -9,7 +9,7 @@
 		</div>
 		<br/>
 		<div class="input-group <?php if(isset($pwerror)) echo $pwerror; ?>">
-			<span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
+			<span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
 			<input type="password" name="passwort" class="form-control" placeholder="Passwort">
 		</div>
 		<br/>
