@@ -3,7 +3,7 @@
 class User extends CI_Controller{
 	
 	public function index(){
-		$data["title"] = "Login - PM";
+		$data["title"] = "Login";
 		
 		if(!$this->user_model->istAngemeldet()){
 			$this->load->view("templates/header" , $data);
@@ -34,11 +34,20 @@ class User extends CI_Controller{
 			$this->session->set_userdata($userdata);
 			redirect("/projekte");
 		}else{
-			$data["title"] = "Login - PM";
+			$data["title"] = "Login";
 			$this->load->view("templates/header" , $data);
 			$this->load->view("user/login" , $data);
 			$this->load->view("templates/footer");
 		}
+	}
+	
+	public function logout(){
+		$userdata = $this->user_model->gibBenutzerdaten($this->session->userdata("Benutzername"));
+		foreach ($userdata as $dataname => $data) {
+			$userdata[$dataname] = "";
+		}
+		$this->session->unset_userdata($userdata);
+		$this->index();
 	}
 	
 }

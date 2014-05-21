@@ -23,7 +23,7 @@ class User_Model extends CI_Model{
 	}
 	
 	function gibBenutzerdaten($benutzername){
-		return array("Benutzername" => "Test" , "Rolle" => "Mitarbeiter" , "Abteilung" => "2");
+		return array("Benutzername" => "Test" , "Rolle" => "Geschäftsführer" , "Abteilung" => "2");
 	}
 	
 	function istAngemeldet(){
