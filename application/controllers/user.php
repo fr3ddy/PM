@@ -16,6 +16,7 @@ class User extends CI_Controller{
 	
 	public function login(){
 		$post = $this->input->post();
+		print_r($post);
 		if($this->user_model->existiertBenutzer($post["benutzername"])){
 			if($this->user_model->loginKorrekt($post["benutzername"] , $post["passwort"])){
 				
