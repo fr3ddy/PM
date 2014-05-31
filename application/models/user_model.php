@@ -15,15 +15,20 @@ class User_Model extends CI_Model{
 	}
 	
 	function existiertBenutzer($benutzername){
-		return true;
+		$query = $this->db->simple_query('SELECT * FROM Benutzer WHERE Benutzername = "' + $benutzername + '"');
+		return $query;
 	}
 	
 	function loginKorrekt($benutzername , $passwort){
-		return true;
+		$query = $this->db->simple_query('SELECT * FROM Benutzer WHERE Benutzername = "' + $benutzername + '" 
+									AND Passwort = "' + $passwort + '"');
+		return $query;
 	}
 	
 	function gibBenutzerdaten($benutzername){
-		return array("Benutzername" => "Test" , "Rolle" => "Geschäftsführer" , "Abteilung" => "2");
+		$query = $this->db->query('SELECT * FROM Benutzer WHERE Benutzername = "' + $benutzername + '"');
+		$row = $query->first_row();
+		return array("Benutzername" =>  $row['Benutzername'], "Rolle" => $row['Rolle'] , "Abteilung" => $row['Abteilung']);
 	}
 	
 	function istAngemeldet(){
