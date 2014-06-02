@@ -14,5 +14,13 @@ class Projekte extends CI_Controller {
 			redirect("/");
 		}
 	}
+	
+	public function neu(){
+		$data["title"] = "Projekte";
+			
+			$this -> load -> view("templates/header", $data);
+			$this -> load -> view("projekte/neu");
+			$this -> load -> view("templates/footer");
+	}
 
 }

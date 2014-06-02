@@ -5,6 +5,7 @@ class Admin extends CI_Controller {
 	private $sidenavigation = array("Konfiguration" => "admin", "Mitarbeiter" => "admin/mitarbeiter" , "Neuer Mitarbeiter" => "admin/neuerMitarbeiter");
 
 	public function index() {
+		if($this->session->userdata("Rolle") == "Geschäftsführer"){
 		$data["title"] = "Administration";
 		
 		$data["sidenavigation"] = $this->sidenavigation;
@@ -13,6 +14,9 @@ class Admin extends CI_Controller {
 		$this -> load -> view("templates/header", $data);
 		$this -> load -> view("admin/index");
 		$this -> load -> view("templates/footer");
+		}else{
+			redirect("/");
+		}
 	}
 
 	public function mitarbeiter() {

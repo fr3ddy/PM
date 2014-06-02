@@ -16,7 +16,7 @@ class User extends CI_Controller{
 	
 	public function login(){
 		$post = $this->input->post();
-		print_r($post);
+		// print_r($post);
 		if($this->user_model->existiertBenutzer($post["benutzername"])){
 			if($this->user_model->loginKorrekt($post["benutzername"] , $post["passwort"])){
 				
@@ -49,6 +49,14 @@ class User extends CI_Controller{
 		}
 		$this->session->unset_userdata($userdata);
 		$this->index();
+	}
+	
+	public function meinProfil(){
+		$data["title"] = "Mein Profil";
+		$data["userdata"] = $this->user_model->gibBenutzerdaten($this->session->userdata("Benutzername"));
+		$this->load->view("templates/header" , $data);
+		$this->load->view("user/meinProfil" , $data);
+		$this->load->view("templates/footer");
 	}
 	
 }

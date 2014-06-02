@@ -34,15 +34,30 @@
 				<a href="<?php echo base_url(); ?>projekte"><div>Projekt&uuml;bersicht</div></a>
 				<a href="<?php echo base_url(); ?>admin"><div>Administration</div></a>
 				<a style="float: right;" href="<?php echo base_url(); ?>user/logout"><div><span class="glyphicon glyphicon-off" style="margin-right: 5px;"></span>Abmelden</div></a>
-				<?php }} ?>
+				<?php }elseif($this->session->userdata("Rolle") == "Bereichsleiter"){
+				?>
+				<a style="float: right;" href="<?php echo base_url(); ?>user/logout"><div><span class="glyphicon glyphicon-off" style="margin-right: 5px;"></span>Abmelden</div></a>
+				<?php	
+				}elseif($this->session->userdata("Rolle") == "Abteilungsleiter"){
+				?>
+				<a style="float: right;" href="<?php echo base_url(); ?>user/logout"><div><span class="glyphicon glyphicon-off" style="margin-right: 5px;"></span>Abmelden</div></a>
+				<?php	
+				}elseif($this->session->userdata("Rolle") == "Mitarbeiter"){
+				?>
+				<a href="<?php echo base_url(); ?>projekte/neu"><div>Neues Projekt einreichen</div></a>
+				<a href="<?php echo base_url(); ?>projekte"><div>Eingereichte Projekte</div></a>
+				<a href="<?php echo base_url(); ?>user/meinprofil"><div>Mein Profil</div></a>
+				<a style="float: right;" href="<?php echo base_url(); ?>user/logout"><div><span class="glyphicon glyphicon-off" style="margin-right: 5px;"></span>Abmelden</div></a>
+				<?php
+				}} ?>
 			</div>
+			<div class="sidenavigation">
 			<?php
 			if(isset($sidenavigation)){
 				echo "<h2>".$sidenavigationtitle."</h2>";
-				echo '<div class="sidenavigation">';
 				foreach ($sidenavigation as $name => $link) {
 					echo '<a href="'.base_url().$link.'"><div>'.$name.'</div></a>';
 				}
-				echo '</div>';
 			} ?>	
+			</div>
 			<div <?php if($title != "Login") echo 'class="content"'; ?>>

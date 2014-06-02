@@ -20,29 +20,33 @@ class User_Model extends CI_Model {
 	}
 
 	function loginKorrekt($benutzername, $passwort) {
-		$query = $this -> db -> simple_query('SELECT * FROM Benutzer WHERE Benutzername = "' . $benutzername . '" 
+		$query = $this -> db -> query('SELECT * FROM Benutzer WHERE Benutzername = "' . $benutzername . '" 
 									AND Passwort = "' . $passwort . '"');
-		return $query;
+		if ($query -> num_rows() == 1) {
+			return TRUE;
+		} else {
+			return false;
+		}
 	}
 
 	function gibBenutzerdaten($benutzername) {
 		$query = $this -> db -> query('SELECT * FROM Benutzer WHERE Benutzername = "' . $benutzername . '"');
 		$row = $query -> first_row();
-		return array("Benutzername" => $row -> Benutzername, "Rolle" => gibRolle($row -> ID), "Abteilung" => $row -> Abteilung, "BenutzerID" => $row -> ID);
+		return array("Benutzername" => $row -> Benutzername, "Rolle" => $this -> gibRolle($row -> ID), "Abteilung" => $row -> Abteilung, "BenutzerID" => $row -> ID);
 	}
-	
-	function gibRolle($benutzerID){
-											$query = $this -> db -> simple_query('SELECT * FROM Abteilungen WHERE Abteilungsleiter = ' . $benutzerID		);
-												if($query){
-													return "Abteilungsleiter";
-																				}else{
-																																$query = $this -> db -> simple_query('SELECT * FROM Bereiche WHERE Bereichsleiter = ' . $benutzerID		);
-																				}
-																				if($query){
-																					return "Bereichsleiter";
-																				}else{
-																					return "Mitarbeiter";
-																				}
+
+	function gibRolle($benutzerID) {
+		$query = $this -> db -> query('SELECT * FROM Abteilungen WHERE Abteilungsleiter = ' . $benutzerID);
+		if ($query -> num_rows() == 1) {
+			return "Abteilungsleiter";
+		} else {
+			$query = $this -> db -> query('SELECT * FROM Bereiche WHERE Bereichsleiter = ' . $benutzerID);
+		}
+		if ($query -> num_rows() == 1) {
+			return "Bereichsleiter";
+		} else {
+			return "Mitarbeiter";
+		}
 	}
 
 	function istAngemeldet() {
