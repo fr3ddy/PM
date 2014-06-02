@@ -54,16 +54,18 @@ class User_Model extends CI_Model {
     }
 
     function gibRolle($benutzerID) {
-        $query = $this -> db -> query('SELECT * FROM Abteilungen WHERE Abteilungsleiter = ' . $benutzerID);
-        if ($query -> num_rows() == 1) {
-            return "Abteilungsleiter";
-        } else {
-            $query = $this -> db -> query('SELECT * FROM Bereiche WHERE Bereichsleiter = ' . $benutzerID);
-        }
-        if ($query -> num_rows() == 1) {
-            return "Bereichsleiter";
-        } else {
-            return "Mitarbeiter";
+        if ($benutzerID != NULL) {
+            $query = $this -> db -> query('SELECT * FROM Abteilungen WHERE Abteilungsleiter = ' . $benutzerID);
+            if ($query -> num_rows() == 1) {
+                return "Abteilungsleiter";
+            } else {
+                $query = $this -> db -> query('SELECT * FROM Bereiche WHERE Bereichsleiter = ' . $benutzerID);
+            }
+            if ($query -> num_rows() == 1) {
+                return "Bereichsleiter";
+            } else {
+                return "Mitarbeiter";
+            }
         }
     }
 
@@ -182,10 +184,16 @@ class User_Model extends CI_Model {
         foreach ($query->result() as $row) {
             $data[$i]["bereichsname"] = $row -> Bereichsname;
             $data[$i]["id"] = $row -> ID;
+            $data[$i]["bereichsleiter"] = $this -> gibBenutzerdatenID($row -> Bereichsleiter);
             $i++;
         }
         return $data;
     }
+
+    // function gibBereich($ID){
+    // $this->db->where("ID", $ID);
+    // $query = $this->db->select()
+    // }
 
     function erstelleBereich($data) {
         $query = $this -> db -> insert("Bereiche", $data);
