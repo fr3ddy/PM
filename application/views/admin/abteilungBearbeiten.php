@@ -16,9 +16,9 @@
 		<div class="col-sm-9">
 			<select class="form-control" name="Bereich" id="Bereich">
 				<?php
-					// foreach ($bereiche as $bereich) {
-						// echo "<option value='".$bereich["id"]."'>".$bereich["bereichsname"]."</option>";
-					// }
+					foreach ($bereiche as $bereich) {
+						echo "<option value='".$bereich["id"]."'>".$bereich["bereichsname"]."</option>";
+					}
 				?>
 			</select>
 		</div>

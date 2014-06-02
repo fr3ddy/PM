@@ -29,26 +29,6 @@ class User_Model extends CI_Model {
         }
     }
 
-    function gibBenutzerdaten($benutzername) {
-        $query = $this -> db -> query('SELECT * FROM Benutzer WHERE Benutzername = "' . $benutzername . '"');
-        $row = $query -> first_row();
-        return array("Benutzername" => $row -> Benutzername, "Rolle" => $this -> gibRolle($row -> ID), "Abteilung" => $row -> Abteilung, "BenutzerID" => $row -> ID);
-    }
-
-    function gibRolle($benutzerID) {
-        $query = $this -> db -> query('SELECT * FROM Abteilungen WHERE Abteilungsleiter = ' . $benutzerID);
-        if ($query -> num_rows() == 1) {
-            return "Abteilungsleiter";
-        } else {
-            $query = $this -> db -> query('SELECT * FROM Bereiche WHERE Bereichsleiter = ' . $benutzerID);
-        }
-        if ($query -> num_rows() == 1) {
-            return "Bereichsleiter";
-        } else {
-            return "Mitarbeiter";
-        }
-    }
-
     function istAngemeldet() {
         if ($this -> session -> userdata("Benutzername") == "") {
             return false;
@@ -175,13 +155,15 @@ class User_Model extends CI_Model {
     //Funktionen für die Tabelle Bereiche
     //-------------------------------------------------------------------------------------------------------------------------------
 
-    function gibBereich() {
+    function gibBereiche() {
         $query = $this -> db -> query("SELECT * FROM Bereiche");
+		$i = 0;
         foreach ($query->result() as $row) {
             $data[$i]["bereichsname"] = $row -> Bereichsname;
             $data[$i]["id"] = $row -> ID;
             $i++;
         }
+		return $data;
     }
 
     function neuerMitarbeiter() {
