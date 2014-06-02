@@ -202,10 +202,14 @@ class User_Model extends CI_Model {
         return $data;
     }
 
-    // function gibBereich($ID){
-    // $this->db->where("ID", $ID);
-    // $query = $this->db->select()
-    // }
+    function gibBereich($ID){
+    $this->db->where("ID", $ID);
+    $query = $this->db->get("Bereiche");
+
+            $row = $query -> first_row();
+        return array("ID" => $row -> ID, "Bereichsname" => $row -> Bereichsname, "Bereichsleiter" => $this -> gibBenutzerdatenID($row -> Bereichsleiter));
+    
+    }
 
     function erstelleBereich($data) {
         $query = $this -> db -> insert("Bereiche", $data);
