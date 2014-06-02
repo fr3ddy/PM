@@ -4,7 +4,7 @@
 			Benutzername
 		</lable>
 		<div class="col-sm-5">
-			<input type="text" class="form-control" id="benutzername" name="benutzername" placeholder="Benutzername"/>
+			<input type="text" class="form-control" id="benutzername" name="benutzername" placeholder="Benutzername" required="required" />
 		</div>
 	</div>
 	<div class="form-group">
@@ -12,7 +12,7 @@
 			Passwort
 		</lable>
 		<div class="col-sm-5">
-			<input type="password" class="form-control" id="passwort" name="passwort" placeholder="Passwort"/>
+			<input type="password" class="form-control" id="passwort" name="passwort" placeholder="Passwort" required="required"/>
 		</div>
 	</div>
 	<div class="form-group">
