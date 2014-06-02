@@ -62,11 +62,13 @@ class User_Model extends CI_Model {
     //-------------------------------------------------------------------------------------------------------------------------------
     function gibAbteilungen() {
         $query = $this -> db -> query("SELECT * FROM Abteilungen");
+        $i = 0;
         foreach ($query->result() as $row) {
             $data[$i]["abteilungsname"] = $row -> Abteilungsname;
             $data[$i]["id"] = $row -> ID;
             $i++;
         }
+		return $data;
     }
 
     function gibAbteilung($ID) {
