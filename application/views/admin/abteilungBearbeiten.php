@@ -8,7 +8,16 @@
 	<div class="form-group">
 		<label for="Abteilungsleiter" class="col-sm-3 control-label">Abteilungsleiter</label>
 		<div class="col-sm-9">
-			
+			<select class="form-control" name="Abteilungsmitarbeiter" id="Abteilungsmitarbeiter">
+				<?php
+				echo "ab: ".$abteilung["Abteilungsleiter"]["BenutzerID"];
+					foreach ($abteilungsmitarbeiter as $mitarbeiter) {
+						echo "<option value='".$mitarbeiter["id"];
+						if($mitarbeiter["id"] == $abteilung["Abteilungsleiter"]["BenutzerID"]) echo "selected";
+						echo "'>".$mitarbeiter["benutzername"]."</option>";
+					}
+				?>
+			</select>
 		</div>
 	</div>
 	<div class="form-group">

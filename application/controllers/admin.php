@@ -135,7 +135,10 @@ class Admin extends CI_Controller {
 			$data["sidenavigationtitle"] = "Abteilung bearbeiten";
 			
 			$data["abteilung"] = $this->user_model->gibAbteilung($id);
+			print_r($data["abteilung"]);
 			$data["bereiche"] = $this->user_model->gibBereiche();
+			$data["abteilungsmitarbeiter"] = $this->user_model->gibAbteilungsmitarbeiter($id);
+			print_r($data["abteilungsmitarbeiter"]);
 
 			$this -> load -> view("templates/header", $data);
 			$this -> load -> view("admin/abteilungBearbeiten" , $data);

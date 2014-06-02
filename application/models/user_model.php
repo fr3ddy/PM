@@ -103,7 +103,7 @@ class User_Model extends CI_Model {
             $data[$i]["abteilungsleiter"] = $this -> gibBenutzerdatenID($row -> Abteilungsleiter);
             $i++;
         }
-		return $data;
+        return $data;
     }
 
     function gibAbteilung($ID) {
@@ -112,6 +112,17 @@ class User_Model extends CI_Model {
         return array("AbteilungsID" => $row -> ID, "Abteilungsname" => $row -> Abteilungsname, "Abteilungsleiter" => $this -> gibBenutzerdatenID($row -> Abteilungsleiter), "Bereich" => $row -> Bereich);
     }
 
+    function gibAbteilungsmitarbeiter($ID) {
+        $query = $this -> db -> query("SELECT * FROM Benutzer WHERE Abteilung = " . $ID);
+        $i = 0;
+        foreach ($query->result() as $row) {
+            $data[$i]["benutzername"] = $row -> Benutzername;
+            $data[$i]["id"] = $row -> ID;
+            $i++;
+        }
+
+        return $data;
+    }
 
     function aendereAbteilungsLeiter($AbteilungsID, $MitarbeiterID) {
         $query = $this -> db -> query("UPDATE Abteilungen SET Abteilungsleiter = " . $MitarbeiterID . " WHERE ID = " . $AbteilungsID);
