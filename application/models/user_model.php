@@ -67,13 +67,13 @@ class User_Model extends CI_Model {
         }
     }
 
-    function erstelleBenutzer($Benutzername, $Passwort, $AbteilungsID) {
+    function erstelleBenutzer($data) {
         $query = $this -> db -> query("SELECT * FROM Benutzer WHERE Benutzername = " . $Benutzername);
 
         if ($query -> num_rows() > 0) {
             return "Benutzername exsitiert schon";
         } else {
-            $query = $this -> db -> query("INSERT INTO Benutzer (Benutzername, Passwort, Abteilung) VALUES (" . $Benutzername . ", " . $$Passwort . ", " . $AbteilungsID . ")");
+            $query = $this -> db -> insert("Benutzer", $data);
             if ($query == 1) {
                 return TRUE;
             } else {
@@ -82,8 +82,18 @@ class User_Model extends CI_Model {
         }
     }
 
-    function aendereBenutzer($Benutzername, $Passwort, $AbteilungsID) {
-        $query = $this -> db -> query("UPDATE Mitarbeiter SET Benutzername = " . $Benutzername . ", Passwort = " . $Passwort . ", Abteilung = " . $AbteilungsID . " WHERE Benutzername = " . $Benutzername);
+    function aendereBenutzer($data) {
+        $this -> db -> where("Benutzername", $data["Benutzername"]);
+        $query = $this -> db -> update("Benutzer", $data);
+        if ($query == 1) {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+    }
+
+    function loescheBenutzer($Benutzername) {
+        $query = $this -> db -> query("DELETE FROM Benutzer WHERE Benutzername = " . $Benutzername . '"');
         if ($query == 1) {
             return TRUE;
         } else {
@@ -168,17 +178,41 @@ class User_Model extends CI_Model {
 
     function gibBereiche() {
         $query = $this -> db -> query("SELECT * FROM Bereiche");
-		$i = 0;
+        $i = 0;
         foreach ($query->result() as $row) {
             $data[$i]["bereichsname"] = $row -> Bereichsname;
             $data[$i]["id"] = $row -> ID;
             $i++;
         }
-		return $data;
+        return $data;
     }
 
-    function neuerMitarbeiter() {
+    function erstelleBereich($data) {
+        $query = $this -> db -> insert("Bereiche", $data);
+        if ($query == 1) {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+    }
 
+    function aenderBereich($data) {
+        $this -> db -> where("ID", $data['ID']);
+        $query = $this -> db -> update('Bereiche', $data);
+        if ($query == 1) {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+    }
+
+    function loescheBereich($data) {
+        $query = $this -> db -> delete('Bereiche', $data["ID"]);
+        if ($query == 1) {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
     }
 
 }
