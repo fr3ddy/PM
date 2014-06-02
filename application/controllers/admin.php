@@ -101,11 +101,11 @@ class Admin extends CI_Controller {
 
 			$data["sidenavigation"] = $this -> sidenavigation;
 			$data["sidenavigationtitle"] = "Abteilungen";
-			
-			$data["abteilungen"] = $this->user_model->gibAbteilungen();
+
+			$data["abteilungen"] = $this -> user_model -> gibAbteilungen();
 
 			$this -> load -> view("templates/header", $data);
-			$this -> load -> view("admin/abteilungen" , $data);
+			$this -> load -> view("admin/abteilungen", $data);
 			$this -> load -> view("templates/footer");
 		} else {
 			redirect("/");
@@ -117,35 +117,58 @@ class Admin extends CI_Controller {
 			$data["title"] = "Administration";
 
 			$data["sidenavigation"] = $this -> sidenavigation;
-			$data["sidenavigationtitle"] = "Konfiguration";
+			$data["sidenavigationtitle"] = "Erstelle Abteilung";
+			
+			$data["bereiche"] = $this -> user_model -> gibBereiche();
 
 			$this -> load -> view("templates/header", $data);
-			$this -> load -> view("admin/index");
+			$this -> load -> view("admin/neueAbteilung" , $data);
 			$this -> load -> view("templates/footer");
 		} else {
 			redirect("/");
 		}
 	}
 	
-	public function abteilungBearbeiten($id){
+	public function erstelleAbteilung(){
+		if ($this -> session -> userdata("Rolle") == "Abteilungsleiter" && $this -> session -> userdata("Abteilung") == 0) {
+			$postData = $this -> input -> post();
+			$this -> user_model -> erstelleAbteilung($postData["Abteilungsname"] , $postData["Bereich"]);
+			$this -> abteilungen();
+		} else {
+			redirect("/");
+		}
+		
+	}
+
+	public function abteilungBearbeiten($id) {
 		if ($this -> session -> userdata("Rolle") == "Abteilungsleiter" && $this -> session -> userdata("Abteilung") == 0) {
 			$data["title"] = "Administration";
 
 			$data["sidenavigation"] = $this -> sidenavigation;
 			$data["sidenavigationtitle"] = "Abteilung bearbeiten";
-			
-			$data["abteilung"] = $this->user_model->gibAbteilung($id);
-			print_r($data["abteilung"]);
-			$data["bereiche"] = $this->user_model->gibBereiche();
-			$data["abteilungsmitarbeiter"] = $this->user_model->gibAbteilungsmitarbeiter($id);
-			print_r($data["abteilungsmitarbeiter"]);
+
+			$data["id"] = $id;
+			$data["abteilung"] = $this -> user_model -> gibAbteilung($id);
+			$data["bereiche"] = $this -> user_model -> gibBereiche();
+			$data["abteilungsmitarbeiter"] = $this -> user_model -> gibAbteilungsmitarbeiter($id);
 
 			$this -> load -> view("templates/header", $data);
-			$this -> load -> view("admin/abteilungBearbeiten" , $data);
+			$this -> load -> view("admin/abteilungBearbeiten", $data);
 			$this -> load -> view("templates/footer");
 		} else {
 			redirect("/");
 		}
 	}
-	
+
+	public function sendeGeaenderteAbteilung($id) {
+		if ($this -> session -> userdata("Rolle") == "Abteilungsleiter" && $this -> session -> userdata("Abteilung") == 0) {
+			$postData = $this -> input -> post();
+			$this -> user_model -> aendereAbteilungsLeiter($id, $postData["Abteilungsleiter"]);
+			$this -> user_model -> aendereAbteilungsname($id, $postData["Abteilungsname"]);
+			$this -> abteilungen();
+		} else {
+			redirect("/");
+		}
+	}
+
 }

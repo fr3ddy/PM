@@ -148,7 +148,7 @@ class User_Model extends CI_Model {
     }
 
     function aendereAbteilungsname($AbteilungsID, $Abteilungsname) {
-        $query = $this -> db -> query("UPDATE Abteilungen SET Abteilungsname = " . $Abteilungsname . " WHERE ID = " . $AbteilungsID);
+        $query = $this -> db -> query("UPDATE Abteilungen SET Abteilungsname = '" . $Abteilungsname . "' WHERE ID = " . $AbteilungsID);
         if ($query == 1) {
             return TRUE;
         } else {
@@ -156,8 +156,8 @@ class User_Model extends CI_Model {
         }
     }
 
-    function erstelleAbteilung($Abteilungsname, $Abteilungsleiter, $Bereich) {
-        $query = $this -> db -> query("INSERT INTO Abteilungen (Abteilungsname, Abteilungsleiter, Bereich) VALUES (" . $Abteilungsname . ", " . $Abteilungsleiter . ", " . $Bereich . ")");
+    function erstelleAbteilung($Abteilungsname, $Bereich) {
+        $query = $this -> db -> query("INSERT INTO Abteilungen (Abteilungsname, Bereich) VALUES ('" . $Abteilungsname . "', " . $Bereich . ")");
         if ($query == 1) {
             return TRUE;
         } else {
