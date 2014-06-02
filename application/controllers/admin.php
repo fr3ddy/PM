@@ -27,7 +27,7 @@ class Admin extends CI_Controller {
 			$data["sidenavigation"] = $this -> sidenavigation;
 			$data["sidenavigationtitle"] = "Mitarbeiter";
 
-			// $data["mitarbeiter"] = $this -> user_model -> gibAlleMitarbeiter();
+			$data["mitarbeiter"] = $this -> user_model -> gibBenutzer();
 
 			$this -> load -> view("templates/header", $data);
 			$this -> load -> view("admin/mitarbeiter", $data);
@@ -44,11 +44,11 @@ class Admin extends CI_Controller {
 
 			$data["sidenavigation"] = $this -> sidenavigation;
 			$data["sidenavigationtitle"] = "Neuer Mitarbeiter";
-			
-			$data["abteilungen"] = $this->user_model->gibAbteilungen();
+
+			$data["abteilungen"] = $this -> user_model -> gibAbteilungen();
 
 			$this -> load -> view("templates/header", $data);
-			$this -> load -> view("admin/neuerMitarbeiter" , $data);
+			$this -> load -> view("admin/neuerMitarbeiter", $data);
 			$this -> load -> view("templates/footer");
 		} else {
 			redirect("/");
@@ -118,26 +118,26 @@ class Admin extends CI_Controller {
 
 			$data["sidenavigation"] = $this -> sidenavigation;
 			$data["sidenavigationtitle"] = "Erstelle Abteilung";
-			
+
 			$data["bereiche"] = $this -> user_model -> gibBereiche();
 
 			$this -> load -> view("templates/header", $data);
-			$this -> load -> view("admin/neueAbteilung" , $data);
+			$this -> load -> view("admin/neueAbteilung", $data);
 			$this -> load -> view("templates/footer");
 		} else {
 			redirect("/");
 		}
 	}
-	
-	public function erstelleAbteilung(){
+
+	public function erstelleAbteilung() {
 		if ($this -> session -> userdata("Rolle") == "Abteilungsleiter" && $this -> session -> userdata("Abteilung") == 0) {
 			$postData = $this -> input -> post();
-			$this -> user_model -> erstelleAbteilung($postData["Abteilungsname"] , $postData["Bereich"]);
+			$this -> user_model -> erstelleAbteilung($postData["Abteilungsname"], $postData["Bereich"]);
 			$this -> abteilungen();
 		} else {
 			redirect("/");
 		}
-		
+
 	}
 
 	public function abteilungBearbeiten($id) {
