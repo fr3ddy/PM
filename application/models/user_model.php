@@ -58,6 +58,60 @@ class User_Model extends CI_Model {
     }
 
     //-------------------------------------------------------------------------------------------------------------------------------
+    //Funktionen für die Tabelle Benutzer
+    //-------------------------------------------------------------------------------------------------------------------------------
+
+    function gibBenutzerdaten($benutzername) {
+        $query = $this -> db -> query('SELECT * FROM Benutzer WHERE Benutzername = "' . $benutzername . '"');
+        $row = $query -> first_row();
+        return array("Benutzername" => $row -> Benutzername, "Rolle" => $this -> gibRolle($row -> ID), "Abteilung" => $row -> Abteilung, "BenutzerID" => $row -> ID);
+    }
+
+    function gibBenutzerdatenID($ID) {
+        $query = $this -> db -> query('SELECT * FROM Benutzer WHERE ID = "' . $ID . '"');
+        $row = $query -> first_row();
+        return array("Benutzername" => $row -> Benutzername, "Rolle" => $this -> gibRolle($row -> ID), "Abteilung" => $row -> Abteilung, "BenutzerID" => $row -> ID);
+    }
+
+    function gibRolle($benutzerID) {
+        $query = $this -> db -> query('SELECT * FROM Abteilungen WHERE Abteilungsleiter = ' . $benutzerID);
+        if ($query -> num_rows() == 1) {
+            return "Abteilungsleiter";
+        } else {
+            $query = $this -> db -> query('SELECT * FROM Bereiche WHERE Bereichsleiter = ' . $benutzerID);
+        }
+        if ($query -> num_rows() == 1) {
+            return "Bereichsleiter";
+        } else {
+            return "Mitarbeiter";
+        }
+    }
+
+    function erstelleBenutzer($Benutzername, $Passwort, $AbteilungsID) {
+        $query = $this -> db -> query("SELECT * FROM Benutzer WHERE Benutzername = " . $Benutzername);
+
+        if ($query -> num_rows() > 0) {
+            return "Benutzername exsitiert schon";
+        } else {
+            $query = $this -> db -> query("INSERT INTO Benutzer (Benutzername, Passwort, Abteilung) VALUES (" . $Benutzername . ", " . $$Passwort . ", " . $AbteilungsID . ")");
+            if ($query == 1) {
+                return TRUE;
+            } else {
+                return FALSE;
+            }
+        }
+    }
+
+    function aendereBenutzer($Benutzername, $Passwort, $AbteilungsID) {
+        $query = $this -> db -> query("UPDATE Mitarbeiter SET Benutzername = " . $Benutzername . ", Passwort = " . $Passwort . ", Abteilung = " . $AbteilungsID . " WHERE Benutzername = " . $Benutzername);
+        if ($query == 1) {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+    }
+
+    //-------------------------------------------------------------------------------------------------------------------------------
     //Funktionen für die Tabelle Abteilungen
     //-------------------------------------------------------------------------------------------------------------------------------
     function gibAbteilungen() {
@@ -66,6 +120,7 @@ class User_Model extends CI_Model {
         foreach ($query->result() as $row) {
             $data[$i]["abteilungsname"] = $row -> Abteilungsname;
             $data[$i]["id"] = $row -> ID;
+            $data[$i]["abteilungsleiter"] = $this -> gibBenutzerdatenID($row -> Abteilungsleiter);
             $i++;
         }
 		return $data;
@@ -74,8 +129,9 @@ class User_Model extends CI_Model {
     function gibAbteilung($ID) {
         $query = $this -> db -> query("SELECT * FROM Abteilungen WHERE ID = " . $ID);
         $row = $query -> first_row();
-        return array("AbteilungsID" => $row -> ID, "Abteilungsname" => $row -> Abteilungsname, "Abteilungsleiter" => $row -> Abteilungsleiter, "Bereich" => $row -> Bereich);
+        return array("AbteilungsID" => $row -> ID, "Abteilungsname" => $row -> Abteilungsname, "Abteilungsleiter" => $this -> gibBenutzerdatenID($row -> Abteilungsleiter), "Bereich" => $row -> Bereich);
     }
+
 
     function aendereAbteilungsLeiter($AbteilungsID, $MitarbeiterID) {
         $query = $this -> db -> query("UPDATE Abteilungen SET Abteilungsleiter = " . $MitarbeiterID . " WHERE ID = " . $AbteilungsID);
@@ -114,15 +170,15 @@ class User_Model extends CI_Model {
             return FALSE;
         }
     }
-    
-//-------------------------------------------------------------------------------------------------------------------------------
-//Funktionen für die Tabelle Abteilungen
-//-------------------------------------------------------------------------------------------------------------------------------    
+
+    //-------------------------------------------------------------------------------------------------------------------------------
+    //Funktionen für die Tabelle Bereiche
+    //-------------------------------------------------------------------------------------------------------------------------------
 
     function gibBereich() {
         $query = $this -> db -> query("SELECT * FROM Bereiche");
         foreach ($query->result() as $row) {
-            $data[$i]["abteilungsname"] = $row -> Bereichsname;
+            $data[$i]["bereichsname"] = $row -> Bereichsname;
             $data[$i]["id"] = $row -> ID;
             $i++;
         }
