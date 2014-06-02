@@ -41,6 +41,17 @@ class User_Model extends CI_Model {
     //Funktionen für die Tabelle Benutzer
     //-------------------------------------------------------------------------------------------------------------------------------
 
+    function gibAlleBenutzer() {
+        $query = $this -> db -> get('Benutzer');
+        $i = 0;
+        foreach ($query->result() as $row) {
+            $data[$i]["Benutzername"] = $row -> Benutzername;
+            $data[$i]["ID"] = $row -> ID;
+            $data[$i]["Abteilung"] = $this -> gibAbteilung($row -> Abteilung);
+        }
+        return $data;
+    }
+
     function gibBenutzerdaten($benutzername) {
         $query = $this -> db -> query('SELECT * FROM Benutzer WHERE Benutzername = "' . $benutzername . '"');
         $row = $query -> first_row();
