@@ -46,6 +46,13 @@
 	color: white;
 }
 
+.sidenavigationplaceholder {
+	width: 188px;
+	min-height: 500px;
+	float: left;
+	margin-right: 25px;
+}
+
 .sidenavigation {
 	background-color: rgb(81, 81, 81);
 	width: 188px;

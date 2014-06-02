@@ -51,13 +51,14 @@
 				<?php
 				}} ?>
 			</div>
-			<div class="sidenavigation">
 			<?php
 			if(isset($sidenavigation)){
-				echo "<h2>".$sidenavigationtitle."</h2>";
+				echo "<h2>".$sidenavigationtitle."</h2><div class='sidenavigation'>";
 				foreach ($sidenavigation as $name => $link) {
 					echo '<a href="'.base_url().$link.'"><div>'.$name.'</div></a>';
 				}
+				echo "</div>";
+			}else{
+				echo "<div class='sidenavigationplaceholder'></div>";
 			} ?>	
-			</div>
 			<div <?php if($title != "Login") echo 'class="content"'; ?>>

@@ -4,9 +4,9 @@ class Projekte extends CI_Controller {
 	public function index() {
 		if ($this -> user_model -> istAngemeldet()) {
 			$data["title"] = "Projekte";
-			
-			$data["projekte"] = $this->projekte_model->gibProjekteVonAktuellemMitarbeiter();
-			
+
+			$data["projekte"] = $this -> projekte_model -> gibProjekteVonAktuellemMitarbeiter();
+
 			$this -> load -> view("templates/header", $data);
 			$this -> load -> view("projekte/index");
 			$this -> load -> view("templates/footer");
@@ -14,13 +14,20 @@ class Projekte extends CI_Controller {
 			redirect("/");
 		}
 	}
-	
-	public function neu(){
+
+	public function neu() {
 		$data["title"] = "Projekte";
-			
-			$this -> load -> view("templates/header", $data);
-			$this -> load -> view("projekte/neu");
-			$this -> load -> view("templates/footer");
+		
+		$data["hauptstrategien"] = $this->projekte_model->gibHauptstrategien();
+		
+		$this -> load -> view("templates/header", $data);
+		$this -> load -> view("projekte/neu" , $data);
+		$this -> load -> view("templates/footer");
+	}
+
+	public function einreichen() {
+		$postData = $this -> input -> post();
+		// $this->projekt_model->einreichen($postData);
 	}
 
 }

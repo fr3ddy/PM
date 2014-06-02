@@ -18,5 +18,11 @@ class Projekte_model extends CI_Model {
 		}
 		return $projekte;
 	}
+	
+	function gibHauptstrategien(){
+		$strategien = array("Kategorie 1" , "Kategorie 2" , "Kategorie 3");
+		
+		return $strategien;
+	}
 
 }
