@@ -4,7 +4,7 @@
 			Benutzername
 		</lable>
 		<div class="col-sm-5">
-			<input type="text" class="form-control" id="benutzername" name="benutzername" placeholder="Benutzername" required="required" />
+			<input type="text" class="form-control" id="Benutzername" name="Benutzername" placeholder="Benutzername" required="required" />
 		</div>
 	</div>
 	<div class="form-group">
@@ -12,7 +12,21 @@
 			Passwort
 		</lable>
 		<div class="col-sm-5">
-			<input type="password" class="form-control" id="passwort" name="passwort" placeholder="Passwort" required="required"/>
+			<input type="password" class="form-control" id="Passwort" name="Passwort" placeholder="Passwort" required="required"/>
+		</div>
+	</div>
+	<div class="form-group">
+		<lable for"Abteilung" class="col-sm-2 control-label">
+			Abteilung
+		</lable>
+		<div class="col-sm-5">
+			<select class="form-control" name="Abteilung" id="Abteilung">
+				<?php
+				foreach ($abteilungen as $abteilung) {
+					echo "<option value='" . $abteilung["id"] . "'>" . $abteilung["abteilungsname"] . "</option>";
+				}
+				?>
+			</select>
 		</div>
 	</div>
 	<div class="form-group">
