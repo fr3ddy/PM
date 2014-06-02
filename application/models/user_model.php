@@ -48,6 +48,7 @@ class User_Model extends CI_Model {
             $data[$i]["Benutzername"] = $row -> Benutzername;
             $data[$i]["ID"] = $row -> ID;
             $data[$i]["Abteilung"] = $this -> gibAbteilung($row -> Abteilung);
+            $data[$i]["AbteilungsID"] = $row -> Abteilung;
         }
         return $data;
     }
