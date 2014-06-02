@@ -111,6 +111,15 @@ class User_Model extends CI_Model {
         }
     }
 
+function loescheBenutzer($Benutzername){
+$query = $this -> db -> query("DELETE FROM Benutzer WHERE Benutzername = " . $Benutzername . '"');
+        if ($query == 1) {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+}
+
     //-------------------------------------------------------------------------------------------------------------------------------
     //Funktionen für die Tabelle Abteilungen
     //-------------------------------------------------------------------------------------------------------------------------------
