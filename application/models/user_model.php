@@ -83,7 +83,7 @@ class User_Model extends CI_Model {
     }
 
     function aendereBenutzer($data) {
-        $query = $this -> db -> where("Benutzername", $data["Benutzername"]);
+        $this -> db -> where("Benutzername", $data["Benutzername"]);
         $query = $this -> db -> update("Benutzer", $data);
         if ($query == 1) {
             return TRUE;
@@ -187,8 +187,32 @@ class User_Model extends CI_Model {
         return $data;
     }
 
-    function neuerMitarbeiter() {
+    function erstelleBereich($data) {
+        $query = $this -> db -> insert("Bereiche", $data);
+        if ($query == 1) {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+    }
 
+    function aenderBereich($data) {
+        $this -> db -> where("ID", $data['ID']);
+        $query = $this -> db -> update('Bereiche', $data);
+        if ($query == 1) {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+    }
+
+    function loescheBereich($data) {
+        $query = $this -> db -> delete('Bereiche', $data["ID"]);
+        if ($query == 1) {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
     }
 
 }
