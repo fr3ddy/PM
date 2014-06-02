@@ -1,4 +1,3 @@
-<div width="200"
 <form class="form-horizontal" role="form">
 	<div class="form-group">
 		<label for="Projekttitel" class="col-sm-3 control-label">Projekttitel</label>

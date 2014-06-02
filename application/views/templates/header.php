@@ -30,7 +30,7 @@
 		<div class="container">
 			<h1><?php if ($title != "Login"){ echo $title; ?></h1>
 			<div class="navigation">
-				<?php if($this->session->userdata("Rolle") == "Geschäftsführer"){ ?>
+				<?php if($this->session->userdata("Rolle") == "Abteilungsleiter" && $this->session->userdata("Abteilung") == 0){ ?>
 				<a href="<?php echo base_url(); ?>projekte"><div>Projekt&uuml;bersicht</div></a>
 				<a href="<?php echo base_url(); ?>admin"><div>Administration</div></a>
 				<a style="float: right;" href="<?php echo base_url(); ?>user/logout"><div><span class="glyphicon glyphicon-off" style="margin-right: 5px;"></span>Abmelden</div></a>
