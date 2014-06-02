@@ -27,7 +27,7 @@ class Admin extends CI_Controller {
 			$data["sidenavigation"] = $this -> sidenavigation;
 			$data["sidenavigationtitle"] = "Mitarbeiter";
 
-			$data["mitarbeiter"] = $this -> admin_model -> gibAlleMitarbeiter();
+			// $data["mitarbeiter"] = $this -> user_model -> gibAlleMitarbeiter();
 
 			$this -> load -> view("templates/header", $data);
 			$this -> load -> view("admin/mitarbeiter", $data);
@@ -44,11 +44,11 @@ class Admin extends CI_Controller {
 
 			$data["sidenavigation"] = $this -> sidenavigation;
 			$data["sidenavigationtitle"] = "Neuer Mitarbeiter";
-
-			$data["mitarbeiter"] = $this -> admin_model -> gibAlleMitarbeiter();
+			
+			$data["abteilungen"] = $this->user_model->gibAbteilungen();
 
 			$this -> load -> view("templates/header", $data);
-			$this -> load -> view("admin/neuerMitarbeiter");
+			$this -> load -> view("admin/neuerMitarbeiter" , $data);
 			$this -> load -> view("templates/footer");
 		} else {
 			redirect("/");
@@ -58,7 +58,7 @@ class Admin extends CI_Controller {
 
 	public function speichereNeuenMitarbeiter() {
 		if ($this -> session -> userdata("Rolle") == "Abteilungsleiter" && $this -> session -> userdata("Abteilung") == 0) {
-			$this -> admin_model -> speichereNeuenMitarbeiter($this -> input -> post());
+			$this -> user_model -> erstelleBenutzer($this -> input -> post());
 			$this -> mitarbeiter();
 		} else {
 			redirect("/");
