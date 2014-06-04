@@ -5,7 +5,7 @@ class Projekte extends CI_Controller {
 		if ($this -> user_model -> istAngemeldet()) {
 			$data["title"] = "Projekte";
 
-			$data["projekte"] = $this -> projekte_model -> gibProjekteVonAktuellemMitarbeiter();
+			$data["projekte"] = $this -> projekte_model -> gibProjekte();
 
 			$this -> load -> view("templates/header", $data);
 			$this -> load -> view("projekte/index" , $data);
