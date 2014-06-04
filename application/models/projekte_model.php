@@ -2,8 +2,8 @@
 
 class Projekte_model extends CI_Model {
     function gibProjekte() {
-        $this -> db -> where("Benutzer", $this -> session -> userdata("ID"));
-        $query -> db -> get("ProjektAllgemein");
+        $this -> db -> where("Bearbeiter", $this -> session -> userdata("ID"));
+        $query =$this -> db -> get("ProjektAllgemein");
         $i = 0;
         $data = array();
         foreach ($query->result() as $row) {
