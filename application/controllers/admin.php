@@ -83,41 +83,11 @@ class Admin extends CI_Controller {
 			redirect("/");
 		}
 	}
-	
-	public function speicherebearbeitetenMitarbeiter($id){
-		$postData = $this->input->post();
-		if($this->user_model->aendereBenutzer($postData , $id)){
-			$this->mitarbeiter();
-		}
-	}
 
-	public function bereiche() {
-		if ($this -> session -> userdata("Rolle") == "Abteilungsleiter" && $this -> session -> userdata("Abteilung") == 0) {
-			$data["title"] = "Administration";
-
-			$data["sidenavigation"] = $this -> sidenavigation;
-			$data["sidenavigationtitle"] = "Konfiguration";
-
-			$this -> load -> view("templates/header", $data);
-			$this -> load -> view("admin/bereiche");
-			$this -> load -> view("templates/footer");
-		} else {
-			redirect("/");
-		}
-	}
-
-	public function neuerBereich() {
-		if ($this -> session -> userdata("Rolle") == "Abteilungsleiter" && $this -> session -> userdata("Abteilung") == 0) {
-			$data["title"] = "Administration";
-
-			$data["sidenavigation"] = $this -> sidenavigation;
-			$data["sidenavigationtitle"] = "Konfiguration";
-
-			$this -> load -> view("templates/header", $data);
-			$this -> load -> view("admin/index");
-			$this -> load -> view("templates/footer");
-		} else {
-			redirect("/");
+	public function speicherebearbeitetenMitarbeiter($id) {
+		$postData = $this -> input -> post();
+		if ($this -> user_model -> aendereBenutzer($postData, $id)) {
+			$this -> mitarbeiter();
 		}
 	}
 
@@ -189,8 +159,100 @@ class Admin extends CI_Controller {
 	public function sendeGeaenderteAbteilung($id) {
 		if ($this -> session -> userdata("Rolle") == "Abteilungsleiter" && $this -> session -> userdata("Abteilung") == 0) {
 			$postData = $this -> input -> post();
-			$this->user_model->aendereAbteilung($id , $postData);
+			$this -> user_model -> aendereAbteilung($id, $postData);
 			$this -> abteilungen();
+		} else {
+			redirect("/");
+		}
+	}
+
+	public function abteilungLoeschen($id) {
+		if ($this -> session -> userdata("Rolle") == "Abteilungsleiter" && $this -> session -> userdata("Abteilung") == 0) {
+			$this -> user_model -> loescheAbteilung($id);
+			$this -> abteilungen();
+		} else {
+			redirect("/");
+		}
+	}
+
+	public function bereiche() {
+		if ($this -> session -> userdata("Rolle") == "Abteilungsleiter" && $this -> session -> userdata("Abteilung") == 0) {
+			$data["title"] = "Administration";
+
+			$data["sidenavigation"] = $this -> sidenavigation;
+			$data["sidenavigationtitle"] = "Abteilungen";
+
+			$data["bereiche"] = $this -> user_model -> gibBereiche();
+
+			$this -> load -> view("templates/header", $data);
+			$this -> load -> view("admin/bereiche", $data);
+			$this -> load -> view("templates/footer");
+		} else {
+			redirect("/");
+		}
+	}
+
+	public function neuerBereich() {
+		if ($this -> session -> userdata("Rolle") == "Abteilungsleiter" && $this -> session -> userdata("Abteilung") == 0) {
+			$data["title"] = "Administration";
+
+			$data["sidenavigation"] = $this -> sidenavigation;
+			$data["sidenavigationtitle"] = "Neuer Bereich";
+
+			$data["bereichsleiter"] = $this -> user_model -> gibAbteilungsmitarbeiter(0);
+
+			$this -> load -> view("templates/header", $data);
+			$this -> load -> view("admin/neuerBereich", $data);
+			$this -> load -> view("templates/footer");
+		} else {
+			redirect("/");
+		}
+	}
+
+	public function erstelleBereich() {
+		if ($this -> session -> userdata("Rolle") == "Abteilungsleiter" && $this -> session -> userdata("Abteilung") == 0) {
+			$postData = $this -> input -> post();
+
+			$this -> user_model -> erstelleBereich($postData);
+			$this -> bereiche();
+		} else {
+			redirect("/");
+		}
+	}
+
+	public function bereichBearbeiten($id) {
+		if ($this -> session -> userdata("Rolle") == "Abteilungsleiter" && $this -> session -> userdata("Abteilung") == 0) {
+			$data["title"] = "Administration";
+
+			$data["sidenavigation"] = $this -> sidenavigation;
+			$data["sidenavigationtitle"] = "Neuer Bereich";
+
+			$data["bereichsleiter"] = $this -> user_model -> gibAbteilungsmitarbeiter(0);
+			$data["bereich"] = $this -> user_model -> gibBereich($id);
+
+			$this -> load -> view("templates/header", $data);
+			$this -> load -> view("admin/bereichBearbeiten", $data);
+			$this -> load -> view("templates/footer");
+		} else {
+			redirect("/");
+		}
+	}
+
+	public function speichereBereich($id) {
+		if ($this -> session -> userdata("Rolle") == "Abteilungsleiter" && $this -> session -> userdata("Abteilung") == 0) {
+			$postData = $this -> input -> post();
+			$postData["ID"] = $id;
+			$this -> user_model -> aenderBereich($postData);
+			$this -> bereiche();
+		} else {
+			redirect("/");
+		}
+	}
+
+	public function bereichLoeschen($id) {
+		if ($this -> session -> userdata("Rolle") == "Abteilungsleiter" && $this -> session -> userdata("Abteilung") == 0) {
+			$this -> user_model -> loescheBereich($id);
+			$this -> bereiche();
 		} else {
 			redirect("/");
 		}

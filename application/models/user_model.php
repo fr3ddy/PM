@@ -239,12 +239,12 @@ class User_Model extends CI_Model {
         }
     }
 
-    function loescheBereich($data) {
-        $query = $this -> db -> delete('Bereiche', $data["ID"]);
-        if ($query -> num_rows() == 1) {
+    function loescheBereich($id) {
+        $query = $this -> db -> query("DELETE FROM Bereiche WHERE ID = " . $id);
+        if ($query == 1) {
             return TRUE;
         } else {
-            return false;
+            return FALSE;
         }
     }
 
