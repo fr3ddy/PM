@@ -3,7 +3,7 @@
 class Projekte_model extends CI_Model {
     function gibProjekte() {
         $this -> db -> where("Bearbeiter", $this -> session -> userdata("ID"));
-        $query =$this -> db -> get("ProjektAllgemein");
+        $query = $this -> db -> get("ProjektAllgemein");
         $i = 0;
         $data = array();
         foreach ($query->result() as $row) {
@@ -30,7 +30,7 @@ class Projekte_model extends CI_Model {
         $row = $query -> first_row();
 
         //Trage neuen Bearbeiter ein
-        $data = array('Bearbeiter', $row -> Abteilungsleiter);
+        $data = array('Bearbeiter' => $row -> Abteilungsleiter, 'Owner' => $this -> session -> userdata('ID'));
         $this -> db -> where('ID', $this -> db -> insert_id());
         $this -> db -> update('ProjektAllgemein', $data);
 
