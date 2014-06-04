@@ -28,6 +28,10 @@ class Konfig_Model extends CI_Model {
         return $data;
     }
 
+    function speichereStrategien($data) {
+
+    }
+
     function erstelleStrategie($bezeichnung) {
         $data = array('ID' => null, 'Bezeichnung' => $bezeichnung);
         $query = $this -> db -> insert('Strategien', $data);
