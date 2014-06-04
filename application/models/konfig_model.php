@@ -47,8 +47,8 @@ class Konfig_Model extends CI_Model {
         }
     }
 
-    function loescheStrategie($data) {
-        $this -> db -> where('ID', $data['ID']);
+    function loescheStrategie($ID, $data) {
+        $this -> db -> where('ID', $ID);
         $query = $this -> db -> delete('Strategien');
         if ($query == 1) {
             return TRUE;
