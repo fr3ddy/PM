@@ -56,6 +56,12 @@ class User_Model extends CI_Model {
             return array("Benutzername" => "", "Rolle" => "", "Abteilung" => "", "BenutzerID" => "");
         }
     }
+	
+	function gibPasswortVonBenutzerid($id){
+		$query = $this->db->query("SELECT Passwort FROM Benutzer WHERE ID = ".$id);
+		$row = $query->first_row();
+		return $row->Passwort;
+	}
 
     function gibRolle($benutzerID) {
         if ($benutzerID != "") {
@@ -90,8 +96,11 @@ class User_Model extends CI_Model {
         }
     }
 
-    function aendereBenutzer($data) {
-        $this -> db -> where("Benutzername", $data["Benutzername"]);
+    function aendereBenutzer($data , $id) {
+    	if($data["Passwort"] == ""){
+    		$data["Passwort"] = $this->gibPasswortVonBenutzerid($id);
+    	}
+        $this -> db -> where("ID", $id);
         $query = $this -> db -> update("Benutzer", $data);
         if ($query == 1) {
             return TRUE;

@@ -65,6 +65,32 @@ class Admin extends CI_Controller {
 		}
 	}
 
+	public function mitarbeiterBearbeiten($id) {
+		if ($this -> session -> userdata("Rolle") == "Abteilungsleiter" && $this -> session -> userdata("Abteilung") == 0) {
+
+			$data["title"] = "Administration";
+
+			$data["sidenavigation"] = $this -> sidenavigation;
+			$data["sidenavigationtitle"] = "Neuer Mitarbeiter";
+
+			$data["benutzerdaten"] = $this -> user_model -> gibBenutzerdatenID($id);
+			$data["abteilungen"] = $this -> user_model -> gibAbteilungen();
+
+			$this -> load -> view("templates/header", $data);
+			$this -> load -> view("admin/bearbeiteMitarbeiter", $data);
+			$this -> load -> view("templates/footer");
+		} else {
+			redirect("/");
+		}
+	}
+	
+	public function speicherebearbeitetenMitarbeiter($id){
+		$postData = $this->input->post();
+		if($this->user_model->aendereBenutzer($postData , $id)){
+			$this->mitarbeiter();
+		}
+	}
+
 	public function bereiche() {
 		if ($this -> session -> userdata("Rolle") == "Abteilungsleiter" && $this -> session -> userdata("Abteilung") == 0) {
 			$data["title"] = "Administration";
@@ -163,8 +189,7 @@ class Admin extends CI_Controller {
 	public function sendeGeaenderteAbteilung($id) {
 		if ($this -> session -> userdata("Rolle") == "Abteilungsleiter" && $this -> session -> userdata("Abteilung") == 0) {
 			$postData = $this -> input -> post();
-			$this -> user_model -> aendereAbteilungsLeiter($id, $postData["Abteilungsleiter"]);
-			$this -> user_model -> aendereAbteilungsname($id, $postData["Abteilungsname"]);
+			$this->user_model->aendereAbteilung($id , $postData);
 			$this -> abteilungen();
 		} else {
 			redirect("/");

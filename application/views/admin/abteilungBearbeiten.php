@@ -25,7 +25,9 @@
 			<select class="form-control" name="Bereich" id="Bereich">
 				<?php
 				foreach ($bereiche as $bereich) {
-					echo "<option value='" . $bereich["id"] . "'>" . $bereich["bereichsname"] . "</option>";
+					echo "<option value='" . $bereich["ID"] . "'";
+					if($bereich["ID"] == $abteilung["Bereich"]) echo " selected ";
+					echo ">" . $bereich["Bereichsname"] . "</option>";
 				}
 				?>
 			</select>
