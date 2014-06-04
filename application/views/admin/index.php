@@ -80,10 +80,10 @@
 	<div class="col-xs-8">
 		<?php
 			foreach ($strategien as $strategie) {
-				echo '<input type="text" class="form-control" name="'.$strategie["ID"].'" value="'.$strategie["Bezeichnung"].'" /><br/>';
+				echo '<div class="input-group"><input type="text" class="form-control" name="strategie-'.$strategie["ID"].'" value="'.$strategie["Bezeichnung"].'" /><span class="input-group-addon glyphicon glyphicon-remove"></span></div>';
 			}
 		?>
-		<input class="form-control" id="erstelleNeueStrategie" type="text" placeholder="Hier klicken, um neue Strategie hinzuzufügen" />
+		<div class="input-group"><input class="form-control" id="erstelleNeueStrategie" type="text" placeholder="Hier neue Strategie eingeben" /><span class="input-group-addon glyphicon glyphicon-plus"></span></div>
 	</div>
 </div>
 <br/>

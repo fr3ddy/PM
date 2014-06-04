@@ -20,6 +20,7 @@ class Konfig_Model extends CI_Model {
         $query = $this -> db -> get('Strategien');
         $id = 0;
 		$data = array();
+		$i = 0;
         foreach ($query->result() as $row) {
             $data[$i]["ID"] = $row -> ID;
             $data[$i]["Bezeichnung"] = $row -> Bezeichnung;
