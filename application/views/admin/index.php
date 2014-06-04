@@ -77,7 +77,14 @@
 	<div class="col-xs-4" style="text-align: right;">
 		Strategien
 	</div>
-	<div class="col-xs-8"></div>
+	<div class="col-xs-8">
+		<?php
+			foreach ($strategien as $strategie) {
+				echo '<input type="text" class="form-control" name="'.$strategie["ID"].'" value="'.$strategie["Bezeichnung"].'" /><br/>';
+			}
+		?>
+		<input class="form-control" id="erstelleNeueStrategie" type="text" placeholder="Hier klicken, um neue Strategie hinzuzufügen" />
+	</div>
 </div>
 <br/>
 <br/>
