@@ -143,16 +143,16 @@ class User_Model extends CI_Model {
         return $data;
     }
 
-    function aendereAbteilungsLeiter($AbteilungsID, $MitarbeiterID) {
-        $query = $this -> db -> query("UPDATE Abteilungen SET Abteilungsleiter = " . $MitarbeiterID . " WHERE ID = " . $AbteilungsID);
-        if ($query == 1) {
-            return array("Erfolgreich" => true, "Nachricht" => "Abteilungsleiter erfolgreich geändert");
-        } elseif ($query < 1) {
-            return array("Erfolgreich" => false, "Nachricht" => "AbteilungsID nicht gefunden");
-        } else {
-            return array("Erfolgreich" => false, "Nachricht" => "Schwerwiegender Fehler! Mehrer Abteilungen geändert!");
-        }
-    }
+    // function aendereAbteilungsLeiter($AbteilungsID, $MitarbeiterID) {
+        // $query = $this -> db -> query("UPDATE Abteilungen SET Abteilungsleiter = " . $MitarbeiterID . " WHERE ID = " . $AbteilungsID);
+        // if ($query == 1) {
+            // return array("Erfolgreich" => true, "Nachricht" => "Abteilungsleiter erfolgreich geändert");
+        // } elseif ($query < 1) {
+            // return array("Erfolgreich" => false, "Nachricht" => "AbteilungsID nicht gefunden");
+        // } else {
+            // return array("Erfolgreich" => false, "Nachricht" => "Schwerwiegender Fehler! Mehrer Abteilungen geändert!");
+        // }
+    // }
 
     function aendereAbteilung($ID, $data) {
         $this->db->where("ID", $ID);
