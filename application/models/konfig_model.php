@@ -37,8 +37,8 @@ class Konfig_Model extends CI_Model {
         }
     }
 
-    function aendereStrategie($data) {
-        $this -> db -> where("ID", $data['ID']);
+    function aendereStrategie($ID, $data) {
+        $this -> db -> where("ID", $ID);
         $query = $this -> update('Strategien', $data);
         if ($query == 1) {
             return TRUE;

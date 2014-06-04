@@ -154,8 +154,9 @@ class User_Model extends CI_Model {
         }
     }
 
-    function aendereAbteilungsname($AbteilungsID, $Abteilungsname) {
-        $query = $this -> db -> query("UPDATE Abteilungen SET Abteilungsname = '" . $Abteilungsname . "' WHERE ID = " . $AbteilungsID);
+    function aendereAbteilung($ID, $data) {
+        $this->db->where("ID", $ID);
+        $query = $this->db->update("Abteilungen", $data);
         if ($query == 1) {
             return TRUE;
         } else {
