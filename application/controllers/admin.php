@@ -10,9 +10,12 @@ class Admin extends CI_Controller {
 
 			$data["sidenavigation"] = $this -> sidenavigation;
 			$data["sidenavigationtitle"] = "Konfiguration";
-
+			
+			$data["konfig"] = $this->konfig_model->gibKonfig();
+			$data["strategien"] = $this->konfig_model->gibStrategien();
+			
 			$this -> load -> view("templates/header", $data);
-			$this -> load -> view("admin/index");
+			$this -> load -> view("admin/index" , $data);
 			$this -> load -> view("templates/footer");
 		} else {
 			redirect("/");
@@ -257,5 +260,12 @@ class Admin extends CI_Controller {
 			redirect("/");
 		}
 	}
+	
+	public function saveKonfig(){
+		$postData = $this->input->post();
+		$this->konfig_model->aendereKonfig($postData);
+		$this->index();
+	}
+	
 
 }
