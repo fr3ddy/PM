@@ -12,6 +12,12 @@ $(document).ready(function() {
 			inputs2[i].addEventListener('input', maxReached2);
 		}
 	}
+	$('#erstelleNeueStrategie').on("click", function() {
+		erstelleNeuesInputFeld($(this));
+	});
+	$('.glyphicon-remove').on('click' , function(){
+		entferneStrategie($(this));
+	});
 });
 var getTotal = function() {
 	var sum = 0;
@@ -47,3 +53,28 @@ var maxReached2 = function(e) {
 	}
 	return true;
 };
+
+function erstelleNeuesInputFeld(that) {
+	//TODO: get id of last element!
+	if ( typeof (that.parent().parent().find('input:last-child').attr("name")) != "undefined") {
+		var nextid = parseInt(split('-' , that.parent().find('input :last-child').attr('id'))[1]) + 1;
+	} else {
+		var nextid = 0;
+	}
+	that.unbind('click');
+	that.removeAttr("id");
+	that.attr("name", "strategie-" + nextid);
+	that.parent().find('.input-group-addon').removeClass('glyphicon-plus');
+	that.parent().find('.input-group-addon').addClass('glyphicon-remove');
+	that.parent().parent().append('<div class="input-group"><input class="form-control" id="erstelleNeueStrategie" type="text" placeholder="Hier neue Strategie eingeben" /><span class="input-group-addon glyphicon glyphicon-plus"></span></div>');
+	that.parent().find('.input-group-addon').on('click' , function(){
+		entferneStrategie($(this));
+	});
+	$('#erstelleNeueStrategie').on("click", function() {
+		erstelleNeuesInputFeld($(this));
+	});
+}
+
+function entferneStrategie(that){
+	that.parent().remove();
+}
