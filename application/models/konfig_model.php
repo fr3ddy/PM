@@ -29,7 +29,13 @@ class Konfig_Model extends CI_Model {
     }
 
     function speichereStrategien($data) {
-
+        $this -> db -> delete('Strategien');
+        $query = $this -> db -> insert('Strategien', $data);
+        if ($query == 1) {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
     }
 
     function erstelleStrategie($bezeichnung) {
