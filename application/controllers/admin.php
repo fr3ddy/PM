@@ -263,7 +263,18 @@ class Admin extends CI_Controller {
 	
 	public function saveKonfig(){
 		$postData = $this->input->post();
+		$strategien = array();
+		$i = 0;
+		foreach ($postData as $key => $value) {
+			if(strpos($key ,'strategie-') !== FALSE){
+				$strategien[$i]["ID"] = $i;
+				$strategien[$i]["Bezeichnung"] = $value;
+				unset($postData[$key]);
+				$i++;
+			}
+		}
 		$this->konfig_model->aendereKonfig($postData);
+		$this->konfig_model->speichereStrategien($strategien);
 		$this->index();
 	}
 	

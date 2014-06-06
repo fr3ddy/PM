@@ -18,7 +18,7 @@ class Konfig_Model extends CI_Model {
 
     function gibStrategien() {
         $query = $this -> db -> get('Strategien');
-        $id = 0;
+        $i = 0;
 		$data = array();
         foreach ($query->result() as $row) {
             $data[$i]["ID"] = $row -> ID;
@@ -29,38 +29,8 @@ class Konfig_Model extends CI_Model {
     }
 
     function speichereStrategien($data) {
-        $this -> db -> delete('Strategien');
-        $query = $this -> db -> insert('Strategien', $data);
-        if ($query == 1) {
-            return TRUE;
-        } else {
-            return FALSE;
-        }
-    }
-
-    function erstelleStrategie($bezeichnung) {
-        $data = array('ID' => null, 'Bezeichnung' => $bezeichnung);
-        $query = $this -> db -> insert('Strategien', $data);
-        if ($query == 1) {
-            return TRUE;
-        } else {
-            return FALSE;
-        }
-    }
-
-    function aendereStrategie($ID, $data) {
-        $this -> db -> where("ID", $ID);
-        $query = $this -> update('Strategien', $data);
-        if ($query == 1) {
-            return TRUE;
-        } else {
-            return FALSE;
-        }
-    }
-
-    function loescheStrategie($ID, $data) {
-        $this -> db -> where('ID', $ID);
-        $query = $this -> db -> delete('Strategien');
+        $this -> db -> query("DELETE FROM Strategien");
+        $query = $this -> db -> insert_batch('Strategien', $data);
         if ($query == 1) {
             return TRUE;
         } else {
