@@ -1,29 +1,29 @@
-<form class="form-horizontal" role="form">
+<form class="form-horizontal" role="form" method="POST" action="<?php echo base_url(); ?>projekte/einreichen">
 	<div class="form-group">
 		<label for="Projekttitel" class="col-sm-3 control-label">Projekttitel</label>
 		<div class="col-sm-9">
-			<input type="text" class="form-control" name="Projekttitel" id="Projekttitel" placeholder="Projekttitel">
+			<input type="text" class="form-control" name="Titel" id="Projekttitel" placeholder="Projekttitel">
 		</div>
 	</div>
 	<div class="form-group">
 		<label for="Projektdauer" class="col-sm-3 control-label">Projektdauer in Monaten</label>
 		<div class="col-sm-9">
-			<input type="text" class="form-control" name="Projektdauer" id="Projektdauer" placeholder="Projektdauer in Monaten">
+			<input type="text" class="form-control" name="Dauer" id="Projektdauer" placeholder="Projektdauer in Monaten">
 		</div>
 	</div>
 	<div class="form-group">
 		<label for="Projektkategorie" class="col-sm-3 control-label">Projektkategorie</label>
 		<div class="col-sm-9">
-			<select class="form-control" name="Projektkategorie" id="Projektkategorie"><option>Bugfix ...</option></select>
+			<select class="form-control" name="Kategorie" id="Projektkategorie"><option>Bugfix ...</option></select>
 		</div>
 	</div>
 	<div class="form-group">
 		<label for="Hauptstrategie" class="col-sm-3 control-label">Hauptstrategie</label>
 		<div class="col-sm-9">
-			<select class="form-control" name="Hauptstrategie" id="Hauptstrategie">
+			<select class="form-control" name="Strategie" id="Hauptstrategie">
 				<?php
 					foreach ($hauptstrategien as $hauptstrat) {
-						echo "<option>".$hauptstrat."</option>";
+						echo "<option value='".$hauptstrat["ID"]."'>".$hauptstrat["Bezeichnung"]."</option>";
 					}
 				?>
 			</select>
@@ -32,7 +32,7 @@
 	<div class="form-group">
 		<label for="Projektbeschreibung" class="col-sm-3 control-label">Projektbeschreibung</label>
 		<div class="col-sm-9">
-			<textarea class="form-control" rows="3" name="Projektbeschreibung" id="Projektbeschreibung"></textarea>
+			<textarea class="form-control" rows="3" name="Beschreibung" id="Projektbeschreibung"></textarea>
 		</div>
 	</div>
 	<div class="form-group">
