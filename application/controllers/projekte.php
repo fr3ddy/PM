@@ -27,7 +27,8 @@ class Projekte extends CI_Controller {
 
     public function einreichen() {
         $postData = $this -> input -> post();
-        // $this->projekt_model->einreichen($postData);
+        $this->projekte_model->erstelleProjekt($postData);
+		$this->index();
     }
 
 }
