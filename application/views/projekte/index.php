@@ -14,3 +14,4 @@ foreach ($projekte as $projekt) {
 }
 ?>
 </table>
+
