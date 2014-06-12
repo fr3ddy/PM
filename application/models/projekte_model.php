@@ -2,26 +2,61 @@
 
 class Projekte_model extends CI_Model {
     function gibProjekte() {
-
-        $this -> db -> select("* , ProjektAllgemein.ID as projektID , Kategorien.Titel as kat , ProjektAllgemein.Titel as projektTitel");
-        $this -> db -> where("Bearbeiter", $this -> session -> userdata("BenutzerID"));
-        $this -> db -> or_where("Owner", $this -> session -> userdata("BenutzerID"));
-        $this -> db -> join('Benutzer', 'Benutzer.ID = ProjektAllgemein.Bearbeiter');
-        $this -> db -> join("Kategorien", "Kategorien.ID = ProjektAllgemein.Kategorie");
-        $query = $this -> db -> get("ProjektAllgemein");
-
         $i = 0;
         $data = array();
+        if ($this -> session -> userdata['Rolle'] != 'Geschäftsleiter') {
+            $this -> db -> select("* , ProjektAllgemein.ID as projektID , Kategorien.Titel as kat , ProjektAllgemein.Titel as projektTitel");
+            $this -> db -> where("Bearbeiter", $this -> session -> userdata("BenutzerID"));
+            $this -> db -> or_where("Owner", $this -> session -> userdata("BenutzerID"));
+            $this -> db -> join('Benutzer', 'Benutzer.ID = ProjektAllgemein.Bearbeiter');
+            $this -> db -> join("Kategorien", "Kategorien.ID = ProjektAllgemein.Kategorie");
+            $query = $this -> db -> get("ProjektAllgemein");
 
+            foreach ($query->result() as $row) {
+                $data[$i]["ID"] = $row -> projektID;
+                $data[$i]["Titel"] = $row -> projektTitel;
+                $data[$i]["Dauer"] = $row -> Dauer;
+                $data[$i]["Prio"] = $row -> Prio;
+                $data[$i]["Kategorie"] = $row -> kat;
+                $data[$i]["Strategie"] = $row -> Strategie;
+                $data[$i]["Beschreibung"] = $row -> Beschreibung;
+                $data[$i]["Bearbeiter"] = $row -> Benutzername;
+
+                $i++;
+            }
+        } else {
+            $liste = $this -> db -> get("ProjektePMO");
+
+            foreach ($liste->result() as $zeile) {
+                $this -> db -> select("* , ProjektAllgemein.ID as projektID , Kategorien.Titel as kat , ProjektAllgemein.Titel as projektTitel");
+                $this -> db -> where("ID", $zeile -> ProjektID);
+                $this -> db -> join("Kategorien", "Kategorien.ID = ProjektAllgemein.Kategorie");
+                $query = $this -> db -> get("ProjektAllgemein");
+                foreach ($query->result() as $row) {
+                    $data[$i]["ID"] = $row -> projektID;
+                    $data[$i]["Titel"] = $row -> projektTitel;
+                    $data[$i]["Dauer"] = $row -> Dauer;
+                    $data[$i]["Prio"] = $row -> Prio;
+                    $data[$i]["Kategorie"] = $row -> kat;
+                    $data[$i]["Strategie"] = $row -> Strategie;
+                    $data[$i]["Beschreibung"] = $row -> Beschreibung;
+                    $data[$i]["Bearbeiter"] = $row -> Benutzername;
+
+                    $i++;
+                }
+            }
+
+        }
+        return $data;
+    }
+
+    function gibAlleProjektTitel() {
+        $i = 0;
+        $data = array();
+        $query = $this -> db -> get('ProjekteAllgemein');
         foreach ($query->result() as $row) {
-            $data[$i]["ID"] = $row -> projektID;
-            $data[$i]["Titel"] = $row -> projektTitel;
-            $data[$i]["Dauer"] = $row -> Dauer;
-            $data[$i]["Prio"] = $row -> Prio;
-            $data[$i]["Kategorie"] = $row -> kat;
-            $data[$i]["Strategie"] = $row -> Strategie;
-            $data[$i]["Beschreibung"] = $row -> Beschreibung;
-            $data[$i]["Bearbeiter"] = $row -> Benutzername;
+            $data[$i]["ID"] = $row -> ID;
+            $data[$i]["Titel"] = $row -> Titel;
 
             $i++;
         }
