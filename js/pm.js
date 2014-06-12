@@ -15,9 +15,28 @@ $(document).ready(function() {
 	$('#erstelleNeueStrategie').on("click", function() {
 		erstelleNeuesInputFeld($(this));
 	});
-	$('.glyphicon-remove').on('click' , function(){
+	$('.glyphicon-remove').on('click', function() {
 		entferneStrategie($(this));
 	});
+
+	//Berechne die gesamten Kosten pro Jahr
+	if (window.location.pathname.split("/")[2] == "detailsKosten" || window.location.pathname.split("/")[2] == "speichereKosten") {
+		var sum = parseInt($('#Intern1').val()) + parseInt($('#Extern1').val()) + parseInt($('#Sonstig1').val());
+		$('#gkj1').html("" + sum + "");
+		var sum = parseInt($('#Intern2').val()) + parseInt($('#Extern2').val()) + parseInt($('#Sonstig2').val());
+		$('#gkj2').html("" + sum + "");
+		var sum = parseInt($('#Intern3').val()) + parseInt($('#Extern3').val()) + parseInt($('#Sonstig3').val());
+		$('#gkj3').html("" + sum + "");
+		
+		$('input').on("keyup", function() {
+			var sum = parseInt($('#Intern1').val()) + parseInt($('#Extern1').val()) + parseInt($('#Sonstig1').val());
+			$('#gkj1').html("" + sum + "");
+			var sum = parseInt($('#Intern2').val()) + parseInt($('#Extern2').val()) + parseInt($('#Sonstig2').val());
+			$('#gkj2').html("" + sum + "");
+			var sum = parseInt($('#Intern3').val()) + parseInt($('#Extern3').val()) + parseInt($('#Sonstig3').val());
+			$('#gkj3').html("" + sum + "");
+		});
+	}
 });
 var getTotal = function() {
 	var sum = 0;
@@ -67,7 +86,7 @@ function erstelleNeuesInputFeld(that) {
 	that.parent().find('.input-group-addon').removeClass('glyphicon-plus');
 	that.parent().find('.input-group-addon').addClass('glyphicon-remove');
 	that.parent().parent().append('<div class="input-group"><input class="form-control" id="erstelleNeueStrategie" type="text" placeholder="Hier neue Strategie eingeben" /><span class="input-group-addon glyphicon glyphicon-plus"></span></div>');
-	that.parent().find('.input-group-addon').on('click' , function(){
+	that.parent().find('.input-group-addon').on('click', function() {
 		entferneStrategie($(this));
 	});
 	$('#erstelleNeueStrategie').on("click", function() {
@@ -75,6 +94,6 @@ function erstelleNeuesInputFeld(that) {
 	});
 }
 
-function entferneStrategie(that){
+function entferneStrategie(that) {
 	that.parent().remove();
 }

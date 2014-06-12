@@ -14,7 +14,13 @@
 	<div class="form-group">
 		<label for="Projektkategorie" class="col-sm-3 control-label">Projektkategorie</label>
 		<div class="col-sm-9">
-			<select class="form-control" name="Kategorie" id="Projektkategorie"><option>Bugfix ...</option></select>
+			<select class="form-control" name="Kategorie" id="Projektkategorie">
+				<?php
+					foreach ($kategorien as $kategorie) {
+						echo "<option value='".$kategorie["ID"]."'>".$kategorie["Titel"]."</option>";
+					}
+				?>
+			</select>
 		</div>
 	</div>
 	<div class="form-group">

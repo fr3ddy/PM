@@ -5,7 +5,8 @@ class Admin extends CI_Controller {
 	private $sidenavigation = array("Konfiguration" => "admin", "Bereiche" => "admin/bereiche", "Neuer Bereich" => "admin/neuerBereich", "Abteilungen" => "admin/abteilungen", "Neue Abteilung" => "admin/neueAbteilung", "Mitarbeiter" => "admin/mitarbeiter", "Neuer Mitarbeiter" => "admin/neuerMitarbeiter");
 
 	public function index() {
-		if ($this -> session -> userdata("Rolle") == "Abteilungsleiter" && $this -> session -> userdata("Abteilung") == 0) {
+		$gl = $this->user_model->gibAbteilung(0);
+		if ($gl["Abteilungsleiter"]["BenutzerID"] == $this -> session -> userdata("BenutzerID")) {
 			$data["title"] = "Administration";
 
 			$data["sidenavigation"] = $this -> sidenavigation;

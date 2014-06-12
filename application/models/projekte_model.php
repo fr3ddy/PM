@@ -1,30 +1,32 @@
 <?php
 
 class Projekte_model extends CI_Model {
-    function gibProjekte() {
+	function gibProjekte() {
 
-        $this -> db -> where("Bearbeiter", $this -> session -> userdata("BenutzerID"));
-        $this -> db -> or_where("Owner", $this -> session -> userdata("BenutzerID"));
-        $this -> db -> join('Benutzer', 'Benutzer.ID = ProjektAllgemein.Bearbeiter');
-        $query = $this -> db -> get("ProjektAllgemein");
+		$this -> db -> select("* , ProjektAllgemein.ID as projektID , Kategorien.Titel as kat , ProjektAllgemein.Titel as projektTitel");
+		$this -> db -> where("Bearbeiter", $this -> session -> userdata("BenutzerID"));
+		$this -> db -> or_where("Owner", $this -> session -> userdata("BenutzerID"));
+		$this -> db -> join('Benutzer', 'Benutzer.ID = ProjektAllgemein.Bearbeiter');
+		$this -> db -> join("Kategorien", "Kategorien.ID = ProjektAllgemein.Kategorie");
+		$query = $this -> db -> get("ProjektAllgemein");
 
-        $i = 0;
-        $data = array();
+		$i = 0;
+		$data = array();
 
-        foreach ($query->result() as $row) {
-            $data[$i]["ID"] = $row -> ID;
-            $data[$i]["Titel"] = $row -> Titel;
-            $data[$i]["Dauer"] = $row -> Dauer;
-            $data[$i]["Prio"] = $row -> Prio;
-            $data[$i]["Kategorie"] = $row -> Kategorie;
-            $data[$i]["Strategie"] = $row -> Strategie;
-            $data[$i]["Beschreibung"] = $row -> Beschreibung;
-            $data[$i]["Bearbeiter"] = $row -> Benutzername;
+		foreach ($query->result() as $row) {
+			$data[$i]["ID"] = $row -> projektID;
+			$data[$i]["Titel"] = $row -> projektTitel;
+			$data[$i]["Dauer"] = $row -> Dauer;
+			$data[$i]["Prio"] = $row -> Prio;
+			$data[$i]["Kategorie"] = $row -> kat;
+			$data[$i]["Strategie"] = $row -> Strategie;
+			$data[$i]["Beschreibung"] = $row -> Beschreibung;
+			$data[$i]["Bearbeiter"] = $row -> Benutzername;
 
-            $i++;
-        }
-        return $data;
-    }
+			$i++;
+		}
+		return $data;
+	}
 
     function erstelleProjekt($data) {
         $this -> db -> insert('ProjektAllgemein', $data);
@@ -237,5 +239,15 @@ class Projekte_model extends CI_Model {
             return FALSE;
         }
     }
-
+	
+	function gibKategorien() {
+		$query = $this -> db -> get("Kategorien");
+		$i = 0;
+		foreach ($query->result() as $row) {
+			$data[$i]["ID"] = $row -> ID;
+			$data[$i]["Titel"] = $row -> Titel;
+			$i++;
+		}
+		return $data;
+	}
 }
