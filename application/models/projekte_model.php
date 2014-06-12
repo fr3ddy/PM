@@ -70,6 +70,28 @@ class Projekte_model extends CI_Model {
         $this -> db -> delete('NutzenQualitativ');
     }
 
+    function reicheProjektWeiter($ProjektID) {
+        //Vorgesetzen des Users suchen
+        if ($this -> session -> userdata['Rolle'] == "Abteilungsleiter") {
+            $this -> db -> select('Bereiche.Bereichsleiter');
+            $this -> db -> join('Abteilungen', 'Abteilungen.ID = Benutzer.Abteilung');
+            $this -> db -> join('Bereiche', 'Bereiche.ID = Abteilungen.Bereich');
+            $this -> db -> where('Benutzer.ID', $this -> session -> userdata['BenutzerID']);
+            $query = $this -> db -> get('Benutzer');
+        }
+
+        $row = $query -> first_row();
+
+        $this -> db -> where('ID', $ProjektID);
+        $query = $this -> db -> update("Bearbeiter", $row -> Bereichsleiter);
+
+        if ($query == 1) {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+    }
+
     function gibProjektAllgemein($ID) {
         $this -> db -> where("ID", $ID);
         $query = $this -> db -> get('ProjektAllgemein');
