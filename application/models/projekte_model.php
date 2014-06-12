@@ -28,194 +28,216 @@ class Projekte_model extends CI_Model {
 		return $data;
 	}
 
-	function erstelleProjekt($data) {
-		$this -> db -> insert('ProjektAllgemein', $data);
-		$projektid = $this -> db -> insert_id();
-		//Suche Abteilungsleiter
-		$this -> db -> where('ID', $this -> session -> userdata("Abteilung"));
-		$query = $this -> db -> get('Abteilungen');
-		$row = $query -> first_row();
+    function erstelleProjekt($data) {
+        $this -> db -> insert('ProjektAllgemein', $data);
+        $projektid = $this -> db -> insert_id();
+        //Suche Abteilungsleiter
+        $this -> db -> where('ID', $this -> session -> userdata("Abteilung"));
+        $query = $this -> db -> get('Abteilungen');
+        $row = $query -> first_row();
 
-		//Trage neuen Bearbeiter ein
-		$data = array('Bearbeiter' => $row -> Abteilungsleiter, 'Owner' => $this -> session -> userdata('BenutzerID'));
-		$this -> db -> where('ID', $projektid);
-		$this -> db -> update('ProjektAllgemein', $data);
+        //Trage neuen Bearbeiter ein
+        $data = array('Bearbeiter' => $row -> Abteilungsleiter, 'Owner' => $this -> session -> userdata('BenutzerID'));
+        $this -> db -> where('ID', $projektid);
+        $this -> db -> update('ProjektAllgemein', $data);
 
-		//Erstelle die neuen Einträge in den anderen Tabellen !ID muss gleich sein wie in der Tab ProjektAllgemein
-		echo $this -> db -> insert_id();
-		$data = array('ID' => $projektid);
-		$this -> db -> insert('ProjektAmort', $data);
-		$this -> db -> insert('ProjektKomplex', $data);
-		$this -> db -> insert('ProjektKosten', $data);
-		$this -> db -> insert('ProjektRisiken', $data);
-		$this -> db -> insert('ProjektSonstig', $data);
-		$this -> db -> insert('ProjektStrategien', $data);
-		$this -> db -> insert('NutzenQualitativ', $data);
-	}
+        //Erstelle die neuen Einträge in den anderen Tabellen !ID muss gleich sein wie in der Tab ProjektAllgemein
+        echo $this -> db -> insert_id();
+        $data = array('ID' => $projektid);
+        $this -> db -> insert('ProjektAmort', $data);
+        $this -> db -> insert('ProjektKomplex', $data);
+        $this -> db -> insert('ProjektKosten', $data);
+        $this -> db -> insert('ProjektRisiken', $data);
+        $this -> db -> insert('ProjektSonstig', $data);
+        $this -> db -> insert('ProjektStrategien', $data);
+        $this -> db -> insert('NutzenQualitativ', $data);
+    }
 
-	function loescheProjekt($ID) {
-		$this -> db -> where('ID', $ID);
-		$this -> db -> delete('ProjektAllgemein');
-		$this -> db -> where('ID', $ID);
-		$this -> db -> delete('ProjektAmort');
-		$this -> db -> where('ID', $ID);
-		$this -> db -> delete('ProjektKomplex');
-		$this -> db -> where('ID', $ID);
-		$this -> db -> delete('ProjektKosten');
-		$this -> db -> where('ID', $ID);
-		$this -> db -> delete('ProjektRisiken');
-		$this -> db -> where('ID', $ID);
-		$this -> db -> delete('ProjektSonstig');
-		$this -> db -> where('ID', $ID);
-		$this -> db -> delete('ProjektStrategien');
-		$this -> db -> where('ID', $ID);
-		$this -> db -> delete('NutzenQualitativ');
-	}
+    function loescheProjekt($ID) {
+        $this -> db -> where('ID', $ID);
+        $this -> db -> delete('ProjektAllgemein');
+        $this -> db -> where('ID', $ID);
+        $this -> db -> delete('ProjektAmort');
+        $this -> db -> where('ID', $ID);
+        $this -> db -> delete('ProjektKomplex');
+        $this -> db -> where('ID', $ID);
+        $this -> db -> delete('ProjektKosten');
+        $this -> db -> where('ID', $ID);
+        $this -> db -> delete('ProjektRisiken');
+        $this -> db -> where('ID', $ID);
+        $this -> db -> delete('ProjektSonstig');
+        $this -> db -> where('ID', $ID);
+        $this -> db -> delete('ProjektStrategien');
+        $this -> db -> where('ID', $ID);
+        $this -> db -> delete('NutzenQualitativ');
+    }
 
-	function gibProjektAllgemein($ID) {
-		$this -> db -> where("ID", $ID);
-		$query = $this -> db -> get('ProjektAllgemein');
+    function reicheProjektWeiter($ProjektID) {
+        //Vorgesetzen des Users suchen
+        if ($this -> session -> userdata['Rolle'] == "Abteilungsleiter") {
+            $this -> db -> select('Bereiche.Bereichsleiter');
+            $this -> db -> join('Abteilungen', 'Abteilungen.ID = Benutzer.Abteilung');
+            $this -> db -> join('Bereiche', 'Bereiche.ID = Abteilungen.Bereich');
+            $this -> db -> where('Benutzer.ID', $this -> session -> userdata['BenutzerID']);
+            $query = $this -> db -> get('Benutzer');
+        }
 
-		$row = $query -> first_row();
-		return $row;
-	}
+        $row = $query -> first_row();
 
-	function aendereProjektAllgemein($ID, $data) {
-		$this -> db -> where("ID", $ID);
-		$query = $this -> db -> update("ProjektAllgemein", $data);
-		if ($query == 1) {
-			return TRUE;
-		} else {
-			return FALSE;
-		}
-	}
+        $this -> db -> where('ID', $ProjektID);
+        $query = $this -> db -> update("Bearbeiter", $row -> Bereichsleiter);
 
-	function gibProjektAmort($ID) {
-		$this -> db -> where("ID", $ID);
-		$query = $this -> db -> get('ProjektAmort');
+        if ($query == 1) {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+    }
 
-		$row = $query -> first_row();
-		return $row;
-	}
+    function gibProjektAllgemein($ID) {
+        $this -> db -> where("ID", $ID);
+        $query = $this -> db -> get('ProjektAllgemein');
 
-	function aendereProjektAmort($ID, $data) {
-		$this -> db -> where("ID", $ID);
-		$query = $this -> db -> update("ProjektAmort", $data);
-		if ($query == 1) {
-			return TRUE;
-		} else {
-			return FALSE;
-		}
-	}
+        $row = $query -> first_row();
+        return $row;
+    }
 
-	function gibProjektKomplex($ID) {
-		$this -> db -> where("ID", $ID);
-		$query = $this -> db -> get('ProjektKomplex');
+    function aendereProjektAllgemein($ID, $data) {
+        $this -> db -> where("ID", $ID);
+        $query = $this -> db -> update("ProjektAllgemein", $data);
+        if ($query == 1) {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+    }
 
-		$row = $query -> first_row();
-		return $row;
-	}
+    function gibProjektAmort($ID) {
+        $this -> db -> where("ID", $ID);
+        $query = $this -> db -> get('ProjektAmort');
 
-	function aendereProjektKomplex($ID, $data) {
-		$this -> db -> where("ID", $ID);
-		$query = $this -> db -> update("ProjektKomplex", $data);
-		if ($query == 1) {
-			return TRUE;
-		} else {
-			return FALSE;
-		}
-	}
+        $row = $query -> first_row();
+        return $row;
+    }
 
-	function gibProjektKosten($ID) {
-		$this -> db -> where("ID", $ID);
-		$query = $this -> db -> get('ProjektKosten');
+    function aendereProjektAmort($ID, $data) {
+        $this -> db -> where("ID", $ID);
+        $query = $this -> db -> update("ProjektAmort", $data);
+        if ($query == 1) {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+    }
 
-		$row = $query -> first_row();
-		return $row;
-	}
+    function gibProjektKomplex($ID) {
+        $this -> db -> where("ID", $ID);
+        $query = $this -> db -> get('ProjektKomplex');
 
-	function aendereProjektKosten($ID, $data) {
-		$this -> db -> where("ID", $ID);
-		$query = $this -> db -> update("ProjektKosten", $data);
-		if ($query == 1) {
-			return TRUE;
-		} else {
-			return FALSE;
-		}
-	}
+        $row = $query -> first_row();
+        return $row;
+    }
 
-	function gibProjektRisiken($ID) {
-		$this -> db -> where("ID", $ID);
-		$query = $this -> db -> get('ProjektRisiken');
+    function aendereProjektKomplex($ID, $data) {
+        $this -> db -> where("ID", $ID);
+        $query = $this -> db -> update("ProjektKomplex", $data);
+        if ($query == 1) {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+    }
 
-		$row = $query -> first_row();
-		return $row;
-	}
+    function gibProjektKosten($ID) {
+        $this -> db -> where("ID", $ID);
+        $query = $this -> db -> get('ProjektKosten');
 
-	function aendereProjektRisiken($ID, $data) {
-		$this -> db -> where("ID", $ID);
-		$query = $this -> db -> update("ProjektRisiken", $data);
-		if ($query == 1) {
-			return TRUE;
-		} else {
-			return FALSE;
-		}
-	}
+        $row = $query -> first_row();
+        return $row;
+    }
 
-	function gibProjektSonstig($ID) {
-		$this -> db -> where("ID", $ID);
-		$query = $this -> db -> get('ProjektSonstig');
+    function aendereProjektKosten($ID, $data) {
+        $this -> db -> where("ID", $ID);
+        $query = $this -> db -> update("ProjektKosten", $data);
+        if ($query == 1) {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+    }
 
-		$row = $query -> first_row();
-		return $row;
-	}
+    function gibProjektRisiken($ID) {
+        $this -> db -> where("ID", $ID);
+        $query = $this -> db -> get('ProjektRisiken');
 
-	function aendereProjektSonstig($ID, $data) {
-		$this -> db -> where("ID", $ID);
-		$query = $this -> db -> update("ProjektSonstig", $data);
-		if ($query == 1) {
-			return TRUE;
-		} else {
-			return FALSE;
-		}
-	}
+        $row = $query -> first_row();
+        return $row;
+    }
 
-	function gibProjektStrategien($ID) {
-		$this -> db -> where("ID", $ID);
-		$query = $this -> db -> get('ProjektStrategien');
+    function aendereProjektRisiken($ID, $data) {
+        $this -> db -> where("ID", $ID);
+        $query = $this -> db -> update("ProjektRisiken", $data);
+        if ($query == 1) {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+    }
 
-		$row = $query -> first_row();
-		return $row;
-	}
+    function gibProjektSonstig($ID) {
+        $this -> db -> where("ID", $ID);
+        $query = $this -> db -> get('ProjektSonstig');
 
-	function aendereProjektStrategien($ID, $data) {
-		$this -> db -> where("ID", $ID);
-		$query = $this -> db -> update("ProjektStrategien", $data);
-		if ($query == 1) {
-			return TRUE;
-		} else {
-			return FALSE;
-		}
-	}
+        $row = $query -> first_row();
+        return $row;
+    }
 
-	function gibNutzenQualitativ($ID) {
-		$this -> db -> where("ID", $ID);
-		$query = $this -> db -> get('NutzenQualitativ');
+    function aendereProjektSonstig($ID, $data) {
+        $this -> db -> where("ID", $ID);
+        $query = $this -> db -> update("ProjektSonstig", $data);
+        if ($query == 1) {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+    }
 
-		$row = $query -> first_row();
-		return $row;
-	}
+    function gibProjektStrategien($ID) {
+        $this -> db -> where("ID", $ID);
+        $query = $this -> db -> get('ProjektStrategien');
 
-	function aendereNutzenQualitativ($ID, $data) {
-		$this -> db -> where("ID", $ID);
-		$query = $this -> db -> update("NutzenQualitativ", $data);
-		if ($query == 1) {
-			return TRUE;
-		} else {
-			return FALSE;
-		}
-	}
+        $row = $query -> first_row();
+        return $row;
+    }
 
+    function aendereProjektStrategien($ID, $data) {
+        $this -> db -> where("ID", $ID);
+        $query = $this -> db -> update("ProjektStrategien", $data);
+        if ($query == 1) {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+    }
+
+    function gibNutzenQualitativ($ID) {
+        $this -> db -> where("ID", $ID);
+        $query = $this -> db -> get('NutzenQualitativ');
+
+        $row = $query -> first_row();
+        return $row;
+    }
+
+    function aendereNutzenQualitativ($ID, $data) {
+        $this -> db -> where("ID", $ID);
+        $query = $this -> db -> update("NutzenQualitativ", $data);
+        if ($query == 1) {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+    }
+	
 	function gibKategorien() {
 		$query = $this -> db -> get("Kategorien");
 		$i = 0;
@@ -226,5 +248,4 @@ class Projekte_model extends CI_Model {
 		}
 		return $data;
 	}
-
 }

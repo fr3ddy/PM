@@ -51,33 +51,45 @@ class User_Model extends CI_Model {
         if ($ID != "") {
             $query = $this -> db -> query('SELECT * FROM Benutzer WHERE ID = "' . $ID . '"');
             $row = $query -> first_row();
-            return array("Benutzername" => $row -> Benutzername, "Rolle" => $this -> gibRolle($ID), "Abteilung" => $row -> Abteilung, "BenutzerID" => $ID);
+            return array("Benutzername" => $row -> Benutzername, "Rolle" => $this -> gibRolle($ID, $row -> Abteilung), "Abteilung" => $row -> Abteilung, "BenutzerID" => $ID);
         } else {
             return array("Benutzername" => "", "Rolle" => "", "Abteilung" => "", "BenutzerID" => "");
         }
     }
-	
-	function gibPasswortVonBenutzerid($id){
-		$query = $this->db->query("SELECT Passwort FROM Benutzer WHERE ID = ".$id);
-		$row = $query->first_row();
-		return $row->Passwort;
-	}
 
-    function gibRolle($benutzerID) {
+    function gibPasswortVonBenutzerid($id) {
+        $query = $this -> db -> query("SELECT Passwort FROM Benutzer WHERE ID = " . $id);
+        $row = $query -> first_row();
+        return $row -> Passwort;
+    }
+
+    function gibRolle($benutzerID, $Abteilung) {
         if ($benutzerID != "") {
-            $query = $this -> db -> query('SELECT * FROM Abteilungen WHERE Abteilungsleiter = ' . $benutzerID);
-            if ($query -> num_rows() == 1) {
-                return "Abteilungsleiter";
-            } else {
-                $query = $this -> db -> query('SELECT * FROM Bereiche WHERE Bereichsleiter = ' . $benutzerID);
+            $this -> db -> where('Abteilungsleiter', $benutzerID);
+            $this -> db -> where('ID', 0);
+            $query = $this -> db -> get('Abteilungen');
+            if ($query -> num_rows > 0) {
+                return "Geschäftsleiter";
             }
-            if ($query -> num_rows() == 1) {
-                return "Bereichsleiter";
+
+            if ($Abteilung == 0) {
+                $this -> db -> where("Bereichsleiter", $benutzerID);
+                $query = $this -> db -> get("Bereiche");
+                if ($query -> num_rows() > 0) {
+                    return "Bereichsleiter";
+                } else {
+                    return "PMO";
+                }
+            }
+
+            $this -> db -> where("Abteilungsleiter", $benutzerID);
+            $query = $this -> db -> get("Abteilungen");
+            if ($query -> num_rows() > 0) {
+                return "Abteilungsleiter";
             } else {
                 return "Mitarbeiter";
             }
-        } else {
-            return "Mitarbeiter";
+
         }
     }
 
@@ -96,10 +108,10 @@ class User_Model extends CI_Model {
         }
     }
 
-    function aendereBenutzer($data , $id) {
-    	if($data["Passwort"] == ""){
-    		$data["Passwort"] = $this->gibPasswortVonBenutzerid($id);
-    	}
+    function aendereBenutzer($data, $id) {
+        if ($data["Passwort"] == "") {
+            $data["Passwort"] = $this -> gibPasswortVonBenutzerid($id);
+        }
         $this -> db -> where("ID", $id);
         $query = $this -> db -> update("Benutzer", $data);
         if ($query == 1) {
@@ -153,19 +165,19 @@ class User_Model extends CI_Model {
     }
 
     // function aendereAbteilungsLeiter($AbteilungsID, $MitarbeiterID) {
-        // $query = $this -> db -> query("UPDATE Abteilungen SET Abteilungsleiter = " . $MitarbeiterID . " WHERE ID = " . $AbteilungsID);
-        // if ($query == 1) {
-            // return array("Erfolgreich" => true, "Nachricht" => "Abteilungsleiter erfolgreich geändert");
-        // } elseif ($query < 1) {
-            // return array("Erfolgreich" => false, "Nachricht" => "AbteilungsID nicht gefunden");
-        // } else {
-            // return array("Erfolgreich" => false, "Nachricht" => "Schwerwiegender Fehler! Mehrer Abteilungen geändert!");
-        // }
+    // $query = $this -> db -> query("UPDATE Abteilungen SET Abteilungsleiter = " . $MitarbeiterID . " WHERE ID = " . $AbteilungsID);
+    // if ($query == 1) {
+    // return array("Erfolgreich" => true, "Nachricht" => "Abteilungsleiter erfolgreich geändert");
+    // } elseif ($query < 1) {
+    // return array("Erfolgreich" => false, "Nachricht" => "AbteilungsID nicht gefunden");
+    // } else {
+    // return array("Erfolgreich" => false, "Nachricht" => "Schwerwiegender Fehler! Mehrer Abteilungen geändert!");
+    // }
     // }
 
     function aendereAbteilung($ID, $data) {
-        $this->db->where("ID", $ID);
-        $query = $this->db->update("Abteilungen", $data);
+        $this -> db -> where("ID", $ID);
+        $query = $this -> db -> update("Abteilungen", $data);
         if ($query == 1) {
             return TRUE;
         } else {
