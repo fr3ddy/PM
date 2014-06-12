@@ -49,7 +49,6 @@ class Projekte_model extends CI_Model {
         $this -> db -> insert('ProjektKosten', $data);
         $this -> db -> insert('ProjektRisiken', $data);
         $this -> db -> insert('ProjektSonstig', $data);
-        $this -> db -> insert('ProjektStrategien', $data);
         $this -> db -> insert('NutzenQualitativ', $data);
     }
 
@@ -66,7 +65,7 @@ class Projekte_model extends CI_Model {
         $this -> db -> delete('ProjektRisiken');
         $this -> db -> where('ID', $ID);
         $this -> db -> delete('ProjektSonstig');
-        $this -> db -> where('ID', $ID);
+        $this -> db -> where('IDProjekt', $ID);
         $this -> db -> delete('ProjektStrategien');
         $this -> db -> where('ID', $ID);
         $this -> db -> delete('NutzenQualitativ');
@@ -221,21 +220,33 @@ class Projekte_model extends CI_Model {
     }
 
     function gibProjektStrategien($ID) {
+        $i = 0;
+        $data = array();
+
         $this -> db -> where("ID", $ID);
         $query = $this -> db -> get('ProjektStrategien');
 
-        $row = $query -> first_row();
-        return $row;
+        foreach ($query->result() as $row) {
+            $this -> db -> where("ID", $row -> IDStrategie);
+            $ergebnis = $this -> db -> get("Strategien");
+            $zeile = $ergebnis -> first_row();
+            $data[$i]["ID"] = $zeile -> ID;
+            $data[$i]["Bezeichnung"] = $zeile -> Bezeichnung;
+            $i++;
+        }
+
+        return $data;
     }
 
     function aendereProjektStrategien($ID, $data) {
-        $this -> db -> where("ID", $ID);
-        $query = $this -> db -> update("ProjektStrategien", $data);
-        if ($query == 1) {
-            return TRUE;
-        } else {
-            return FALSE;
+        $this -> db -> where('IDProjekt', $ID);
+        $this -> db -> delete('ProjektStrategien');
+
+        foreach ($data as $zeile) {
+            $eingabe = array("IDProjekt" => $ID, "IDStrategie" => $zeile);
+            $this -> db -> insert("ProjketStrategien", $eingabe);
         }
+
     }
 
     function gibNutzenQualitativ($ID) {
