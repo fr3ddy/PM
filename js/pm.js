@@ -20,7 +20,7 @@ $(document).ready(function() {
 	});
 
 	//Berechne die gesamten Kosten pro Jahr
-	if (window.location.pathname.split("/")[2] == "detailsKosten") {
+	if (window.location.pathname.split("/")[2] == "detailsKosten" || window.location.pathname.split("/")[2] == "speichereKosten") {
 		var sum = parseInt($('#Intern1').val()) + parseInt($('#Extern1').val()) + parseInt($('#Sonstig1').val());
 		$('#gkj1').html("" + sum + "");
 		var sum = parseInt($('#Intern2').val()) + parseInt($('#Extern2').val()) + parseInt($('#Sonstig2').val());

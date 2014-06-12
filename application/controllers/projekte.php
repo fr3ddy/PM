@@ -80,6 +80,11 @@ class Projekte extends CI_Controller {
 		$this -> load -> view("templates/footer");
 	}
 
+	public function speichereKosten($id){
+		$this -> projekte_model -> aendereProjektKosten($id, $this -> input -> post());
+		$this -> detailsKosten($id);
+	}
+	
 	/*
 	 $data["ProjektAmort"] = $this->projekte_model->gibProjektAmort($id);
 	 $data["ProjektKomplex"] = $this->projekte_model->gibProjektKomplex($id);
