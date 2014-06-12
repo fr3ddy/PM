@@ -37,5 +37,11 @@ class Konfig_Model extends CI_Model {
             return FALSE;
         }
     }
+	
+	function gibAnzahlMitarbeiter(){
+		$this->db->select("AnzMitarbeiter");
+		$query = $this->db->get("Konfiguration");
+		return $query->first_row();
+	}
 
 }
