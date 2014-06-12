@@ -77,8 +77,8 @@ class User_Model extends CI_Model {
                 $query = $this -> db -> get("Bereiche");
                 if ($query -> num_rows() > 0) {
                     return "Bereichsleiter";
-                // } else {
-                    // return "PMO";
+                } else {
+                    return "PMO";
                 }
             }
 
