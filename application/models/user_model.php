@@ -44,7 +44,7 @@ class User_Model extends CI_Model {
     function gibBenutzerdaten($benutzername) {
         $query = $this -> db -> query('SELECT * FROM Benutzer WHERE Benutzername = "' . $benutzername . '"');
         $row = $query -> first_row();
-        return array("Benutzername" => $row -> Benutzername, "Rolle" => $this -> gibRolle($row -> ID), "Abteilung" => $row -> Abteilung, "BenutzerID" => $row -> ID);
+        return array("Benutzername" => $row -> Benutzername, "Rolle" => $this -> gibRolle($row -> ID, $row -> Abteilung), "Abteilung" => $row -> Abteilung, "BenutzerID" => $row -> ID);
     }
 
     function gibBenutzerdatenID($ID) {
