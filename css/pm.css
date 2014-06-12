@@ -63,8 +63,9 @@
 
 .sidenavigation > a > div {
 	width: 188px;
-	min-height: 40px;
+	min-height: 31px;
 	padding-top: 9px;
+	padding-bottom: 9px;
 	float: left;
 	text-align: center;
 }

@@ -72,9 +72,6 @@ class Projekte extends CI_Controller {
 		$data["sidenavigation"] = $sidenavigation;
 		$data["sidenavigationtitle"] = $data["ProjektAllgemein"] -> Titel;
 
-		$data["strategien"] = $this -> konfig_model -> gibStrategien();
-		$data["kategorien"] = $this -> projekte_model -> gibKategorien();
-
 		$this -> load -> view("templates/header", $data);
 		$this -> load -> view("projekte/detailsKosten", $data);
 		$this -> load -> view("templates/footer");
@@ -85,14 +82,96 @@ class Projekte extends CI_Controller {
 		$this -> detailsKosten($id);
 	}
 	
+	public function detailsAmort($id) {
+		$data["title"] = "Projekte";
+
+		$sidenavigation = array("Allgemeines" => "projekte/details/" . $id, "geplante Kosten" => "projekte/detailsKosten/" . $id, "Amortisationsdauer" => "projekte/detailsAmort/" . $id, "Faktoren zur Steigerung des qualitativen Nutzens" => "projekte/detailsQualNutzen/" . $id, "Risiken" => "projekte/detailsRisiken/" . $id, "Strategiebeitrag" => "projekte/detailsStrategie/" . $id, "Komplexitätsberechnung" => "projekte/detailsKomplexitaet/" . $id, "Sonstiges" => "projekte/detailsSonstiges" . $id);
+
+		$data["ProjektAllgemein"] = $this -> projekte_model -> gibProjektAllgemein($id);
+		$data["ProjektAmort"] = $this->projekte_model->gibProjektAmort($id);
+
+		$data["sidenavigation"] = $sidenavigation;
+		$data["sidenavigationtitle"] = $data["ProjektAllgemein"] -> Titel;
+
+		$this -> load -> view("templates/header", $data);
+		$this -> load -> view("projekte/detailsAmort", $data);
+		$this -> load -> view("templates/footer");
+	}
+
+	public function speichereAmort($id){
+		$this -> projekte_model -> aendereProjektAmort($id, $this -> input -> post());
+		$this -> detailsAmort($id);
+	}
+	
+	public function detailsQualNutzen($id) {
+		$data["title"] = "Projekte";
+
+		$sidenavigation = array("Allgemeines" => "projekte/details/" . $id, "geplante Kosten" => "projekte/detailsKosten/" . $id, "Amortisationsdauer" => "projekte/detailsAmort/" . $id, "Faktoren zur Steigerung des qualitativen Nutzens" => "projekte/detailsQualNutzen/" . $id, "Risiken" => "projekte/detailsRisiken/" . $id, "Strategiebeitrag" => "projekte/detailsStrategie/" . $id, "Komplexitätsberechnung" => "projekte/detailsKomplexitaet/" . $id, "Sonstiges" => "projekte/detailsSonstiges" . $id);
+
+		$data["ProjektAllgemein"] = $this -> projekte_model -> gibProjektAllgemein($id);
+		$data["NutzenQualitativ"] = $this->projekte_model->gibNutzenQualitativ($id);
+
+		$data["sidenavigation"] = $sidenavigation;
+		$data["sidenavigationtitle"] = $data["ProjektAllgemein"] -> Titel;
+
+		$this -> load -> view("templates/header", $data);
+		$this -> load -> view("projekte/detailsQualNutzen", $data);
+		$this -> load -> view("templates/footer");
+	}
+
+	public function speichereQualNutzen($id){
+		$this -> projekte_model -> aendereNutzenQualitativ($id, $this -> input -> post());
+		$this -> detailsQualNutzen($id);
+	}
+	
+	public function detailsRisiken($id) {
+		$data["title"] = "Projekte";
+
+		$sidenavigation = array("Allgemeines" => "projekte/details/" . $id, "geplante Kosten" => "projekte/detailsKosten/" . $id, "Amortisationsdauer" => "projekte/detailsAmort/" . $id, "Faktoren zur Steigerung des qualitativen Nutzens" => "projekte/detailsQualNutzen/" . $id, "Risiken" => "projekte/detailsRisiken/" . $id, "Strategiebeitrag" => "projekte/detailsStrategie/" . $id, "Komplexitätsberechnung" => "projekte/detailsKomplexitaet/" . $id, "Sonstiges" => "projekte/detailsSonstiges" . $id);
+
+		$data["ProjektAllgemein"] = $this -> projekte_model -> gibProjektAllgemein($id);
+		$data["ProjektRisiken"] = $this->projekte_model->gibProjektRisiken($id);
+
+		$data["sidenavigation"] = $sidenavigation;
+		$data["sidenavigationtitle"] = $data["ProjektAllgemein"] -> Titel;
+
+		$this -> load -> view("templates/header", $data);
+		$this -> load -> view("projekte/detailsRisiken", $data);
+		$this -> load -> view("templates/footer");
+	}
+
+	public function speichereRisiken($id){
+		$this -> projekte_model -> aendereProjektRisiken($id, $this -> input -> post());
+		$this -> detailsRisiken($id);
+	}
+	
+	public function detailsStrategie($id) {
+		$data["title"] = "Projekte";
+
+		$sidenavigation = array("Allgemeines" => "projekte/details/" . $id, "geplante Kosten" => "projekte/detailsKosten/" . $id, "Amortisationsdauer" => "projekte/detailsAmort/" . $id, "Faktoren zur Steigerung des qualitativen Nutzens" => "projekte/detailsQualNutzen/" . $id, "Risiken" => "projekte/detailsRisiken/" . $id, "Strategiebeitrag" => "projekte/detailsStrategie/" . $id, "Komplexitätsberechnung" => "projekte/detailsKomplexitaet/" . $id, "Sonstiges" => "projekte/detailsSonstiges" . $id);
+
+		$data["ProjektAllgemein"] = $this -> projekte_model -> gibProjektAllgemein($id);
+		$data["ProjektRisiken"] = $this->projekte_model->gibProjektRisiken($id);
+
+		$data["sidenavigation"] = $sidenavigation;
+		$data["sidenavigationtitle"] = $data["ProjektAllgemein"] -> Titel;
+
+		$this -> load -> view("templates/header", $data);
+		$this -> load -> view("projekte/detailsRisiken", $data);
+		$this -> load -> view("templates/footer");
+	}
+
+	public function speichereStrategie($id){
+		$this -> projekte_model -> aendereProjektRisiken($id, $this -> input -> post());
+		$this -> detailsRisiken($id);
+	}
+	
+	
+	
 	/*
-	 $data["ProjektAmort"] = $this->projekte_model->gibProjektAmort($id);
 	 $data["ProjektKomplex"] = $this->projekte_model->gibProjektKomplex($id);
-	 $data["ProjektRisiken"] = $this->projekte_model->gibProjektRisiken($id);
 	 $data["ProjektSonstig"] = $this->projekte_model->gibProjektSonstig($id);
 	 $data["ProjektStrategien"] = $this->projekte_model->gibProjektStrategien($id);
-	 $data["NutzenQualitativ"] = $this->projekte_model->gibNutzenQualitativ($id);
-	 *
 	 */
 
 }
