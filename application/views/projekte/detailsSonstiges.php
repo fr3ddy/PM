@@ -1,15 +1,15 @@
-<form class="form-horizontal" role="form" method="POST" action="<?php echo base_url(); ?>projekte/speichereAmort/<?php echo $ProjektAllgemein -> ID; ?>">
+<form class="form-horizontal" role="form" method="POST" action="<?php echo base_url(); ?>projekte/speichereSonstiges/<?php echo $ProjektAllgemein -> ID; ?>">
 	<div class="form-group">
 		<label for="" class="col-sm-offset-1 col-sm-6 control-label" style="text-align: left;">Art des Geldnutzens</label>
 		<div class="col-sm-5">
 			<div class="checkbox">
 				<label>
-					<input type="checkbox" name="NutzKosten" value="1">
+					<input type="checkbox" name="NutzKosten" value="1" <?php if($ProjektSonstig->NutzKosten == 1) echo " checked "; ?>>
 					Kosteneinsparend</label>
 			</div>
 			<div class="checkbox">
 				<label>
-					<input type="checkbox" name="NutzUmsatz" value="1">
+					<input type="checkbox" name="NutzUmsatz" value="1" <?php if($ProjektSonstig->NutzUmsatz == 1) echo " checked "; ?>>
 					Umsatzgenerierend</label>
 			</div>
 		</div>
@@ -26,7 +26,8 @@
 	<div class="form-group">
 		<label for="KaniRate" class="col-sm-offset-2 col-sm-5 control-label" style="text-align: left;">Kanibalisierungsrate</label>
 		<div class="col-sm-5">
-			<input type="range" min="0" max="100" step="1" name="KaniRate" id="KaniRate" value="<?php echo $ProjektSonstig -> KaniRate; ?>" placeholder="in €" />
+			<input type="range" min="0" max="100" step="1" name="KaniRate" id="KaniRate" value="<?php echo $ProjektSonstig -> KaniRate; ?>" />
+			<div style="float: left;">0%</div><div style="float: right;">100%</div>
 		</div>
 	</div>
 	<div class="form-group">

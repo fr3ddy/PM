@@ -54,7 +54,7 @@ class Projekte_model extends CI_Model {
     function gibAlleProjektTitel() {
         $i = 0;
         $data = array();
-        $query = $this -> db -> get('ProjekteAllgemein');
+        $query = $this -> db -> get('ProjektAllgemein');
         foreach ($query->result() as $row) {
             $data[$i]["ID"] = $row -> ID;
             $data[$i]["Titel"] = $row -> Titel;
@@ -118,7 +118,7 @@ class Projekte_model extends CI_Model {
 
             $row = $query -> first_row();
 
-            $query = $this -> db -> query("UPDATE ProjketAllgemein SET Bearbeiter = " . $row -> Bereichsleiter . "WHERE ID = " . $ProjektID);
+            $query = $this -> db -> query("UPDATE ProjektAllgemein SET Bearbeiter = " . $row -> Bereichsleiter . " WHERE ID = " . $ProjektID);
 
             if ($query == 1) {
                 return TRUE;
@@ -139,7 +139,7 @@ class Projekte_model extends CI_Model {
             }
 
             foreach ($data as $ID) {
-                $query = $this -> db -> query("UPDATE ProjketAllgemein SET Bearbeiter = " . $ID . "WHERE ID = " . $ProjektID);
+                $query = $this -> db -> query("UPDATE ProjektAllgemein SET Bearbeiter = " . $ID . " WHERE ID = " . $ProjektID);
             }
         } else if ($this -> session -> userdata['Rolle'] == "PMO") {
             $data = array("ProjektID" => $ProjektID);
