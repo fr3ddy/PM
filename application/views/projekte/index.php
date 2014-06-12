@@ -15,4 +15,3 @@ foreach ($projekte as $projekt) {
 ?>
 </table>
 
-<?php print_r($this->session->all_userdata());
