@@ -106,6 +106,9 @@ class Projekte_model extends CI_Model {
             foreach ($data as $ID) {
                 $query = $this -> db -> query("UPDATE ProjketAllgemein SET Bearbeiter = " . $ID . "WHERE ID = " . $ProjektID);
             }
+        } else if ($this -> session -> userdata['Rolle'] == "PMO") {
+            $data = array("ProjektID" => $ProjektID);
+            $this -> db -> insert('ProjektePMO', $data);
         }
     }
 
