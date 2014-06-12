@@ -51,7 +51,7 @@ class User_Model extends CI_Model {
         if ($ID != "") {
             $query = $this -> db -> query('SELECT * FROM Benutzer WHERE ID = "' . $ID . '"');
             $row = $query -> first_row();
-            return array("Benutzername" => $row -> Benutzername, "Rolle" => $this -> gibRolle($ID, $row -> Abteilung), "Abteilung" => $row -> Abteilung, "BenutzerID" => $ID);
+            return array("Benutzername" => $row -> Benutzername,  "Abteilung" => $row -> Abteilung, "Rolle" => $this -> gibRolle($ID, $row -> Abteilung),"BenutzerID" => $ID);
         } else {
             return array("Benutzername" => "", "Rolle" => "", "Abteilung" => "", "BenutzerID" => "");
         }
@@ -77,8 +77,8 @@ class User_Model extends CI_Model {
                 $query = $this -> db -> get("Bereiche");
                 if ($query -> num_rows() > 0) {
                     return "Bereichsleiter";
-                } else {
-                    return "PMO";
+                // } else {
+                    // return "PMO";
                 }
             }
 

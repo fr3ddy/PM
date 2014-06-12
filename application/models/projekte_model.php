@@ -78,17 +78,19 @@ class Projekte_model extends CI_Model {
             $this -> db -> join('Bereiche', 'Bereiche.ID = Abteilungen.Bereich');
             $this -> db -> where('Benutzer.ID', $this -> session -> userdata['BenutzerID']);
             $query = $this -> db -> get('Benutzer');
-        }
 
-        $row = $query -> first_row();
+            $row = $query -> first_row();
 
-        $this -> db -> where('ID', $ProjektID);
-        $query = $this -> db -> update("Bearbeiter", $row -> Bereichsleiter);
+            $this -> db -> where('ID', $ProjektID);
+            $query = $this -> db -> update("Bearbeiter", $row -> Bereichsleiter);
 
-        if ($query == 1) {
-            return TRUE;
-        } else {
-            return FALSE;
+            if ($query == 1) {
+                return TRUE;
+            } else {
+                return FALSE;
+            }
+        }else if ($this -> session -> userdata['Rolle'] == "Bereichsleiter") {
+            
         }
     }
 
