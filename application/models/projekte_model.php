@@ -370,7 +370,6 @@ class Projekte_model extends CI_Model {
             $i = 0;
             $data = array();
             $this -> db -> select("* , ProjektAllgemein.ID as projektID , Kategorien.Titel as kat , ProjektAllgemein.Titel as projektTitel");
-            $this -> db -> where("ProjektAllgemein.ID", $zeile -> ProjektID);
             $this -> db -> join("Kategorien", "Kategorien.ID = ProjektAllgemein.Kategorie");
             $query = $this -> db -> get("ProjektAllgemein");
             foreach ($query->result() as $row) {
@@ -392,7 +391,7 @@ class Projekte_model extends CI_Model {
                 $data[$i]['KostenDauer'] = $this -> kostenDauerKPI($row -> projektID);
                 $data[$i]['Kapitalwertrate'] = $this -> kapitalwertrate($row -> projektID);
 
-                $this -> db -> where('ProjektID', $projekt["ID"]);
+                $this -> db -> where('ProjektID', $row -> projektID);
                 $query = $this -> db -> get('ProjektePMO');
                 if ($query -> num_rows() == 1) {
                     $projekt['Vorgeschlagen'] = 1;
