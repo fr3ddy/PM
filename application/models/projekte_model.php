@@ -333,6 +333,7 @@ class Projekte_model extends CI_Model {
     }
 
     function gibProjektUebersicht() {
+    
         $liste = $this -> db -> get("ProjektePMO");
         $i = 0;
         $data = array();
