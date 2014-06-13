@@ -6,10 +6,17 @@ class Projekte extends CI_Controller {
 		if ($this -> user_model -> istAngemeldet()) {
 			$data["title"] = "Projekte";
 
+			$this -> load -> view("templates/header", $data);
 			$data["projekte"] = $this -> projekte_model -> gibProjekte();
 
-			$this -> load -> view("templates/header", $data);
-			$this -> load -> view("projekte/index", $data);
+			if ($this -> session -> userdata("Rolle") != "Geschäftsleiter" || $this -> session -> userdata("Rolle") == "PMO") {
+				//Wenn nicht PMO oder Geschäftsleiter
+				$this -> load -> view("projekte/index", $data);
+
+			}else{
+				//Wenn PMO oder Geschäftsleiter
+				$this->load->view("projekte/glindex" , $data);
+			}
 			$this -> load -> view("templates/footer");
 		} else {
 			redirect("/");
@@ -41,7 +48,7 @@ class Projekte extends CI_Controller {
 	public function details($id) {
 		$data["title"] = "Projekte";
 
-		$sidenavigation = array("Allgemeines" => "projekte/details/" . $id, "geplante Kosten" => "projekte/detailsKosten/" . $id, "Amortisationsdauer" => "projekte/detailsAmort/" . $id, "Faktoren zur Steigerung des qualitativen Nutzens" => "projekte/detailsQualNutzen/" . $id, "Risiken" => "projekte/detailsRisiken/" . $id, "Strategiebeitrag" => "projekte/detailsStrategie/" . $id, "Komplexitätsberechnung" => "projekte/detailsKomplexitaet/" . $id, "Sonstiges" => "projekte/detailsSonstiges/" . $id , "<span class='glyphicon glyphicon-send'></span> Weitergeben" => "projekte/weitergeben/" . $id);
+		$sidenavigation = array("Allgemeines" => "projekte/details/" . $id, "geplante Kosten" => "projekte/detailsKosten/" . $id, "Amortisationsdauer" => "projekte/detailsAmort/" . $id, "Faktoren zur Steigerung des qualitativen Nutzens" => "projekte/detailsQualNutzen/" . $id, "Risiken" => "projekte/detailsRisiken/" . $id, "Strategiebeitrag" => "projekte/detailsStrategie/" . $id, "Komplexitätsberechnung" => "projekte/detailsKomplexitaet/" . $id, "Sonstiges" => "projekte/detailsSonstiges/" . $id, "<span class='glyphicon glyphicon-send'></span> Weitergeben" => "projekte/weitergeben/" . $id);
 
 		$data["ProjektAllgemein"] = $this -> projekte_model -> gibProjektAllgemein($id);
 
@@ -64,7 +71,7 @@ class Projekte extends CI_Controller {
 	public function detailsKosten($id) {
 		$data["title"] = "Projekte";
 
-		$sidenavigation = array("Allgemeines" => "projekte/details/" . $id, "geplante Kosten" => "projekte/detailsKosten/" . $id, "Amortisationsdauer" => "projekte/detailsAmort/" . $id, "Faktoren zur Steigerung des qualitativen Nutzens" => "projekte/detailsQualNutzen/" . $id, "Risiken" => "projekte/detailsRisiken/" . $id, "Strategiebeitrag" => "projekte/detailsStrategie/" . $id, "Komplexitätsberechnung" => "projekte/detailsKomplexitaet/" . $id, "Sonstiges" => "projekte/detailsSonstiges/" . $id , "<span class='glyphicon glyphicon-send'></span> Weitergeben" => "projekte/weitergeben/" . $id);
+		$sidenavigation = array("Allgemeines" => "projekte/details/" . $id, "geplante Kosten" => "projekte/detailsKosten/" . $id, "Amortisationsdauer" => "projekte/detailsAmort/" . $id, "Faktoren zur Steigerung des qualitativen Nutzens" => "projekte/detailsQualNutzen/" . $id, "Risiken" => "projekte/detailsRisiken/" . $id, "Strategiebeitrag" => "projekte/detailsStrategie/" . $id, "Komplexitätsberechnung" => "projekte/detailsKomplexitaet/" . $id, "Sonstiges" => "projekte/detailsSonstiges/" . $id, "<span class='glyphicon glyphicon-send'></span> Weitergeben" => "projekte/weitergeben/" . $id);
 
 		$data["ProjektAllgemein"] = $this -> projekte_model -> gibProjektAllgemein($id);
 		$data["ProjektKosten"] = $this -> projekte_model -> gibProjektKosten($id);
@@ -85,7 +92,7 @@ class Projekte extends CI_Controller {
 	public function detailsAmort($id) {
 		$data["title"] = "Projekte";
 
-		$sidenavigation = array("Allgemeines" => "projekte/details/" . $id, "geplante Kosten" => "projekte/detailsKosten/" . $id, "Amortisationsdauer" => "projekte/detailsAmort/" . $id, "Faktoren zur Steigerung des qualitativen Nutzens" => "projekte/detailsQualNutzen/" . $id, "Risiken" => "projekte/detailsRisiken/" . $id, "Strategiebeitrag" => "projekte/detailsStrategie/" . $id, "Komplexitätsberechnung" => "projekte/detailsKomplexitaet/" . $id, "Sonstiges" => "projekte/detailsSonstiges/" . $id , "<span class='glyphicon glyphicon-send'></span> Weitergeben" => "projekte/weitergeben/" . $id);
+		$sidenavigation = array("Allgemeines" => "projekte/details/" . $id, "geplante Kosten" => "projekte/detailsKosten/" . $id, "Amortisationsdauer" => "projekte/detailsAmort/" . $id, "Faktoren zur Steigerung des qualitativen Nutzens" => "projekte/detailsQualNutzen/" . $id, "Risiken" => "projekte/detailsRisiken/" . $id, "Strategiebeitrag" => "projekte/detailsStrategie/" . $id, "Komplexitätsberechnung" => "projekte/detailsKomplexitaet/" . $id, "Sonstiges" => "projekte/detailsSonstiges/" . $id, "<span class='glyphicon glyphicon-send'></span> Weitergeben" => "projekte/weitergeben/" . $id);
 
 		$data["ProjektAllgemein"] = $this -> projekte_model -> gibProjektAllgemein($id);
 		$data["ProjektAmort"] = $this -> projekte_model -> gibProjektAmort($id);
@@ -106,7 +113,7 @@ class Projekte extends CI_Controller {
 	public function detailsQualNutzen($id) {
 		$data["title"] = "Projekte";
 
-		$sidenavigation = array("Allgemeines" => "projekte/details/" . $id, "geplante Kosten" => "projekte/detailsKosten/" . $id, "Amortisationsdauer" => "projekte/detailsAmort/" . $id, "Faktoren zur Steigerung des qualitativen Nutzens" => "projekte/detailsQualNutzen/" . $id, "Risiken" => "projekte/detailsRisiken/" . $id, "Strategiebeitrag" => "projekte/detailsStrategie/" . $id, "Komplexitätsberechnung" => "projekte/detailsKomplexitaet/" . $id, "Sonstiges" => "projekte/detailsSonstiges/" . $id , "<span class='glyphicon glyphicon-send'></span> Weitergeben" => "projekte/weitergeben/" . $id);
+		$sidenavigation = array("Allgemeines" => "projekte/details/" . $id, "geplante Kosten" => "projekte/detailsKosten/" . $id, "Amortisationsdauer" => "projekte/detailsAmort/" . $id, "Faktoren zur Steigerung des qualitativen Nutzens" => "projekte/detailsQualNutzen/" . $id, "Risiken" => "projekte/detailsRisiken/" . $id, "Strategiebeitrag" => "projekte/detailsStrategie/" . $id, "Komplexitätsberechnung" => "projekte/detailsKomplexitaet/" . $id, "Sonstiges" => "projekte/detailsSonstiges/" . $id, "<span class='glyphicon glyphicon-send'></span> Weitergeben" => "projekte/weitergeben/" . $id);
 
 		$data["ProjektAllgemein"] = $this -> projekte_model -> gibProjektAllgemein($id);
 		$data["NutzenQualitativ"] = $this -> projekte_model -> gibNutzenQualitativ($id);
@@ -127,7 +134,7 @@ class Projekte extends CI_Controller {
 	public function detailsRisiken($id) {
 		$data["title"] = "Projekte";
 
-		$sidenavigation = array("Allgemeines" => "projekte/details/" . $id, "geplante Kosten" => "projekte/detailsKosten/" . $id, "Amortisationsdauer" => "projekte/detailsAmort/" . $id, "Faktoren zur Steigerung des qualitativen Nutzens" => "projekte/detailsQualNutzen/" . $id, "Risiken" => "projekte/detailsRisiken/" . $id, "Strategiebeitrag" => "projekte/detailsStrategie/" . $id, "Komplexitätsberechnung" => "projekte/detailsKomplexitaet/" . $id, "Sonstiges" => "projekte/detailsSonstiges/" . $id , "<span class='glyphicon glyphicon-send'></span> Weitergeben" => "projekte/weitergeben/" . $id);
+		$sidenavigation = array("Allgemeines" => "projekte/details/" . $id, "geplante Kosten" => "projekte/detailsKosten/" . $id, "Amortisationsdauer" => "projekte/detailsAmort/" . $id, "Faktoren zur Steigerung des qualitativen Nutzens" => "projekte/detailsQualNutzen/" . $id, "Risiken" => "projekte/detailsRisiken/" . $id, "Strategiebeitrag" => "projekte/detailsStrategie/" . $id, "Komplexitätsberechnung" => "projekte/detailsKomplexitaet/" . $id, "Sonstiges" => "projekte/detailsSonstiges/" . $id, "<span class='glyphicon glyphicon-send'></span> Weitergeben" => "projekte/weitergeben/" . $id);
 
 		$data["ProjektAllgemein"] = $this -> projekte_model -> gibProjektAllgemein($id);
 		$data["ProjektRisiken"] = $this -> projekte_model -> gibProjektRisiken($id);
@@ -148,7 +155,7 @@ class Projekte extends CI_Controller {
 	public function detailsStrategie($id) {
 		$data["title"] = "Projekte";
 
-		$sidenavigation = array("Allgemeines" => "projekte/details/" . $id, "geplante Kosten" => "projekte/detailsKosten/" . $id, "Amortisationsdauer" => "projekte/detailsAmort/" . $id, "Faktoren zur Steigerung des qualitativen Nutzens" => "projekte/detailsQualNutzen/" . $id, "Risiken" => "projekte/detailsRisiken/" . $id, "Strategiebeitrag" => "projekte/detailsStrategie/" . $id, "Komplexitätsberechnung" => "projekte/detailsKomplexitaet/" . $id, "Sonstiges" => "projekte/detailsSonstiges/" . $id , "<span class='glyphicon glyphicon-send'></span> Weitergeben" => "projekte/weitergeben/" . $id);
+		$sidenavigation = array("Allgemeines" => "projekte/details/" . $id, "geplante Kosten" => "projekte/detailsKosten/" . $id, "Amortisationsdauer" => "projekte/detailsAmort/" . $id, "Faktoren zur Steigerung des qualitativen Nutzens" => "projekte/detailsQualNutzen/" . $id, "Risiken" => "projekte/detailsRisiken/" . $id, "Strategiebeitrag" => "projekte/detailsStrategie/" . $id, "Komplexitätsberechnung" => "projekte/detailsKomplexitaet/" . $id, "Sonstiges" => "projekte/detailsSonstiges/" . $id, "<span class='glyphicon glyphicon-send'></span> Weitergeben" => "projekte/weitergeben/" . $id);
 
 		$data["ProjektAllgemein"] = $this -> projekte_model -> gibProjektAllgemein($id);
 		$data["ProjektStrategien"] = $this -> projekte_model -> gibProjektStrategien($id);
@@ -170,7 +177,7 @@ class Projekte extends CI_Controller {
 	public function detailsKomplexitaet($id) {
 		$data["title"] = "Projekte";
 
-		$sidenavigation = array("Allgemeines" => "projekte/details/" . $id, "geplante Kosten" => "projekte/detailsKosten/" . $id, "Amortisationsdauer" => "projekte/detailsAmort/" . $id, "Faktoren zur Steigerung des qualitativen Nutzens" => "projekte/detailsQualNutzen/" . $id, "Risiken" => "projekte/detailsRisiken/" . $id, "Strategiebeitrag" => "projekte/detailsStrategie/" . $id, "Komplexitätsberechnung" => "projekte/detailsKomplexitaet/" . $id, "Sonstiges" => "projekte/detailsSonstiges/" . $id , "<span class='glyphicon glyphicon-send'></span> Weitergeben" => "projekte/weitergeben/" . $id);
+		$sidenavigation = array("Allgemeines" => "projekte/details/" . $id, "geplante Kosten" => "projekte/detailsKosten/" . $id, "Amortisationsdauer" => "projekte/detailsAmort/" . $id, "Faktoren zur Steigerung des qualitativen Nutzens" => "projekte/detailsQualNutzen/" . $id, "Risiken" => "projekte/detailsRisiken/" . $id, "Strategiebeitrag" => "projekte/detailsStrategie/" . $id, "Komplexitätsberechnung" => "projekte/detailsKomplexitaet/" . $id, "Sonstiges" => "projekte/detailsSonstiges/" . $id, "<span class='glyphicon glyphicon-send'></span> Weitergeben" => "projekte/weitergeben/" . $id);
 
 		$data["ProjektAllgemein"] = $this -> projekte_model -> gibProjektAllgemein($id);
 		$data["ProjektKomplex"] = $this -> projekte_model -> gibProjektKomplex($id);
@@ -192,7 +199,7 @@ class Projekte extends CI_Controller {
 	public function detailsSonstiges($id) {
 		$data["title"] = "Projekte";
 
-		$sidenavigation = array("Allgemeines" => "projekte/details/" . $id, "geplante Kosten" => "projekte/detailsKosten/" . $id, "Amortisationsdauer" => "projekte/detailsAmort/" . $id, "Faktoren zur Steigerung des qualitativen Nutzens" => "projekte/detailsQualNutzen/" . $id, "Risiken" => "projekte/detailsRisiken/" . $id, "Strategiebeitrag" => "projekte/detailsStrategie/" . $id, "Komplexitätsberechnung" => "projekte/detailsKomplexitaet/" . $id, "Sonstiges" => "projekte/detailsSonstiges/" . $id , "<span class='glyphicon glyphicon-send'></span> Weitergeben" => "projekte/weitergeben/" . $id);
+		$sidenavigation = array("Allgemeines" => "projekte/details/" . $id, "geplante Kosten" => "projekte/detailsKosten/" . $id, "Amortisationsdauer" => "projekte/detailsAmort/" . $id, "Faktoren zur Steigerung des qualitativen Nutzens" => "projekte/detailsQualNutzen/" . $id, "Risiken" => "projekte/detailsRisiken/" . $id, "Strategiebeitrag" => "projekte/detailsStrategie/" . $id, "Komplexitätsberechnung" => "projekte/detailsKomplexitaet/" . $id, "Sonstiges" => "projekte/detailsSonstiges/" . $id, "<span class='glyphicon glyphicon-send'></span> Weitergeben" => "projekte/weitergeben/" . $id);
 
 		$data["ProjektAllgemein"] = $this -> projekte_model -> gibProjektAllgemein($id);
 		$data["ProjektSonstig"] = $this -> projekte_model -> gibProjektSonstig($id);
@@ -217,9 +224,10 @@ class Projekte extends CI_Controller {
 		$this -> projekte_model -> aendereProjektSonstig($id, $data);
 		$this -> detailsSonstiges($id);
 	}
-	
-	public function weitergeben($id){
-		$this->projekte_model->reicheProjektWeiter($id);
-		$this->index();
+
+	public function weitergeben($id) {
+		$this -> projekte_model -> reicheProjektWeiter($id);
+		$this -> index();
 	}
+
 }
