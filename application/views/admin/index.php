@@ -112,7 +112,8 @@
 	<div class="col-xs-4">
 		Kosten/Dauer:
 	</div>
-	<div class="col-xs-8">
+	<div class="col-xs-8" >
+		<output for="GKostenDauer" /></output>
 		<input type="range" min="0" max="100" name="GKostenDauer" id="GKostenDauer" class="gewichtet" value="<?php echo $konfig -> GKostenDauer; ?>" />
 		<div class="row"><div class="col-xs-2">0 %</div><div class="col-xs-offset-8 col-xs-2" style="text-align: right;">100 %</div></div>
 	</div>
@@ -123,6 +124,7 @@
 		Kapitalwertrate:
 	</div>
 	<div class="col-xs-8">
+		<output for="GKapitalwertrate" /></output>
 		<input type="range" min="0" max="100" name="GKapitalwertrate" id="GKapitalwertrate" class="gewichtet" value="<?php echo $konfig -> GKapitalwertrate; ?>" />
 		<div class="row"><div class="col-xs-2">0 %</div><div class="col-xs-offset-8 col-xs-2" style="text-align: right;">100 %</div></div>
 	</div>
@@ -133,6 +135,7 @@
 		Amortisationsrate:
 	</div>
 	<div class="col-xs-8">
+		<output for="GAmort" /></output>
 		<input type="range" min="0" max="100" name="GAmort" id="GAmort" class="gewichtet" value="<?php echo $konfig -> GAmort; ?>" />
 		<div class="row"><div class="col-xs-2">0 %</div><div class="col-xs-offset-8 col-xs-2" style="text-align: right;">100 %</div></div>
 	</div>
@@ -143,6 +146,7 @@
 		Qualitativer Nutzen:
 	</div>
 	<div class="col-xs-8">
+		<output for="GQualitativerNutzen" /></output>
 		<input type="range" min="0" max="100" name="GQualitativerNutzen" id="GQualitativerNutzen" class="gewichtet" value="<?php echo $konfig -> GQualitativerNutzen; ?>" />
 		<div class="row"><div class="col-xs-2">0 %</div><div class="col-xs-offset-8 col-xs-2" style="text-align: right;">100 %</div></div>
 	</div>
@@ -153,6 +157,7 @@
 		Risiken:
 	</div>
 	<div class="col-xs-8">
+		<output for="GRisiken" /></output>
 		<input type="range" min="0" max="100" name="GRisiken" id="GRisiken" class="gewichtet" value="<?php echo $konfig -> GRisiken; ?>" />
 		<div class="row"><div class="col-xs-2">0 %</div><div class="col-xs-offset-8 col-xs-2" style="text-align: right;">100 %</div></div>
 	</div>
@@ -163,6 +168,7 @@
 		Strategiebeitrag:
 	</div>
 	<div class="col-xs-8">
+		<output for="GStrategie" /></output>
 		<input type="range" min="0" max="100" name="GStrategie" id="GStrategie" class="gewichtet" value="<?php echo $konfig -> GStrategie; ?>" />
 		<div class="row"><div class="col-xs-2">0 %</div><div class="col-xs-offset-8 col-xs-2" style="text-align: right;">100 %</div></div>
 	</div>
@@ -173,6 +179,7 @@
 		Komplexität:
 	</div>
 	<div class="col-xs-8">
+		<output for="GKomplex" /></output>
 		<input type="range" min="0" max="100" name="GKomplex" id="GKomplex" class="gewichtet" value="<?php echo $konfig -> GKomplex; ?>" />
 		<div class="row"><div class="col-xs-2">0 %</div><div class="col-xs-offset-8 col-xs-2" style="text-align: right;">100 %</div></div>
 	</div>
@@ -183,6 +190,7 @@
 		Art des Geldnutzens:
 	</div>
 	<div class="col-xs-8">
+		<output for="GArtGeldNutzen" /></output>
 		<input type="range" min="0" max="100" name="GArtGeldNutzen" id="GArtGeldNutzen" class="gewichtet" value="<?php echo $konfig -> GArtGeldNutzen; ?>" />
 		<div class="row"><div class="col-xs-2">0 %</div><div class="col-xs-offset-8 col-xs-2" style="text-align: right;">100 %</div></div>
 	</div>
@@ -192,6 +200,7 @@
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Kosteneinsparend:
 	</div>
 	<div class="col-xs-8">
+		<output for="GKostEinsparend" /></output>
 		<input type="range" min="0" max="100" name="GKostEinsparend" id="GKostEinsparend" class="gnutzen" value="<?php echo $konfig -> GKostEinsparend; ?>" />
 		<div class="row"><div class="col-xs-2">0 %</div><div class="col-xs-offset-8 col-xs-2" style="text-align: right;">100 %</div></div>
 	</div>
@@ -201,6 +210,7 @@
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Umsatzgenerierend:
 	</div>
 	<div class="col-xs-8">
+		<output for="GUmsatzGener" /></output>
 		<input type="range" min="0" max="100" name="GUmsatzGener" id="GUmsatzGener" class="gnutzen" value="<?php echo $konfig -> GUmsatzGener; ?>" />
 		<div class="row"><div class="col-xs-2">0 %</div><div class="col-xs-offset-8 col-xs-2" style="text-align: right;">100 %</div></div>
 	</div>

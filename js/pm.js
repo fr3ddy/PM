@@ -39,10 +39,18 @@ $(document).ready(function() {
 		});
 	}
 	
-	$('input[type="range"]').mousemove(function(e) {
-		console.log("Test");
-		console.log($(this).val());
+	$('input[type="range"]').each(function(index, element) {
+		$(this).siblings("output").text($(this).val() + " %");
+		console.log($(this));
+		console.log(index);
 	});
+	
+	$('input[type="range"]').mousemove(function(e) {
+		$(this).siblings("output").text($(this).val() + " %");
+		
+		
+	});
+
 });
 var getTotal = function() {
 	var sum = 0;
