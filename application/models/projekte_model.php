@@ -102,7 +102,6 @@ class Projekte_model extends CI_Model {
         $this -> db -> update('ProjektAllgemein', $data);
 
         //Erstelle die neuen Einträge in den anderen Tabellen !ID muss gleich sein wie in der Tab ProjektAllgemein
-        echo $this -> db -> insert_id();
         $data = array('ID' => $projektid);
         $this -> db -> insert('ProjektAmort', $data);
         $this -> db -> insert('ProjektKomplex', $data);
@@ -388,6 +387,7 @@ class Projekte_model extends CI_Model {
             $data = array();
             $this -> db -> select("* , ProjektAllgemein.ID as projektID , Kategorien.Titel as kat , ProjektAllgemein.Titel as projektTitel");
             $this -> db -> join("Kategorien", "Kategorien.ID = ProjektAllgemein.Kategorie");
+            $this -> db -> where("Bearbeiter", $this -> session -> userdata('BenutzerID'));
             $query = $this -> db -> get("ProjektAllgemein");
             foreach ($query->result() as $row) {
                 $data[$i]["ID"] = $row -> projektID;
