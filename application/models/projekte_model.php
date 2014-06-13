@@ -22,10 +22,21 @@ class Projekte_model extends CI_Model {
                 $data[$i]["Strategie"] = $row -> Strategie;
                 $data[$i]["Beschreibung"] = $row -> Beschreibung;
                 $data[$i]["Bearbeiter"] = $row -> Benutzername;
+                $data[$i]["Vorgeschlagen"] = 0;
 
                 $i++;
             }
-        } else {
+
+            if ($this -> session -> userdata['Rolle'] == 'PMO') {
+                foreach ($data as $projekt) {
+                    $this -> db -> where('IDProjekt', $projekt["ID"]);
+                    $query = $this -> db -> get('ProjektePMO');
+                    if ($query -> num_row() == 1) {
+                        $projekt['Vorgeschlagen'] = 1;
+                    }
+                }
+            }
+        } else if ($this -> session -> userdata['Rolle'] == 'Geschäftsleiter') {
             $liste = $this -> db -> get("ProjektePMO");
 
             foreach ($liste->result() as $zeile) {
