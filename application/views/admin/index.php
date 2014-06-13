@@ -147,6 +147,23 @@
 	<br/>
 	<div class="row">
 		<div class="col-xs-4">
+			Kanibalisierungsrate:
+		</div>
+		<div class="col-xs-8">
+			<input type="range" min="0" max="100" name="GKanibal" id="GKanibal" class="gewichtet" value="<?php echo $konfig -> GKanibal; ?>" />
+			<div class="row">
+				<div class="col-xs-2">
+					0 %
+				</div>
+				<div class="col-xs-offset-8 col-xs-2" style="text-align: right;">
+					100 %
+				</div>
+			</div>
+		</div>
+	</div>
+	<br/>
+	<div class="row">
+		<div class="col-xs-4">
 			Amortisationsrate:
 		</div>
 		<div class="col-xs-8">

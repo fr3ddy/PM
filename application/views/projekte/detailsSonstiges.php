@@ -18,12 +18,6 @@
 		Kanibalisierung
 	</div>
 	<div class="form-group">
-		<label for="KaniGewinn" class="col-sm-offset-2 col-sm-5 control-label" style="text-align: left;">Gewinn des betroffenen Produkts</label>
-		<div class="col-sm-5">
-			<input type="numer" class="form-control" name="KaniGewinn" id="KaniGewinn" value="<?php echo $ProjektSonstig -> KaniGewinn; ?>" placeholder="in €" />
-		</div>
-	</div>
-	<div class="form-group">
 		<label for="KaniRate" class="col-sm-offset-2 col-sm-5 control-label" style="text-align: left;">Kanibalisierungsrate</label>
 		<div class="col-sm-5">
 			<input type="range" min="0" max="100" step="1" name="KaniRate" id="KaniRate" value="<?php echo $ProjektSonstig -> KaniRate; ?>" />
