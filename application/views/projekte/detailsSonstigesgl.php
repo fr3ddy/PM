@@ -28,6 +28,7 @@
 <div class="row">
 	<label for="KaniRate" class="col-sm-offset-2 col-sm-5 control-label" style="text-align: left;">Kanibalisierungsrate</label>
 	<div class="col-sm-5">
+		<output for="KaniRate"></output>
 		<input type="range" min="0" max="100" step="1" name="KaniRate" id="KaniRate" disabled value="<?php echo $ProjektSonstig -> KaniRate; ?>" />
 		<div style="float: left;">
 			0%

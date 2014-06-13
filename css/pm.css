@@ -79,6 +79,9 @@ input[type='range']::-moz-range-thumb {
 	background-image: none;
 	color: #ee7f00;
 }
+.menu_active {
+	color: red;	
+}
 
 .navigation {
 	height: 40px;
@@ -111,6 +114,7 @@ output {
     color: #555;
     position: absolute;
     bottom: 29px;
+    margin-left: 1px;
 }
 
 .sidenavigationplaceholder {

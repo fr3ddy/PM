@@ -19,7 +19,7 @@ $(document).ready(function() {
 	$('.glyphicon-remove').on('click', function() {
 		entferneStrategie($(this));
 	});
-
+	
 	//Berechne die gesamten Kosten pro Jahr
 	if (window.location.pathname.split("/")[2] == "detailsKosten" || window.location.pathname.split("/")[2] == "speichereKosten") {
 		var sum = parseInt($('#Intern1').val()) + parseInt($('#Extern1').val()) + parseInt($('#Sonstig1').val());
@@ -38,13 +38,16 @@ $(document).ready(function() {
 			$('#gkj3').html("" + sum + "");
 		});
 	}
-
+	
 	$('input[type="range"]').each(function(index, element) {
-		$(this).siblings("output").text($(this).val() + " %");
-
 		var newPlace;
 		var newPoint = ($(this).val() - $(this).attr("min")) / ($(this).attr("max") - $(this).attr("min"));
 		var width = $(this).width();
+		var sign = "";
+
+		if ($(this).attr("max") == 100 && $(this).attr("min") == 0) {
+			sign = "%";
+		}
 
 		// Prevent bubble from going beyond left or right (unsupported browsers)
 		if (newPoint < 0) {
@@ -58,15 +61,19 @@ $(document).ready(function() {
 		// Move bubble
 		$(this).siblings("output").css({
 			left : newPlace,
-		}).text($(this).val() + " %");
+		}).text($(this).val() + sign);
 
 	}).trigger('change');
 
 	$('input[type="range"]').mousemove(function(e) {
-		$(this).siblings("output").text($(this).val() + " %");
 		var newPlace;
 		var newPoint = ($(this).val() - $(this).attr("min")) / ($(this).attr("max") - $(this).attr("min"));
 		var width = $(this).width();
+		var sign = "";
+
+		if ($(this).attr("max") == 100 && $(this).attr("min") == 0) {
+			sign = "%";
+		}
 
 		// Prevent bubble from going beyond left or right (unsupported browsers)
 		if (newPoint < 0) {
@@ -80,7 +87,7 @@ $(document).ready(function() {
 		// Move bubble
 		$(this).siblings("output").css({
 			left : newPlace,
-		}).text($(this).val() + " %");
+		}).text($(this).val() + sign);
 
 	}).trigger('change');
 
