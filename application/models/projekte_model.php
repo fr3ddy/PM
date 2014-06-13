@@ -131,6 +131,11 @@ class Projekte_model extends CI_Model {
         $this -> db -> delete('NutzenQualitativ');
     }
 
+    function loeschePMOListe() {
+        $this -> db -> where("ProjektID >= 0");
+        $this -> db -> delete("ProjektePMO");
+    }
+
     function reicheProjektWeiter($ProjektID) {
         //Vorgesetzen des Users suchen
         if ($this -> session -> userdata['Rolle'] == "Abteilungsleiter") {
@@ -402,11 +407,11 @@ class Projekte_model extends CI_Model {
                 $data[$i]["Strategien"] = $this -> strategien($row -> projektID);
                 $data[$i]["Komplexität"] = $this -> komplextitaet($row -> projektID);
                 $data[$i]["Rating"] = $data[$i]['KostenDauer'] + $data[$i]['Kapitalwertrate'] + $data[$i]["Amortisationsrate"] + $data[$i]["qualiNutzen"] + $data[$i]["Risiken"] + $data[$i]["Strategien"] + $data[$i]["Komplexität"];
-
+                $data[$i]["Vorgeschlagen"] = 0;
                 $this -> db -> where('ProjektID', $row -> projektID);
                 $query = $this -> db -> get('ProjektePMO');
                 if ($query -> num_rows() == 1) {
-                    $projekt['Vorgeschlagen'] = 1;
+                    $data[$i]['Vorgeschlagen'] = 1;
                 }
 
                 $i++;
@@ -415,7 +420,7 @@ class Projekte_model extends CI_Model {
         }
     }
 
-function gewichteNachArt($ID, $Rating){
+    function gewichteNachArt($ID, $Rating) {
         $this -> db -> where('ID', $ProjektID);
         $projektSonstigQuery = $this -> db -> get('ProjektSonstig');
         $projektSonstig = $projektSonstigQuery -> first_row();
@@ -423,13 +428,13 @@ function gewichteNachArt($ID, $Rating){
         $konfigQuery = $this -> db -> get_where('Konfiguration', array('ID' => 1));
         $konfig = $konfigQuery -> first_row();
 
-if ($projektSonstig->NutzKosten == 1 && $projektSonstig->NutzUmsatz == 1 ) {
-	
-} else {
-	
-}
+        if ($projektSonstig -> NutzKosten == 1 && $projektSonstig -> NutzUmsatz == 1) {
 
-}
+        } else {
+
+        }
+
+    }
 
     function komplextitaet($ProjektID) {
         $this -> db -> where('ID', $ProjektID);

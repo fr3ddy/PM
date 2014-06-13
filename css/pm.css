@@ -146,3 +146,10 @@ input[type='range']::-moz-range-thumb {
 	float: left;
 }
 
+#pmoLoader{
+	display: none;
+}
+
+#pmoOK{
+	display: none;
+}
