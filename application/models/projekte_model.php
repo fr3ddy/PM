@@ -473,6 +473,9 @@ class Projekte_model extends CI_Model {
     }
 
     function riskien($ProjektID) {
+        $konfigQuery = $this -> db -> get_where('Konfiguration', array('ID' => 1));
+        $konfig = $konfigQuery -> first_row();
+
         $this -> db -> where('ID', $ProjektID);
         $projektRisikenQuery = $this -> db -> get('ProjektRisiken');
         $projektRisiken = $projektRisikenQuery -> first_row();
@@ -485,6 +488,8 @@ class Projekte_model extends CI_Model {
     }
 
     function strategien($ProjektID) {
+        $konfigQuery = $this -> db -> get_where('Konfiguration', array('ID' => 1));
+        $konfig = $konfigQuery -> first_row();
         $anzStrategien = $this -> db -> count_all('Strategien');
 
         $this -> db -> where('IDProjekt', $ProjektID);
@@ -528,7 +533,7 @@ class Projekte_model extends CI_Model {
         $gesamt = $nutzenQualitativ -> InfoMitarbeiter + $nutzenQualitativ -> MotivationMitarbeiter + $nutzenQualitativ -> ZugriffInfo + $nutzenQualitativ -> AnzFehlent + $nutzenQualitativ -> ZusamArbeit + $nutzenQualitativ -> ProduktivitaetKunde + $nutzenQualitativ -> AnzReklam + $nutzenQualitativ -> KundService + $nutzenQualitativ -> KundBindung + $nutzenQualitativ -> VertriebUnter + $nutzenQualitativ -> VerstandProzess + $nutzenQualitativ -> ProzessGestalt + $nutzenQualitativ -> ErgebnisPruef + $nutzenQualitativ -> Simulation + $nutzenQualitativ -> ProzessUeber;
 
         $kpi = $gesamt * (100 / 30);
-        $kpi = $kpi * ($konfig -> GQualtitativernutzen / 100);
+        $kpi = $kpi * ($konfig -> GQualitativerNutzen / 100);
         return round($kpi, 2);
     }
 
