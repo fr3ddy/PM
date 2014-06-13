@@ -194,6 +194,9 @@ class Projekte_model extends CI_Model {
         $query = $this -> db -> get('ProjektAmort');
 
         $row = $query -> first_row();
+        $row->Amortisationsdauer = $this -> amortisationsdauer($row -> projektID);
+        $row->Amortisationsrate = $this -> amortisationsrate($row->Amortisationsdauer);
+
         return $row;
     }
 
