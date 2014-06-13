@@ -33,9 +33,13 @@
 			<div class="navigation">
 				<?php $gl = $this->user_model->gibAbteilung(0);
 				if ($gl["Abteilungsleiter"]["BenutzerID"] == $this -> session -> userdata("BenutzerID")) { ?>
+				<!-- Geschäftsleiter -->
 				<a href="<?php echo base_url(); ?>projekte"><div>Projekt&uuml;bersicht</div></a>
 				<a href="<?php echo base_url(); ?>admin"><div>Administration</div></a>
 				<a style="float: right;" href="<?php echo base_url(); ?>user/logout"><div><span class="glyphicon glyphicon-off" style="margin-right: 5px;"></span>Abmelden</div></a>
+				<?php }elseif($this->session->userdata("Abteilung") == 0){ ?>
+				<a href="<?php echo base_url(); ?>projekte"><div>Projekt&uuml;bersicht</div></a>
+				<a style="float: right;" href="<?php echo base_url(); ?>user/logout"><div><span class="glyphicon glyphicon-off" style="margin-right: 5px;"></span>Abmelden</div></a>	
 				<?php }elseif($this->session->userdata("Rolle") == "Bereichsleiter"){
 				?>
 				<a href="<?php echo base_url(); ?>projekte"><div>Projekt&uuml;bersicht</div></a>
