@@ -30,7 +30,7 @@ class Projekte_model extends CI_Model {
 
             foreach ($liste->result() as $zeile) {
                 $this -> db -> select("* , ProjektAllgemein.ID as projektID , Kategorien.Titel as kat , ProjektAllgemein.Titel as projektTitel");
-                $this -> db -> where("ID", $zeile -> ProjektID);
+                $this -> db -> where("ProjektAllgemein.ID", $zeile -> ProjektID);
                 $this -> db -> join("Kategorien", "Kategorien.ID = ProjektAllgemein.Kategorie");
                 $query = $this -> db -> get("ProjektAllgemein");
                 foreach ($query->result() as $row) {
@@ -41,7 +41,6 @@ class Projekte_model extends CI_Model {
                     $data[$i]["Kategorie"] = $row -> kat;
                     $data[$i]["Strategie"] = $row -> Strategie;
                     $data[$i]["Beschreibung"] = $row -> Beschreibung;
-                    $data[$i]["Bearbeiter"] = $row -> Benutzername;
 
                     $i++;
                 }
