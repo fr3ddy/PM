@@ -1,6 +1,6 @@
 <table class="table table-striped">
 	<tr>
-		<th><img src="<?php echo base_url(); ?>img/ajax-loader.gif" id="pmoLoader" /><span class="glyphicon glyphicon-ok" id="pmoOK"></span></th><th>Titel</th><th>Kategorie</th><th>Abteilung</th><th>Score</th><th></th>
+		<th style="width: 35px;"><span class="glyphicon glyphicon-send" id="pmoFlieger"></span><img src="<?php echo base_url(); ?>img/ajax-loader.gif" id="pmoLoader" /><span class="glyphicon glyphicon-ok" id="pmoOK"></span></th><th>Titel</th><th>Kategorie</th><th>Abteilung</th><th>Score</th><th></th>
 	</tr>
 	<?php
 	foreach ($projekte as $projekt) {

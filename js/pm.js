@@ -3,7 +3,7 @@ var inputs;
 var inputs2;
 
 $(document).ready(function() {
-	if (window.location.pathname == "/admin") {
+	if (window.location.pathname == "/admin" || window.location.pathname == "/admin/saveKonfig") {
 		inputs = $('.gewichtet');
 		for (var i = 0; i < inputs.length; i++) {
 			inputs[i].addEventListener('input', maxReached);
@@ -44,7 +44,10 @@ $(document).ready(function() {
 		console.log($(this).val());
 	});
 
+	var timeout;
 	$('.pmoCheckbox').on("change", function() {
+		clearTimeout(timeout);
+		$('#pmoFlieger').hide();
 		$('#pmoOK').hide();
 		$('#pmoLoader').show();
 		var pro = "";
@@ -61,7 +64,11 @@ $(document).ready(function() {
 			},
 		}).done(function(data) {
 			$('#pmoLoader').hide();
-			$('#pmoOK').show("slow");
+			$('#pmoOK').show();
+			timeout = setTimeout(function() {
+				$('#pmoOK').hide();
+				$('#pmoFlieger').show();
+			}, 3000);
 		});
 	});
 });
