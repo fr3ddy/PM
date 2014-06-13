@@ -35,19 +35,6 @@
 <br/>
 <div class="row">
 	<div class="col-xs-4" style="text-align: right;">
-		Kapitalwertrate
-	</div>
-	<div class="col-xs-4">
-		<input type="text" class="form-control" name="KapitalwertrateGut" value="<?php echo $konfig -> KapitalwertrateGut; ?>"/>
-	</div>
-	<div class="col-xs-4">
-		<input type="text" class="form-control" name="KapitalwertrateSchlecht" value="<?php echo $konfig -> KapitalwertrateSchlecht; ?>"/>
-	</div>
-</div>
-<br/>
-<br/>
-<div class="row">
-	<div class="col-xs-4" style="text-align: right;">
 		kalkulatorischer Zinssatz (in %):
 	</div>
 	<div class="col-xs-8">
