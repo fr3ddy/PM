@@ -6,7 +6,7 @@
 	foreach ($projekte as $projekt) {
 	?>
 	<tr>
-		<td>
+		<td><a style='margin-right: 5px;' href='<?php echo base_url()."projekte/details/".$projekt["ID"]; ?>'><span class='glyphicon glyphicon-search'></span></a>
 			<?php echo $projekt["Titel"]; ?>
 		</td>
 		<td>

@@ -13,10 +13,10 @@ class Projekte extends CI_Controller {
 				$data["projekte"] = $this -> projekte_model -> gibProjekte();
 				$this -> load -> view("projekte/index", $data);
 
-			}else{
+			} else {
 				//Wenn PMO oder Geschäftsleiter
 				$data["projekte"] = $this -> projekte_model -> gibProjektUebersicht();
-				$this->load->view("projekte/glindex" , $data);
+				$this -> load -> view("projekte/glindex", $data);
 			}
 			$this -> load -> view("templates/footer");
 		} else {
@@ -60,7 +60,12 @@ class Projekte extends CI_Controller {
 		$data["kategorien"] = $this -> projekte_model -> gibKategorien();
 
 		$this -> load -> view("templates/header", $data);
-		$this -> load -> view("projekte/detailsAllgemein", $data);
+		if ($this -> session -> userdata("Rolle") != "Geschäftsleiter" && $this -> session -> userdata("Rolle") != "PMO") {
+			//Wenn nicht PMO oder Geschäftsleiter
+			$this -> load -> view("projekte/detailsAllgemein", $data);
+		} else {
+			$this -> load -> view("projekte/detailsAllgemeingl", $data);
+		}
 		$this -> load -> view("templates/footer");
 	}
 
@@ -81,7 +86,12 @@ class Projekte extends CI_Controller {
 		$data["sidenavigationtitle"] = $data["ProjektAllgemein"] -> Titel;
 
 		$this -> load -> view("templates/header", $data);
-		$this -> load -> view("projekte/detailsKosten", $data);
+		if ($this -> session -> userdata("Rolle") != "Geschäftsleiter" && $this -> session -> userdata("Rolle") != "PMO") {
+			//Wenn nicht PMO oder Geschäftsleiter
+			$this -> load -> view("projekte/detailsKosten", $data);
+		} else {
+			$this -> load -> view("projekte/detailsKostengl", $data);
+		}
 		$this -> load -> view("templates/footer");
 	}
 
@@ -102,7 +112,12 @@ class Projekte extends CI_Controller {
 		$data["sidenavigationtitle"] = $data["ProjektAllgemein"] -> Titel;
 
 		$this -> load -> view("templates/header", $data);
-		$this -> load -> view("projekte/detailsAmort", $data);
+		if ($this -> session -> userdata("Rolle") != "Geschäftsleiter" && $this -> session -> userdata("Rolle") != "PMO") {
+			//Wenn nicht PMO oder Geschäftsleiter
+			$this -> load -> view("projekte/detailsAmort", $data);
+		} else {
+			$this -> load -> view("projekte/detailsAmortgl", $data);
+		}
 		$this -> load -> view("templates/footer");
 	}
 
