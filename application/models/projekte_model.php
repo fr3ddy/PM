@@ -53,6 +53,13 @@ class Projekte_model extends CI_Model {
                     $data[$i]["Strategie"] = $row -> Strategie;
                     $data[$i]["Beschreibung"] = $row -> Beschreibung;
 
+                    $userQuery = $this -> db -> query('SELECT * FROM Benutzer WHERE ID = "' . $row -> Owner . '"');
+                    $userRow = $userQuery -> first_row();
+                    $abtQuery = $this -> db -> query("SELECT * FROM Abteilungen WHERE ID = " . $userRow -> Abteilung);
+                    $abtRow = $abtQuery -> first_row();
+
+                    $data[$i]["Abteilung"] = $abtRow -> Abteilungsname;
+
                     $i++;
                 }
             }
