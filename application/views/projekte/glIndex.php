@@ -16,7 +16,7 @@
 			<?php echo $projekt["Abteilung"]; ?>
 		</td>
 		<td>
-			<?php echo $projekt["KostenDauer"]; ?>
+			<?php echo $projekt["KostenDauer"] . " - ". $projekt["Kapitalwertrate"]; ?>
 		</td>
 		<td>
 			<a style='margin-left: 15px;' href='<?php echo base_url()."projekte/loescheProjekt/".$projekt["ID"]; ?>'><span class='glyphicon glyphicon-trash'></span></a>
