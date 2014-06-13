@@ -8,15 +8,15 @@ class Projekte extends CI_Controller {
 
 			$this -> load -> view("templates/header", $data);
 
-			if ($this -> session -> userdata("Rolle") != "Geschäftsleiter" && $this -> session -> userdata("Rolle") != "PMO") {
-				//Wenn nicht PMO oder Geschäftsleiter
+			if ($this -> session -> userdata("Rolle") == "PMO") {
+				$data["projekte"] = $this -> projekte_model -> gibProjektUebersicht();
+				$this -> load -> view("projekte/indexpmo", $data);
+			} elseif ($this -> session -> userdata("Rolle") == "Geschäftsleiter") {
+				$data["projekte"] = $this -> projekte_model -> gibProjektUebersicht();
+				$this -> load -> view("projekte/indexgl", $data);
+			} else {
 				$data["projekte"] = $this -> projekte_model -> gibProjekte();
 				$this -> load -> view("projekte/index", $data);
-
-			} else {
-				//Wenn PMO oder Geschäftsleiter
-				$data["projekte"] = $this -> projekte_model -> gibProjektUebersicht();
-				$this -> load -> view("projekte/glindex", $data);
 			}
 			$this -> load -> view("templates/footer");
 		} else {
@@ -260,7 +260,7 @@ class Projekte extends CI_Controller {
 		if ($this -> session -> userdata("Rolle") != "Geschäftsleiter" && $this -> session -> userdata("Rolle") != "PMO") {
 			$sidenavigation["<span class='glyphicon glyphicon-send'></span> Weitergeben"] = "projekte/weitergeben/" . $id;
 		}
-		
+
 		$data["ProjektAllgemein"] = $this -> projekte_model -> gibProjektAllgemein($id);
 		$data["ProjektSonstig"] = $this -> projekte_model -> gibProjektSonstig($id);
 		$data["projekte"] = $this -> projekte_model -> gibAlleProjektTitel();
@@ -293,6 +293,15 @@ class Projekte extends CI_Controller {
 	public function weitergeben($id) {
 		$this -> projekte_model -> reicheProjektWeiter($id);
 		$this -> index();
+	}
+
+	public function speicherePMOListe() {
+		$data = $this -> input -> post();
+		$projekte = explode("-", substr($data["projekte"] , 1));
+		$this -> projekte_model -> loeschePMOListe();
+		foreach ($projekte as $projekt) {
+			$this -> projekte_model -> reicheProjektWeiter($projekt[0]);
+		}
 	}
 
 }
