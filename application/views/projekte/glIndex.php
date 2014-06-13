@@ -1,6 +1,6 @@
 <table class="table table-striped">
 	<tr>
-		<th>Titel</th><th>Kategorie</th><th>Abteilung</th><th>Score</th>
+		<th>Titel</th><th>Kategorie</th><th>Abteilung</th><th>Score</th><th></th>
 	</tr>
 	<?php
 	foreach ($projekte as $projekt) {
@@ -17,6 +17,9 @@
 		</td>
 		<td>
 			<?php echo $projekt["KostenDauer"]; ?>
+		</td>
+		<td>
+			<a style='margin-left: 15px;' href='<?php echo base_url()."projekte/loescheProjekt/".$projekt["ID"]; ?>'><span class='glyphicon glyphicon-trash'></span></a>
 		</td>
 	</tr>
 	<?php
