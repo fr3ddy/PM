@@ -365,7 +365,7 @@ class Projekte_model extends CI_Model {
                 }
             }
             return $data;
-        } else if($this->session->userdata['Rolle'] == 'PMO') {
+        } else if ($this -> session -> userdata['Rolle'] == 'PMO') {
 
             $i = 0;
             $data = array();
@@ -441,12 +441,11 @@ class Projekte_model extends CI_Model {
 
         $konfigQuery = $this -> db -> get_where('Konfiguration', array('ID' => 1));
         $konfig = $konfigQuery -> first_row();
-$gesamtkosten = $projektKosten -> Intern1 + $projektKosten -> Intern2 + $projektKosten -> Intern3 + $projektKosten -> Extern1 + $projektKosten -> Extern2 + $projektKosten -> Extern3 + $projektKosten -> Sonstig1 + $projektKosten -> Sonstig2 + $projektKosten -> Sonstig3;
+        $gesamtkosten = $projektKosten -> Intern1 + $projektKosten -> Intern2 + $projektKosten -> Intern3 + $projektKosten -> Extern1 + $projektKosten -> Extern2 + $projektKosten -> Extern3 + $projektKosten -> Sonstig1 + $projektKosten -> Sonstig2 + $projektKosten -> Sonstig3;
 
-        $kpi = (($konfig -> KpMSchlecht - 
-        ($gesamtkosten/ $projektAllgemein -> Dauer)) * (100 / ($konfig -> KpMSchlecht - $konfig -> KpMGut)));
+        $kpi = (($konfig -> KpMSchlecht - ($gesamtkosten / $projektAllgemein -> Dauer)) * (100 / ($konfig -> KpMSchlecht - $konfig -> KpMGut)));
 
-        return $kpi;
+        return round($kpi, 2);
     }
 
 }
