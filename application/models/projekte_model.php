@@ -398,6 +398,10 @@ class Projekte_model extends CI_Model {
                 $data[$i]["Amortisationsdauer"] = $this -> amortisationsdauer($row -> projektID);
                 $data[$i]["Amortisationsrate"] = $this -> amortisationsrate($data[$i]["Amortisationsdauer"]);
                 $data[$i]["qualiNutzen"] = $this -> qualiNutzen($row -> projektID);
+                $data[$i]["Risiken"] = $this -> riskien($row -> projektID);
+                $data[$i]["Strategien"] = $this -> strategien($row -> projektID);
+                $data[$i]["Komplexität"] = $this -> komplextitaet($row -> projektID);
+                $data[$i]["Rating"] = $data[$i]['KostenDauer'] + $data[$i]['Kapitalwertrate'] + $data[$i]["Amortisationsrate"] + $data[$i]["qualiNutzen"] + $data[$i]["Risiken"] + $data[$i]["Strategien"] + $data[$i]["Komplexität"];
 
                 $this -> db -> where('ProjektID', $row -> projektID);
                 $query = $this -> db -> get('ProjektePMO');
@@ -410,6 +414,27 @@ class Projekte_model extends CI_Model {
             return $data;
         }
 
+    }
+
+    function komplextitaet($ProjektID) {
+        $this -> db -> where('ID', $ProjektID);
+        $projektKomplexQuery = $this -> db -> get('ProjektKomplex');
+        $projektKomplex = $projektKomplexQuery -> first_row();
+
+        $konfigQuery = $this -> db -> get_where('Konfiguration', array('ID' => 1));
+        $konfig = $konfigQuery -> first_row();
+
+        $mitarbeiter = 100 - ($konfig -> AnzMitarbeiterSchlecht - $projektKomplex -> BeteilMit) * (100 / ($konfig -> AnzMitarbeiterSchlecht - $konfig -> AnzMitarbeiterGut));
+        $orgeinheit = 0;
+        if ($projektKomplex -> BeteilOrgEin > 1) {
+            $orgeinheit = 100;
+        }
+        $technisch = $projektKomplex -> KompTech * 20;
+        $wirtschaft = $projektKomplex -> KompInno * 20;
+
+        $kpi = ($orgeinheit + $technisch + $wirtschaft + $mitarbeiter / 4) * (-1);
+        $kpi = $kpi * $konfig -> GKomplex;
+        return round($kpi, 2);
     }
 
     function kapitalwertrate($ProjektID) {
@@ -437,6 +462,29 @@ class Projekte_model extends CI_Model {
         $kpi = $kpi / (($projektKosten -> Intern1 + $projektKosten -> Extern1 + $projektKosten -> Sonstig1) + ($projektKosten -> Intern2 + $projektKosten -> Extern2 + $projektKosten -> Sonstig2) + ($projektKosten -> Intern3 + $projektKosten -> Extern3 + $projektKosten -> Sonstig3));
         $kpi = $kpi * 100;
 
+        $kpi = $kpi * $konfig -> GKapitalwertrate;
+
+        return round($kpi, 2);
+    }
+
+    function riskien($ProjektID) {
+        $this -> db -> where('ID', $ProjektID);
+        $projektRisikenQuery = $this -> db -> get('ProjektRisiken');
+        $projektRisiken = $projektRisikenQuery -> first_row();
+
+        $gesamt = $projektRisiken -> BudgetWirk * $projektRisiken -> BudgetEintritt + $projektRisiken -> ExtMitWirk * $projektRisiken -> ExtMitEintritt + $projektRisiken -> IntMitWirk * $projektRisiken -> IntMitEintritt + $projektRisiken -> AufGebWirk * $projektRisiken -> AufGebEintritt + $projektRisiken -> MitKundWirk * $projektRisiken -> MitKundEintritt + $projektRisiken -> GLKundWirk * $projektRisiken -> GLKundEintritt + $projektRisiken -> AusfallWirk * $projektRisiken -> AusfallEintritt + $projektRisiken -> VerzoegWirk * $projektRisiken -> VerzoegEintritt + $projektRisiken -> TechWirk * $projektRisiken -> TechEintritt + $projektRisiken -> WirtschaftWirk * $projektRisiken -> WirtschaftEintritt + $projektRisiken -> KompNichDaWirk * $projektRisiken -> KompNichDaEintritt;
+
+        $kpi = $gesamt * (100 / (11 * 25 - 11)) * (-1);
+        return round($kpi, 2);
+    }
+
+    function strategien($ProjektID) {
+        $anzStrategien = $this -> db -> count_all('Strategien');
+
+        $this -> db -> where('IDProjekt', $ProjektID);
+        $anzProjektStrategien = $this -> db -> count_all_results('ProjektStrategien');
+
+        $kpi = (100 / $anzStrategien) * $anzProjektStrategien;
         return round($kpi, 2);
     }
 

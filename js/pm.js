@@ -41,17 +41,38 @@ $(document).ready(function() {
 	
 	$('input[type="range"]').each(function(index, element) {
 		$(this).siblings("output").text($(this).val() + " %");
-		console.log($(this));
-		console.log(index);
 	});
 	
 	$('input[type="range"]').mousemove(function(e) {
 		$(this).siblings("output").text($(this).val() + " %");
-		
-		
-	});
+		var newPlace;
+		var newPoint = ($(this).val() - $(this).attr("min")) / ($(this).attr("max") - $(this).attr("min"));
+   	 	var width = $(this).width();
 
+	   	// Prevent bubble from going beyond left or right (unsupported browsers)
+	   	if (newPoint < 0) { 
+	   		newPlace = 0; 
+	   	}
+	   	else if (newPoint > 1) { 
+	   		newPlace = width; 
+	   	}else { 
+	   		newPlace = width * newPoint + 2.5; 
+	   	}
+		
+		// Move bubble
+		console.log("NewPoint: " + newPoint);
+		console.log("Width: " + width);
+		console.log("NewPlace: " + newPlace);
+	   $(this)
+	     .siblings("output")
+	     .css({
+	       left: newPlace,
+	     })
+	     .text($(this).val() + " %");
+	     
+	  }).trigger('change');
 });
+
 var getTotal = function() {
 	var sum = 0;
 	for (var i = 0; i < inputs.length; i++) {
