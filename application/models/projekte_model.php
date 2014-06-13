@@ -442,7 +442,10 @@ class Projekte_model extends CI_Model {
 
         $konfigQuery = $this -> db -> get_where('Konfiguration', array('ID' => 1));
         $konfig = $konfigQuery -> first_row();
-        $kpi = ($konfig -> KpMSchlecht - (($projektKosten -> Intern1 + $projektKosten -> Intern2 + $projektKosten -> Intern3 + $projektKosten -> Extern1 + $projektKosten -> Extern2 + $projektKosten -> Extern3 + $projektKosten -> Sonstig1 + $projektKosten -> Sonstig2 + $projektKosten -> Sonstig3) / $projektAllgemein -> Dauer) * (100 / ($konfig -> KpMSchlecht - $konfig -> KpMGut)));
+$gesamtkosten = $projektKosten -> Intern1 + $projektKosten -> Intern2 + $projektKosten -> Intern3 + $projektKosten -> Extern1 + $projektKosten -> Extern2 + $projektKosten -> Extern3 + $projektKosten -> Sonstig1 + $projektKosten -> Sonstig2 + $projektKosten -> Sonstig3;
+
+        $kpi = (($konfig -> KpMSchlecht - 
+        ($gesamtkosten/ $projektAllgemein -> Dauer)) * (100 / ($konfig -> KpMSchlecht - $konfig -> KpMGut)));
 
         return $kpi;
     }
