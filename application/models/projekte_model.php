@@ -405,8 +405,8 @@ class Projekte_model extends CI_Model {
 				$data[$i]["qualiNutzen"] = $this -> qualiNutzen($row -> projektID);
 				$data[$i]["Risiken"] = $this -> riskien($row -> projektID);
 				$data[$i]["Strategien"] = $this -> strategien($row -> projektID);
-				$data[$i]["Komplexität"] = $this -> komplextitaet($row -> projektID);
-				$data[$i]["Rating"] = $data[$i]['KostenDauer'] + $data[$i]['Kapitalwertrate'] + $data[$i]["Amortisationsrate"] + $data[$i]["qualiNutzen"] + $data[$i]["Risiken"] + $data[$i]["Strategien"] + $data[$i]["Komplexität"];
+				$data[$i]["Komplexitaet"] = $this -> komplextitaet($row -> projektID);
+				$data[$i]["Rating"] = $data[$i]['KostenDauer'] + $data[$i]['Kapitalwertrate'] + $data[$i]["Amortisationsrate"] + $data[$i]["qualiNutzen"] + $data[$i]["Risiken"] + $data[$i]["Strategien"] + $data[$i]["Komplexitaet"];
 				$data[$i]["Vorgeschlagen"] = 0;
 				$this -> db -> where('ProjektID', $row -> projektID);
 				$query = $this -> db -> get('ProjektePMO');
