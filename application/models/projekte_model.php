@@ -364,12 +364,43 @@ class Projekte_model extends CI_Model {
                 $data[$i]["Abteilung"] = $abtRow -> Abteilungsname;
 
                 $data[$i]['KostenDauer'] = $this -> kostenDauerKPI($row -> projektID);
+                $data[$i]['Kapitalwertrate'] = $this -> kapitalwertrate($row -> projektID);
 
                 $i++;
             }
         }
         return $data;
     }
+
+function kapitalwertrate($ProjektID){
+        $this -> db -> where('ID', $ProjektID);
+        $projektKostenQuery = $this -> db -> get('ProjektKosten');
+        $projektKosten = $projektKostenQuery -> first_row();
+
+        $this -> db -> where('ID', $ProjektID);
+        $projektAmortQuery = $this -> db -> get('ProjektAmort');
+        $projektAmort = $projektAmortQuery -> first_row();
+
+        $konfigQuery = $this -> db -> get_where('Konfiguration', array('ID' => 1));
+        $konfig = $konfigQuery -> first_row();
+
+$kpi = ((-($projektKosten->Intern1 + $projektKosten->Extern1 + $projektKosten->Sonstig1))+
+((-($projektKosten->Intern2 + $projektKosten->Extern2 + $projektKosten->Sonstig2))/pow(($konfig->KalkZins * 100), 1))+
+((-($projektKosten->Intern3 + $projektKosten->Extern3 + $projektKosten->Sonstig3))/pow(($konfig->KalkZins * 100), 2)));
+$a = 0;
+for ($a; $a < $projektKosten->EintrittNutzen / 12; $a++) { 
+$kpi = $kpi + (-$projektKosten->KostNFertig /pow(($konfig->KalkZins * 100), 3 + a));
+}
+for ($a; $a < 3; $a++) { 
+$kpi = $kpi + ((-$projektKosten->KostNFertig + $projektAmort->Gewinn)/pow(($konfig->KalkZins * 100), 3 + a));
+}
+$kpi = $kpi / (($projektKosten->Intern1 + $projektKosten->Extern1 + $projektKosten->Sonstig1)+
+($projektKosten->Intern2 + $projektKosten->Extern2 + $projektKosten->Sonstig2)+
+($projektKosten->Intern3 + $projektKosten->Extern3 + $projektKosten->Sonstig3));
+$kpi = $kpi * 100;
+
+return $kpi;
+}
 
     function kostenDauerKPI($ProjektID) {
         $this -> db -> where('ID', $ProjektID);
