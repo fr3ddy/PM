@@ -7,16 +7,16 @@
 	?>
 	<tr>
 		<td>
-			
+			<?php echo $projekt["Titel"]; ?>
 		</td>
 		<td>
-			
+			<?php echo $projekt["Kategorie"]; ?>
 		</td>
 		<td>
-			
+			<?php echo $projekt["Abteilung"]; ?>
 		</td>
 		<td>
-			
+			<?php echo $projekt["KostenDauer"]; ?>
 		</td>
 	</tr>
 	<?php
