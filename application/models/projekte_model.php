@@ -370,10 +370,18 @@ class Projekte_model extends CI_Model {
                     $data[$i]['KostenDauer'] = $this -> kostenDauerKPI($row -> projektID);
                     $data[$i]['Kapitalwertrate'] = $this -> kapitalwertrate($row -> projektID);
 
+                    $data[$i]["Amortisationsdauer"] = $this -> amortisationsdauer($row -> projektID);
+                    $data[$i]["Amortisationsrate"] = $this -> amortisationsrate($data[$i]["Amortisationsdauer"]);
+                    $data[$i]["qualiNutzen"] = $this -> qualiNutzen($row -> projektID);
+                    $data[$i]["Risiken"] = $this -> riskien($row -> projektID);
+                    $data[$i]["Strategien"] = $this -> strategien($row -> projektID);
+                    $data[$i]["Komplexitaet"] = $this -> komplextitaet($row -> projektID);
+                    $data[$i]["Rating"] = $data[$i]['KostenDauer'] + $data[$i]['Kapitalwertrate'] + $data[$i]["Amortisationsrate"] + $data[$i]["qualiNutzen"] + $data[$i]["Risiken"] + $data[$i]["Strategien"] + $data[$i]["Komplexitaet"];
+
                     $i++;
                 }
             }
-            return $data;
+
         } else if ($this -> session -> userdata['Rolle'] == 'PMO') {
 
             $i = 0;
@@ -416,9 +424,14 @@ class Projekte_model extends CI_Model {
 
                 $i++;
             }
-            return $data;
-        }
 
+        }
+        $daten = array();
+        foreach ($data as $rate) {
+            $daten[] = $rate['Rating'];
+        }
+        array_multisort($daten, SORT_DESC, $data);
+        return $data;
     }
 
     function komplextitaet($ProjektID) {
