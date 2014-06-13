@@ -391,6 +391,9 @@ class Projekte_model extends CI_Model {
                 $data[$i]['KostenDauer'] = $this -> kostenDauerKPI($row -> projektID);
                 $data[$i]['Kapitalwertrate'] = $this -> kapitalwertrate($row -> projektID);
 
+                $data[$i]["Amortisationsdauer"] = $this -> amortisationsdauer($row -> projektID);
+                $data[$i]["Amortisationsrate"] = $this -> amortisationsrate($data[$i]["Amortisationsdauer"]);
+
                 $this -> db -> where('ProjektID', $row -> projektID);
                 $query = $this -> db -> get('ProjektePMO');
                 if ($query -> num_rows() == 1) {
@@ -416,18 +419,41 @@ class Projekte_model extends CI_Model {
         $konfigQuery = $this -> db -> get_where('Konfiguration', array('ID' => 1));
         $konfig = $konfigQuery -> first_row();
 
-        $kpi = ((-($projektKosten -> Intern1 + $projektKosten -> Extern1 + $projektKosten -> Sonstig1)) + ((-($projektKosten -> Intern2 + $projektKosten -> Extern2 + $projektKosten -> Sonstig2)) / pow(($konfig -> KalkZins * 100), 1)) + ((-($projektKosten -> Intern3 + $projektKosten -> Extern3 + $projektKosten -> Sonstig3)) / pow(($konfig -> KalkZins * 100), 2)));
+        $kpi = ((-($projektKosten -> Intern1 + $projektKosten -> Extern1 + $projektKosten -> Sonstig1)) + ((-($projektKosten -> Intern2 + $projektKosten -> Extern2 + $projektKosten -> Sonstig2)) / pow(($konfig -> KalkZins / 100) + 1, 1)) + ((-($projektKosten -> Intern3 + $projektKosten -> Extern3 + $projektKosten -> Sonstig3)) / pow(($konfig -> KalkZins / 100) + 1, 2)));
         $a = 0;
         for ($a; $a < $projektKosten -> EintrittNutzen / 12; $a++) {
-            $kpi = $kpi + (-$projektKosten -> KostNFertig / pow(($konfig -> KalkZins * 100), 3 + $a));
+            $kpi = $kpi + ((-$projektKosten -> KostNFertig / 12) / pow(($konfig -> KalkZins / 100) + 1, 3 + $a));
         }
-        for ($a; $a < 3; $a++) {
-            $kpi = $kpi + ((-$projektKosten -> KostNFertig + $projektAmort -> Gewinn) / pow(($konfig -> KalkZins * 100), 3 + $a));
+
+        $b = $a;
+        for ($a; $a < 3 + $b; $a++) {
+            $kpi = $kpi + ((-$projektKosten -> KostNFertig + $projektAmort -> Gewinn) / pow(($konfig -> KalkZins / 100) + 1, 3 + $a));
         }
         $kpi = $kpi / (($projektKosten -> Intern1 + $projektKosten -> Extern1 + $projektKosten -> Sonstig1) + ($projektKosten -> Intern2 + $projektKosten -> Extern2 + $projektKosten -> Sonstig2) + ($projektKosten -> Intern3 + $projektKosten -> Extern3 + $projektKosten -> Sonstig3));
         $kpi = $kpi * 100;
 
-        return $kpi;
+        return round($kpi, 2);
+    }
+
+    function amortisationsdauer($ProjektID) {
+        $this -> db -> where('ID', $ProjektID);
+        $projektKostenQuery = $this -> db -> get('ProjektKosten');
+        $projektKosten = $projektKostenQuery -> first_row();
+
+        $this -> db -> where('ID', $ProjektID);
+        $projektAmortQuery = $this -> db -> get('ProjektAmort');
+        $projektAmort = $projektAmortQuery -> first_row();
+        $kostengesamt = $projektKosten -> Intern1 + $projektKosten -> Intern2 + $projektKosten -> Intern3 + $projektKosten -> Extern1 + $projektKosten -> Extern2 + $projektKosten -> Extern3 + $projektKosten -> Sonstig1 + $projektKosten -> Sonstig2 + $projektKosten -> Sonstig3;
+        $kpi = (($kostengesamt - $projektAmort -> Restwert) / ($projektAmort -> Gewinn - $projektAmort -> Abschreibung)) * 12;
+        return round($kpi, 2);
+    }
+
+    function amortisationsrate($amortisationsdauer) {
+        $konfigQuery = $this -> db -> get_where('Konfiguration', array('ID' => 1));
+        $konfig = $konfigQuery -> first_row();
+
+        $kpi = (($konfig -> AmortSchlecht - $amortisationsdauer) * (100 / ($konfig -> AmortSchlecht - $konfig -> AmortGut)));
+        return round($kpi, 2);
     }
 
     function kostenDauerKPI($ProjektID) {
