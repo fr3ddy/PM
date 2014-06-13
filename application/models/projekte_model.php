@@ -261,53 +261,47 @@ class Projekte_model extends CI_Model {
         }
     }
 
-    function gibProjektSonstig($ID) {
-        $this -> db -> where("ID", $ID);
-        $query = $this -> db -> get('ProjektSonstig');
-
-        $row = $query -> first_row();
-        return $row;
-    }
-
-    function aendereProjektSonstig($ID, $data) {
-        $this -> db -> where("ID", $ID);
-        $query = $this -> db -> update("ProjektSonstig", $data);
-        if ($query == 1) {
-            return TRUE;
-        } else {
-            return FALSE;
-        }
-    }
-
-    function gibProjektStrategien($ID) {
-        $i = 0;
-        $data = array();
-
-        $this -> db -> where("ID", $ID);
-        $query = $this -> db -> get('ProjektStrategien');
-
-        foreach ($query->result() as $row) {
-            $this -> db -> where("ID", $row -> IDStrategie);
-            $ergebnis = $this -> db -> get("Strategien");
-            $zeile = $ergebnis -> first_row();
-            $data[$i]["ID"] = $zeile -> ID;
-            $data[$i]["Bezeichnung"] = $zeile -> Bezeichnung;
-            $i++;
-        }
-
-        return $data;
-    }
-
-    function aendereProjektStrategien($ID, $data) {
-        $this -> db -> where('IDProjekt', $ID);
-        $this -> db -> delete('ProjektStrategien');
-
-        foreach ($data as $zeile) {
-            $eingabe = array("IDProjekt" => $ID, "IDStrategie" => $zeile);
-            $this -> db -> insert("ProjketStrategien", $eingabe);
-        }
-
-    }
+	function gibProjektSonstig($ID) {
+ 		$this -> db -> where("ID", $ID);
+ 		$query = $this -> db -> get('ProjektSonstig');
+ 
+ 		$row = $query -> first_row();
+ 		return $row;
+ 	}
+ 
+ 	function aendereProjektSonstig($ID, $data) {
+ 		$this -> db -> where("ID", $ID);
+ 		$query = $this -> db -> update("ProjektSonstig", $data);
+ 		if ($query == 1) {
+ 			return TRUE;
+ 		} else {
+ 			return FALSE;
+ 		}
+ 	}
+ 
+ 	function gibProjektStrategien($ID) {
+ 		$this -> db -> where("IDProjekt", $ID);
+ 		$query = $this -> db -> get('ProjektStrategien');
+ 		$data = array();
+ 		$i = 0;
+ 		foreach ($query->result() as $row) {
+ 			$data[$i]["ID"] = $row -> IDStrategie;
+ 			$i;
+ 		}
+ 		return $data;
+ 	}
+ 
+ 	function aendereProjektStrategien($ID, $data) {
+ 		$this -> db -> where('IDProjekt', $ID);
+ 		$this -> db -> delete('ProjektStrategien');
+ 
+ 		if ($data != false) {
+ 			foreach ($data as $zeile) {
+ 				$eingabe = array("IDProjekt" => $ID, "IDStrategie" => $zeile);
+ 				$this -> db -> insert("ProjektStrategien", $eingabe);
+ 			}
+ 		}
+ 	}
 
     function gibNutzenQualitativ($ID) {
         $this -> db -> where("ID", $ID);
