@@ -362,7 +362,7 @@ class Projekte_model extends CI_Model {
 
                 $data[$i]["Abteilung"] = $abtRow -> Abteilungsname;
 
-                $data[$i]['kostenDauer'] = $this -> kostenDauerKPI($row -> projektID);
+                $data[$i]['KostenDauer'] = $this -> kostenDauerKPI($row -> projektID);
 
                 $i++;
             }
