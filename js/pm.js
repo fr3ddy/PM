@@ -2,6 +2,15 @@ var maxCounter = 100;
 var inputs;
 var inputs2;
 
+$(function() {
+	console.log("test");
+	var url = window.location.href;
+	var page = url.substr(url.lastIndexOf('/') + 1);
+	console.log("URL" + url);
+	console.log("page" +page);
+	$('a[href="' + url + '"]').children('div').addClass('active');
+});
+
 $(document).ready(function() {
 	if (window.location.pathname == "/admin" || window.location.pathname == "/admin/saveKonfig") {
 		inputs = $('.gewichtet');
@@ -38,7 +47,7 @@ $(document).ready(function() {
 			$('#gkj3').html("" + sum + "");
 		});
 	}
-	
+
 	$('input[type="range"]').each(function(index, element) {
 		var newPlace;
 		var newPoint = ($(this).val() - $(this).attr("min")) / ($(this).attr("max") - $(this).attr("min"));
