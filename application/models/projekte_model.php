@@ -194,8 +194,8 @@ class Projekte_model extends CI_Model {
         $query = $this -> db -> get('ProjektAmort');
 
         $row = $query -> first_row();
-        $row->Amortisationsdauer = $this -> amortisationsdauer($ID);
-        $row->Amortisationsrate = $this -> amortisationsrate($row->Amortisationsdauer);
+        $row -> Amortisationsdauer = $this -> amortisationsdauer($ID);
+        $row -> Amortisationsrate = $this -> amortisationsrate($row -> Amortisationsdauer);
 
         return $row;
     }
@@ -311,6 +311,7 @@ class Projekte_model extends CI_Model {
         $query = $this -> db -> get('NutzenQualitativ');
 
         $row = $query -> first_row();
+        $row -> qualiNutzen = $this -> qualiNutzen($ID);
         return $row;
     }
 
@@ -396,6 +397,7 @@ class Projekte_model extends CI_Model {
 
                 $data[$i]["Amortisationsdauer"] = $this -> amortisationsdauer($row -> projektID);
                 $data[$i]["Amortisationsrate"] = $this -> amortisationsrate($data[$i]["Amortisationsdauer"]);
+                $data[$i]["qualiNutzen"] = $this -> qualiNutzen($row -> projektID);
 
                 $this -> db -> where('ProjektID', $row -> projektID);
                 $query = $this -> db -> get('ProjektePMO');
@@ -456,6 +458,17 @@ class Projekte_model extends CI_Model {
         $konfig = $konfigQuery -> first_row();
 
         $kpi = (($konfig -> AmortSchlecht - $amortisationsdauer) * (100 / ($konfig -> AmortSchlecht - $konfig -> AmortGut)));
+        return round($kpi, 2);
+    }
+
+    function qualiNutzen($ProjektID) {
+        $this -> db -> where('ID', $ProjektID);
+        $nutzenQualitativQuery = $this -> db -> get('NutzenQualitativ');
+        $nutzenQualitativ = $nutzenQualitativQuery -> first_row();
+
+        $gesamt = $nutzenQualitativ -> InfoMitarbeiter + $nutzenQualitativ -> MotivationMitarbeiter + $nutzenQualitativ -> ZugriffInfo + $nutzenQualitativ -> AnzFehlent + $nutzenQualitativ -> ZusamArbeit + $nutzenQualitativ -> ProduktivitaetKunde + $nutzenQualitativ -> AnzReklam + $nutzenQualitativ -> KundService + $nutzenQualitativ -> KundBindung + $nutzenQualitativ -> VertriebUnter + $nutzenQualitativ -> VerstandProzess + $nutzenQualitativ -> ProzessGestalt + $nutzenQualitativ -> ErgebnisPruef + $nutzenQualitativ -> Simulation + $nutzenQualitativ -> ProzessUeber;
+
+        $kpi = $gesamt * (100 / 30);
         return round($kpi, 2);
     }
 
