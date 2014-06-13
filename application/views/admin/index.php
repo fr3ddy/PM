@@ -12,10 +12,10 @@
 			Kosten Pro Monat:
 		</div>
 		<div class="col-xs-4">
-			<input type="text" class="form-control" name="KpMGut" value="<?php echo $konfig -> KpMGut; ?>"/>
+			<input type="text" class="form-control" name="KpMGut" value="<?php echo $konfig->KpMGut; ?>"/>
 		</div>
 		<div class="col-xs-4">
-			<input type="text" class="form-control" name="KpMSchlecht" value="<?php echo $konfig -> KpMSchlecht; ?>"/>
+			<input type="text" class="form-control" name="KpMSchlecht" value="<?php echo $konfig->KpMSchlecht; ?>"/>
 		</div>
 	</div>
 	<br/>
@@ -25,10 +25,10 @@
 			Amortisationsdauer in Monaten:
 		</div>
 		<div class="col-xs-4">
-			<input type="text" class="form-control" name="AmortGut" value="<?php echo $konfig -> AmortGut; ?>"/>
+			<input type="text" class="form-control" name="AmortGut" value="<?php echo $konfig->AmortGut; ?>"/>
 		</div>
 		<div class="col-xs-4">
-			<input type="text" class="form-control" name="AmortSchlecht" value="<?php echo $konfig -> AmortSchlecht; ?>"/>
+			<input type="text" class="form-control" name="AmortSchlecht" value="<?php echo $konfig->AmortSchlecht; ?>"/>
 		</div>
 	</div>
 	<br/>
@@ -38,10 +38,10 @@
 			Anzahl Mitarbeiter im Projektteam:
 		</div>
 		<div class="col-xs-4">
-			<input type="text" class="form-control" name="AnzMitarbeiterGut" value="<?php echo $konfig -> AnzMitarbeiterGut; ?>"/>
+			<input type="text" class="form-control" name="AnzMitarbeiterGut" value="<?php echo $konfig->AnzMitarbeiterGut; ?>"/>
 		</div>
 		<div class="col-xs-4">
-			<input type="text" class="form-control" name="AnzMitarbeiterSchlecht" value="<?php echo $konfig -> AnzMitarbeiterSchlecht; ?>"/>
+			<input type="text" class="form-control" name="AnzMitarbeiterSchlecht" value="<?php echo $konfig->AnzMitarbeiterSchlecht; ?>"/>
 		</div>
 	</div>
 	<br/>
@@ -51,7 +51,7 @@
 			kalkulatorischer Zinssatz (in %):
 		</div>
 		<div class="col-xs-8">
-			<input type="text" class="form-control" name="KalkZins" value="<?php echo $konfig -> KalkZins; ?>"/>
+			<input type="text" class="form-control" name="KalkZins" value="<?php echo $konfig->KalkZins; ?>"/>
 		</div>
 	</div>
 	<br/>
@@ -61,7 +61,7 @@
 			Anzahl Mitarbeiter im Unternehmen:
 		</div>
 		<div class="col-xs-8">
-			<input type="text" class="form-control" name="AnzMitarbeiter" value="<?php echo $konfig -> AnzMitarbeiter; ?>"/>
+			<input type="text" class="form-control" name="AnzMitarbeiter" value="<?php echo $konfig->AnzMitarbeiter; ?>"/>
 		</div>
 	</div>
 	<br/>
@@ -70,7 +70,7 @@
 			Verfügbare Mitarbeiter:
 		</div>
 		<div class="col-xs-8">
-			<input type="text" class="form-control" name="AnzVerfuegMitarbeiter" value="<?php echo $konfig -> AnzVerfuegMitarbeiter; ?>"/>
+			<input type="text" class="form-control" name="AnzVerfuegMitarbeiter" value="<?php echo $konfig->AnzVerfuegMitarbeiter; ?>"/>
 		</div>
 	</div>
 	<br/>
@@ -80,7 +80,7 @@
 			Gesamtbudget für Projekte:
 		</div>
 		<div class="col-xs-8">
-			<input type="text" class="form-control" name="Budget" value="<?php echo $konfig -> Budget; ?>"/>
+			<input type="text" class="form-control" name="Budget" value="<?php echo $konfig->Budget; ?>"/>
 		</div>
 	</div>
 	<br/>
@@ -92,8 +92,8 @@
 		</div>
 		<div class="col-xs-8">
 			<?php
-			foreach ($strategien as $strategie) {
-				echo '<div class="input-group"><input type="text" class="form-control" name="strategie-' . $strategie["ID"] . '" value="' . $strategie["Bezeichnung"] . '" /><span class="input-group-addon glyphicon glyphicon-remove"></span></div>';
+			foreach($strategien as $strategie) {
+			echo '<div class="input-group"><input type="text" class="form-control" name="strategie-'.$strategie["ID"].'" value="'.$strategie["Bezeichnung"].'" /><span class="input-group-addon glyphicon glyphicon-remove"></span></div>';
 			}
 			?>
 			<div class="input-group">
@@ -116,7 +116,8 @@
 			Kosten/Dauer:
 		</div>
 		<div class="col-xs-8">
-			<input type="range" min="0" max="100" name="GKostenDauer" id="GKostenDauer" class="gewichtet" value="<?php echo $konfig -> GKostenDauer; ?>" />
+			<output for="GKostenDauer" ></output>
+			<input type="range" min="0" max="100" name="GKostenDauer" id="GKostenDauer" class="gewichtet" value="<?php echo $konfig->GKostenDauer; ?>" />
 			<div class="row">
 				<div class="col-xs-2">
 					0 %
@@ -133,7 +134,8 @@
 			Kapitalwertrate:
 		</div>
 		<div class="col-xs-8">
-			<input type="range" min="0" max="100" name="GKapitalwertrate" id="GKapitalwertrate" class="gewichtet" value="<?php echo $konfig -> GKapitalwertrate; ?>" />
+			<output for="GKapitalwertrate" ></output>
+			<input type="range" min="0" max="100" name="GKapitalwertrate" id="GKapitalwertrate" class="gewichtet" value="<?php echo $konfig->GKapitalwertrate; ?>" />
 			<div class="row">
 				<div class="col-xs-2">
 					0 %
@@ -167,7 +169,8 @@
 			Amortisationsrate:
 		</div>
 		<div class="col-xs-8">
-			<input type="range" min="0" max="100" name="GAmort" id="GAmort" class="gewichtet" value="<?php echo $konfig -> GAmort; ?>" />
+			<output for="GAmort" ></output>
+			<input type="range" min="0" max="100" name="GAmort" id="GAmort" class="gewichtet" value="<?php echo $konfig->GAmort; ?>" />
 			<div class="row">
 				<div class="col-xs-2">
 					0 %
@@ -184,7 +187,8 @@
 			Qualitativer Nutzen:
 		</div>
 		<div class="col-xs-8">
-			<input type="range" min="0" max="100" name="GQualitativerNutzen" id="GQualitativerNutzen" class="gewichtet" value="<?php echo $konfig -> GQualitativerNutzen; ?>" />
+			<output for="GQualitativerNutzen" ></output>
+			<input type="range" min="0" max="100" name="GQualitativerNutzen" id="GQualitativerNutzen" class="gewichtet" value="<?php echo $konfig->GQualitativerNutzen; ?>" />
 			<div class="row">
 				<div class="col-xs-2">
 					0 %
@@ -201,7 +205,8 @@
 			Risiken:
 		</div>
 		<div class="col-xs-8">
-			<input type="range" min="0" max="100" name="GRisiken" id="GRisiken" class="gewichtet" value="<?php echo $konfig -> GRisiken; ?>" />
+			<output for="GRisiken" ></output>
+			<input type="range" min="0" max="100" name="GRisiken" id="GRisiken" class="gewichtet" value="<?php echo $konfig->GRisiken; ?>" />
 			<div class="row">
 				<div class="col-xs-2">
 					0 %
@@ -218,7 +223,8 @@
 			Strategiebeitrag:
 		</div>
 		<div class="col-xs-8">
-			<input type="range" min="0" max="100" name="GStrategie" id="GStrategie" class="gewichtet" value="<?php echo $konfig -> GStrategie; ?>" />
+			<output for="GStrategie" ></output>
+			<input type="range" min="0" max="100" name="GStrategie" id="GStrategie" class="gewichtet" value="<?php echo $konfig->GStrategie; ?>" />
 			<div class="row">
 				<div class="col-xs-2">
 					0 %
@@ -235,7 +241,8 @@
 			Komplexität:
 		</div>
 		<div class="col-xs-8">
-			<input type="range" min="0" max="100" name="GKomplex" id="GKomplex" class="gewichtet" value="<?php echo $konfig -> GKomplex; ?>" />
+			<output for="GKomplex" ></output>
+			<input type="range" min="0" max="100" name="GKomplex" id="GKomplex" class="gewichtet" value="<?php echo $konfig->GKomplex; ?>" />
 			<div class="row">
 				<div class="col-xs-2">
 					0 %
@@ -252,7 +259,8 @@
 			Art des Geldnutzens:
 		</div>
 		<div class="col-xs-8">
-			<input type="range" min="0" max="100" name="GArtGeldNutzen" id="GArtGeldNutzen" class="gewichtet" value="<?php echo $konfig -> GArtGeldNutzen; ?>" />
+			<output for="GArtGeldNutzen" ></output>
+			<input type="range" min="0" max="100" name="GArtGeldNutzen" id="GArtGeldNutzen" class="gewichtet" value="<?php echo $konfig->GArtGeldNutzen; ?>" />
 			<div class="row">
 				<div class="col-xs-2">
 					0 %
@@ -268,7 +276,8 @@
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Kosteneinsparend:
 		</div>
 		<div class="col-xs-8">
-			<input type="range" min="0" max="100" name="GKostEinsparend" id="GKostEinsparend" class="gnutzen" value="<?php echo $konfig -> GKostEinsparend; ?>" />
+			<output for="GKostEinsparend" ></output>
+			<input type="range" min="0" max="100" name="GKostEinsparend" id="GKostEinsparend" class="gnutzen" value="<?php echo $konfig->GKostEinsparend; ?>" />
 			<div class="row">
 				<div class="col-xs-2">
 					0 %
@@ -284,7 +293,8 @@
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Umsatzgenerierend:
 		</div>
 		<div class="col-xs-8">
-			<input type="range" min="0" max="100" name="GUmsatzGener" id="GUmsatzGener" class="gnutzen" value="<?php echo $konfig -> GUmsatzGener; ?>" />
+			<output for="GUmsatzGener" ></output>
+			<input type="range" min="0" max="100" name="GUmsatzGener" id="GUmsatzGener" class="gnutzen" value="<?php echo $konfig->GUmsatzGener; ?>" />
 			<div class="row">
 				<div class="col-xs-2">
 					0 %
