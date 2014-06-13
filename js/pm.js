@@ -38,44 +38,51 @@ $(document).ready(function() {
 			$('#gkj3').html("" + sum + "");
 		});
 	}
-	
+
 	$('input[type="range"]').each(function(index, element) {
 		$(this).siblings("output").text($(this).val() + " %");
-	});
-	
+
+		var newPlace;
+		var newPoint = ($(this).val() - $(this).attr("min")) / ($(this).attr("max") - $(this).attr("min"));
+		var width = $(this).width();
+
+		// Prevent bubble from going beyond left or right (unsupported browsers)
+		if (newPoint < 0) {
+			newPlace = 0;
+		} else if (newPoint > 1) {
+			newPlace = width;
+		} else {
+			newPlace = width * newPoint + 2.5;
+		}
+
+		// Move bubble
+		$(this).siblings("output").css({
+			left : newPlace,
+		}).text($(this).val() + " %");
+
+	}).trigger('change');
+
 	$('input[type="range"]').mousemove(function(e) {
 		$(this).siblings("output").text($(this).val() + " %");
 		var newPlace;
 		var newPoint = ($(this).val() - $(this).attr("min")) / ($(this).attr("max") - $(this).attr("min"));
-   	 	var width = $(this).width();
+		var width = $(this).width();
 
-	   	// Prevent bubble from going beyond left or right (unsupported browsers)
-	   	if (newPoint < 0) { 
-	   		newPlace = 0; 
-	   	}
-	   	else if (newPoint > 1) { 
-	   		newPlace = width; 
-	   	}else { 
-	   		newPlace = width * newPoint + 2.5; 
-	   	}
-		
+		// Prevent bubble from going beyond left or right (unsupported browsers)
+		if (newPoint < 0) {
+			newPlace = 0;
+		} else if (newPoint > 1) {
+			newPlace = width;
+		} else {
+			newPlace = width * newPoint + 2.5;
+		}
+
 		// Move bubble
-		console.log("NewPoint: " + newPoint);
-		console.log("Width: " + width);
-		console.log("NewPlace: " + newPlace);
-	   $(this)
-	     .siblings("output")
-	     .css({
-	       left: newPlace,
-	     })
-	     .text($(this).val() + " %");
-	     
-	  }).trigger('change');
+		$(this).siblings("output").css({
+			left : newPlace,
+		}).text($(this).val() + " %");
 
-	$('input[type="range"]').mousemove(function(e) {
-		console.log("Test");
-		console.log($(this).val());
-	});
+	}).trigger('change');
 
 	var timeout;
 	$('.pmoCheckbox').on("change", function() {
