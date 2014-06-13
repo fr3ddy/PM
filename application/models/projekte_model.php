@@ -413,8 +413,23 @@ class Projekte_model extends CI_Model {
             }
             return $data;
         }
-
     }
+
+function gewichteNachArt($ID, $Rating){
+        $this -> db -> where('ID', $ProjektID);
+        $projektSonstigQuery = $this -> db -> get('ProjektSonstig');
+        $projektSonstig = $projektSonstigQuery -> first_row();
+
+        $konfigQuery = $this -> db -> get_where('Konfiguration', array('ID' => 1));
+        $konfig = $konfigQuery -> first_row();
+
+if ($projektSonstig->NutzKosten == 1 && $projektSonstig->NutzUmsatz == 1 ) {
+	
+} else {
+	
+}
+
+}
 
     function komplextitaet($ProjektID) {
         $this -> db -> where('ID', $ProjektID);
@@ -475,6 +490,8 @@ class Projekte_model extends CI_Model {
         $gesamt = $projektRisiken -> BudgetWirk * $projektRisiken -> BudgetEintritt + $projektRisiken -> ExtMitWirk * $projektRisiken -> ExtMitEintritt + $projektRisiken -> IntMitWirk * $projektRisiken -> IntMitEintritt + $projektRisiken -> AufGebWirk * $projektRisiken -> AufGebEintritt + $projektRisiken -> MitKundWirk * $projektRisiken -> MitKundEintritt + $projektRisiken -> GLKundWirk * $projektRisiken -> GLKundEintritt + $projektRisiken -> AusfallWirk * $projektRisiken -> AusfallEintritt + $projektRisiken -> VerzoegWirk * $projektRisiken -> VerzoegEintritt + $projektRisiken -> TechWirk * $projektRisiken -> TechEintritt + $projektRisiken -> WirtschaftWirk * $projektRisiken -> WirtschaftEintritt + $projektRisiken -> KompNichDaWirk * $projektRisiken -> KompNichDaEintritt;
 
         $kpi = $gesamt * (100 / (11 * 25 - 11)) * (-1);
+        $kpi = $kpi * $konfig -> GRisiken;
+
         return round($kpi, 2);
     }
 
@@ -485,6 +502,7 @@ class Projekte_model extends CI_Model {
         $anzProjektStrategien = $this -> db -> count_all_results('ProjektStrategien');
 
         $kpi = (100 / $anzStrategien) * $anzProjektStrategien;
+        $kpi = $kpi * $konfig -> GStrategie;
         return round($kpi, 2);
     }
 
@@ -506,6 +524,7 @@ class Projekte_model extends CI_Model {
         $konfig = $konfigQuery -> first_row();
 
         $kpi = (($konfig -> AmortSchlecht - $amortisationsdauer) * (100 / ($konfig -> AmortSchlecht - $konfig -> AmortGut)));
+        $kpi = $kpi * $konfig -> GAmort;
         return round($kpi, 2);
     }
 
@@ -517,6 +536,7 @@ class Projekte_model extends CI_Model {
         $gesamt = $nutzenQualitativ -> InfoMitarbeiter + $nutzenQualitativ -> MotivationMitarbeiter + $nutzenQualitativ -> ZugriffInfo + $nutzenQualitativ -> AnzFehlent + $nutzenQualitativ -> ZusamArbeit + $nutzenQualitativ -> ProduktivitaetKunde + $nutzenQualitativ -> AnzReklam + $nutzenQualitativ -> KundService + $nutzenQualitativ -> KundBindung + $nutzenQualitativ -> VertriebUnter + $nutzenQualitativ -> VerstandProzess + $nutzenQualitativ -> ProzessGestalt + $nutzenQualitativ -> ErgebnisPruef + $nutzenQualitativ -> Simulation + $nutzenQualitativ -> ProzessUeber;
 
         $kpi = $gesamt * (100 / 30);
+        $kpi = $kpi * $konfig -> GQualitativerNutzen;
         return round($kpi, 2);
     }
 
@@ -534,7 +554,7 @@ class Projekte_model extends CI_Model {
         $gesamtkosten = $projektKosten -> Intern1 + $projektKosten -> Intern2 + $projektKosten -> Intern3 + $projektKosten -> Extern1 + $projektKosten -> Extern2 + $projektKosten -> Extern3 + $projektKosten -> Sonstig1 + $projektKosten -> Sonstig2 + $projektKosten -> Sonstig3;
 
         $kpi = (($konfig -> KpMSchlecht - ($gesamtkosten / $projektAllgemein -> Dauer)) * (100 / ($konfig -> KpMSchlecht - $konfig -> KpMGut)));
-
+        $kpi = $kpi * $konfig -> GKostenDauer;
         return round($kpi, 2);
     }
 
