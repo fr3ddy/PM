@@ -338,4 +338,49 @@ class Projekte_model extends CI_Model {
         return $data;
     }
 
+    function gibProjektUebersicht() {
+        $liste = $this -> db -> get("ProjektePMO");
+
+        foreach ($liste->result() as $zeile) {
+            $this -> db -> select("* , ProjektAllgemein.ID as projektID , Kategorien.Titel as kat , ProjektAllgemein.Titel as projektTitel");
+            $this -> db -> where("ProjektAllgemein.ID", $zeile -> ProjektID);
+            $this -> db -> join("Kategorien", "Kategorien.ID = ProjektAllgemein.Kategorie");
+            $query = $this -> db -> get("ProjektAllgemein");
+            foreach ($query->result() as $row) {
+                $data[$i]["ID"] = $row -> projektID;
+                $data[$i]["Titel"] = $row -> projektTitel;
+                $data[$i]["Dauer"] = $row -> Dauer;
+                $data[$i]["Prio"] = $row -> Prio;
+                $data[$i]["Kategorie"] = $row -> kat;
+                $data[$i]["Strategie"] = $row -> Strategie;
+                $data[$i]["Beschreibung"] = $row -> Beschreibung;
+
+                $userQuery = $this -> db -> query('SELECT * FROM Benutzer WHERE ID = "' . $row -> Owner . '"');
+                $userRow = $userQuery -> first_row();
+                $abtQuery = $this -> db -> query("SELECT * FROM Abteilungen WHERE ID = " . $userRow -> Abteilung);
+                $abtRow = $abtQuery -> first_row();
+
+                $data[$i]["Abteilung"] = $abtRow -> Abteilungsname;
+
+                $data[$i]['kostenDauer'] = $this -> kostenDauerKPI($row -> projektID);
+
+                $i++;
+            }
+        }
+    }
+
+    function kostenDauerKPI($ProjektID) {
+        $this -> db -> where('ID', $ProjektID);
+        $projektKosten = $this -> db -> get('ProjektKosten');
+
+        $this -> db -> where('ID', $ProjektID);
+        $projektAllgemein = $this -> db -> get('ProjektAllgemein');
+
+        $konfig = get_where('Konfiguration', array('ID' => 1));
+
+        $kpi = ($konfig['KpmSchlecht'] - (($projektKosten['Intern1'] + $projektKosten['Intern2'] + $projektKosten['Intern3'] + $projektKosten['Extern1'] + $projektKosten['Extern2'] + $projektKosten['Extern3'] + $projektKosten['Sonstig1'] + $projektKosten['Sonstig2'] + $projektKosten['Sonstig3']) / $projektAllgemein['Dauer']) * (100 / ($konfig['KpMSchlecht'] - $konfig['KpMGut'])));
+
+        return $kpi;
+    }
+
 }
