@@ -333,11 +333,42 @@ class Projekte_model extends CI_Model {
     }
 
     function gibProjektUebersicht() {
-    
-        $liste = $this -> db -> get("ProjektePMO");
-        $i = 0;
-        $data = array();
-        foreach ($liste->result() as $zeile) {
+        if ($this -> session -> userdata['Rolle'] == "Geschäftsleiter") {
+            $liste = $this -> db -> get("ProjektePMO");
+            $i = 0;
+            $data = array();
+            foreach ($liste->result() as $zeile) {
+                $this -> db -> select("* , ProjektAllgemein.ID as projektID , Kategorien.Titel as kat , ProjektAllgemein.Titel as projektTitel");
+                $this -> db -> where("ProjektAllgemein.ID", $zeile -> ProjektID);
+                $this -> db -> join("Kategorien", "Kategorien.ID = ProjektAllgemein.Kategorie");
+                $query = $this -> db -> get("ProjektAllgemein");
+                foreach ($query->result() as $row) {
+                    $data[$i]["ID"] = $row -> projektID;
+                    $data[$i]["Titel"] = $row -> projektTitel;
+                    $data[$i]["Dauer"] = $row -> Dauer;
+                    $data[$i]["Prio"] = $row -> Prio;
+                    $data[$i]["Kategorie"] = $row -> kat;
+                    $data[$i]["Strategie"] = $row -> Strategie;
+                    $data[$i]["Beschreibung"] = $row -> Beschreibung;
+
+                    $userQuery = $this -> db -> query('SELECT * FROM Benutzer WHERE ID = "' . $row -> Owner . '"');
+                    $userRow = $userQuery -> first_row();
+                    $abtQuery = $this -> db -> query("SELECT * FROM Abteilungen WHERE ID = " . $userRow -> Abteilung);
+                    $abtRow = $abtQuery -> first_row();
+
+                    $data[$i]["Abteilung"] = $abtRow -> Abteilungsname;
+
+                    $data[$i]['KostenDauer'] = $this -> kostenDauerKPI($row -> projektID);
+                    $data[$i]['Kapitalwertrate'] = $this -> kapitalwertrate($row -> projektID);
+
+                    $i++;
+                }
+            }
+            return $data;
+        } else if($this->session->userdata['Rolle'] == 'PMO') {
+
+            $i = 0;
+            $data = array();
             $this -> db -> select("* , ProjektAllgemein.ID as projektID , Kategorien.Titel as kat , ProjektAllgemein.Titel as projektTitel");
             $this -> db -> where("ProjektAllgemein.ID", $zeile -> ProjektID);
             $this -> db -> join("Kategorien", "Kategorien.ID = ProjektAllgemein.Kategorie");
@@ -361,10 +392,17 @@ class Projekte_model extends CI_Model {
                 $data[$i]['KostenDauer'] = $this -> kostenDauerKPI($row -> projektID);
                 $data[$i]['Kapitalwertrate'] = $this -> kapitalwertrate($row -> projektID);
 
+                $this -> db -> where('ProjektID', $projekt["ID"]);
+                $query = $this -> db -> get('ProjektePMO');
+                if ($query -> num_rows() == 1) {
+                    $projekt['Vorgeschlagen'] = 1;
+                }
+
                 $i++;
             }
+            return $data;
         }
-        return $data;
+
     }
 
     function kapitalwertrate($ProjektID) {
