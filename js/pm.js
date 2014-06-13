@@ -3,7 +3,7 @@ var inputs;
 var inputs2;
 
 $(document).ready(function() {
-	if (window.location.pathname == "/admin") {
+	if (window.location.pathname == "/admin" || window.location.pathname == "/admin/saveKonfig") {
 		inputs = $('.gewichtet');
 		for (var i = 0; i < inputs.length; i++) {
 			inputs[i].addEventListener('input', maxReached);
@@ -28,7 +28,7 @@ $(document).ready(function() {
 		$('#gkj2').html("" + sum + "");
 		var sum = parseInt($('#Intern3').val()) + parseInt($('#Extern3').val()) + parseInt($('#Sonstig3').val());
 		$('#gkj3').html("" + sum + "");
-		
+
 		$('input').on("keyup", function() {
 			var sum = parseInt($('#Intern1').val()) + parseInt($('#Extern1').val()) + parseInt($('#Sonstig1').val());
 			$('#gkj1').html("" + sum + "");
@@ -71,6 +71,39 @@ $(document).ready(function() {
 	     .text($(this).val() + " %");
 	     
 	  }).trigger('change');
+
+	$('input[type="range"]').mousemove(function(e) {
+		console.log("Test");
+		console.log($(this).val());
+	});
+
+	var timeout;
+	$('.pmoCheckbox').on("change", function() {
+		clearTimeout(timeout);
+		$('#pmoFlieger').hide();
+		$('#pmoOK').hide();
+		$('#pmoLoader').show();
+		var pro = "";
+		$.each($('.pmoCheckbox'), function(key, value) {
+			if (value.checked == true) {
+				pro = pro + "-" + value.name;
+			}
+		});
+		$.ajax({
+			type : "POST",
+			url : "projekte/speicherePMOListe",
+			data : {
+				projekte : pro
+			},
+		}).done(function(data) {
+			$('#pmoLoader').hide();
+			$('#pmoOK').show();
+			timeout = setTimeout(function() {
+				$('#pmoOK').hide();
+				$('#pmoFlieger').show();
+			}, 3000);
+		});
+	});
 });
 
 var getTotal = function() {

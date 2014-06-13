@@ -153,3 +153,10 @@ output {
 	float: left;
 }
 
+#pmoLoader{
+	display: none;
+}
+
+#pmoOK{
+	display: none;
+}
