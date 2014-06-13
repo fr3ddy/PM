@@ -405,7 +405,7 @@ class Projekte_model extends CI_Model {
                 $data[$i]["qualiNutzen"] = $this -> qualiNutzen($row -> projektID);
                 $data[$i]["Risiken"] = $this -> riskien($row -> projektID);
                 $data[$i]["Strategien"] = $this -> strategien($row -> projektID);
-                $data[$i]["Komplexität"] = $this -> komplextitaet($row -> projektID);
+                $data[$i]["Komplexitaet"] = $this -> komplextitaet($row -> projektID);
                 $data[$i]["Rating"] = $data[$i]['KostenDauer'] + $data[$i]['Kapitalwertrate'] + $data[$i]["Amortisationsrate"] + $data[$i]["qualiNutzen"] + $data[$i]["Risiken"] + $data[$i]["Strategien"] + $data[$i]["Komplexität"];
                 $data[$i]["Vorgeschlagen"] = 0;
                 $this -> db -> where('ProjektID', $row -> projektID);
@@ -488,6 +488,9 @@ class Projekte_model extends CI_Model {
     }
 
     function riskien($ProjektID) {
+        $konfigQuery = $this -> db -> get_where('Konfiguration', array('ID' => 1));
+        $konfig = $konfigQuery -> first_row();
+
         $this -> db -> where('ID', $ProjektID);
         $projektRisikenQuery = $this -> db -> get('ProjektRisiken');
         $projektRisiken = $projektRisikenQuery -> first_row();
@@ -501,6 +504,9 @@ class Projekte_model extends CI_Model {
     }
 
     function strategien($ProjektID) {
+        $konfigQuery = $this -> db -> get_where('Konfiguration', array('ID' => 1));
+        $konfig = $konfigQuery -> first_row();
+
         $anzStrategien = $this -> db -> count_all('Strategien');
 
         $this -> db -> where('IDProjekt', $ProjektID);
@@ -534,6 +540,9 @@ class Projekte_model extends CI_Model {
     }
 
     function qualiNutzen($ProjektID) {
+        $konfigQuery = $this -> db -> get_where('Konfiguration', array('ID' => 1));
+        $konfig = $konfigQuery -> first_row();
+
         $this -> db -> where('ID', $ProjektID);
         $nutzenQualitativQuery = $this -> db -> get('NutzenQualitativ');
         $nutzenQualitativ = $nutzenQualitativQuery -> first_row();
