@@ -2,7 +2,6 @@
 	<label for="Restwert" class="col-sm-offset-1 col-sm-6 control-label" style="text-align: left;">Amortisationsdauer</label>
 	<div class="col-sm-5">
 		<?php echo $ProjektAmort -> Amortisationsdauer; ?>
-		€
 	</div>
 </div>
 <br/>
