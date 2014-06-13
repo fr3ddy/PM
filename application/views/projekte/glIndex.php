@@ -6,7 +6,7 @@
 	foreach ($projekte as $projekt) {
 	?>
 	<tr>
-		<td>
+		<td><a style='margin-right: 5px;' href='<?php echo base_url()."projekte/details/".$projekt["ID"]; ?>'><span class='glyphicon glyphicon-search'></span></a>
 			<?php echo $projekt["Titel"]; ?>
 		</td>
 		<td>
@@ -16,7 +16,7 @@
 			<?php echo $projekt["Abteilung"]; ?>
 		</td>
 		<td>
-			<?php echo $projekt["KostenDauer"] . " - ". $projekt["Kapitalwertrate"]; ?>
+			<?php echo $projekt["KostenDauer"] . " - ". $projekt["Kapitalwertrate"] ." - ". $projekt["Amortisationsrate"]; ?>
 		</td>
 		<td>
 			<a style='margin-left: 15px;' href='<?php echo base_url()."projekte/loescheProjekt/".$projekt["ID"]; ?>'><span class='glyphicon glyphicon-trash'></span></a>

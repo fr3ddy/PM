@@ -1,6 +1,7 @@
 var maxCounter = 100;
 var inputs;
 var inputs2;
+
 $(document).ready(function() {
 	if (window.location.pathname == "/admin") {
 		inputs = $('.gewichtet');
@@ -37,6 +38,11 @@ $(document).ready(function() {
 			$('#gkj3').html("" + sum + "");
 		});
 	}
+	
+	$('input[type="range"]').mousemove(function(e) {
+		console.log("Test");
+		console.log($(this).val());
+	});
 });
 var getTotal = function() {
 	var sum = 0;
@@ -97,3 +103,4 @@ function erstelleNeuesInputFeld(that) {
 function entferneStrategie(that) {
 	that.parent().remove();
 }
+
