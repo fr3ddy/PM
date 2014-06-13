@@ -24,6 +24,13 @@ class Projekte_model extends CI_Model {
                 $data[$i]["Bearbeiter"] = $row -> Benutzername;
                 $data[$i]["Vorgeschlagen"] = 0;
 
+                $userQuery = $this -> db -> query('SELECT * FROM Benutzer WHERE ID = "' . $row -> Benutzername . '"');
+                $userRow = $userQuery -> first_row();
+                $abtQuery = $this -> db -> query("SELECT * FROM Abteilungen WHERE ID = " . $userRow -> Abteilung);
+                $abtRow = $abtQuery -> first_row();
+
+                $data[$i]["Abteilung"] = $abtRow -> Abteilungsname;
+
                 $i++;
             }
 
