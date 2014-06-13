@@ -7,14 +7,15 @@ class Projekte extends CI_Controller {
 			$data["title"] = "Projekte";
 
 			$this -> load -> view("templates/header", $data);
-			$data["projekte"] = $this -> projekte_model -> gibProjekte();
 
 			if ($this -> session -> userdata("Rolle") != "Geschäftsleiter" || $this -> session -> userdata("Rolle") == "PMO") {
 				//Wenn nicht PMO oder Geschäftsleiter
+				$data["projekte"] = $this -> projekte_model -> gibProjekte();
 				$this -> load -> view("projekte/index", $data);
 
 			}else{
 				//Wenn PMO oder Geschäftsleiter
+				$data["projekte"] = $this -> projekte_model -> gibProjektUebersicht();
 				$this->load->view("projekte/glindex" , $data);
 			}
 			$this -> load -> view("templates/footer");
