@@ -684,4 +684,27 @@ AND ProjektAllgemein.Strategie = Strategien.ID");
         return $data;
     }
 
+    function kategorieProjekte() {
+        $data = array();
+        $query = $this -> db -> query("SELECT Plan.ProjektID, ProjektAllgemein.Titel, ProjektAmort.Gewinn, Kategorien.ID as KategorieID, Kategorien.Titel as KategorieTitel
+FROM Plan, ProjektAllgemein, ProjektAmort, Kategorien
+WHERE Plan.ProjektID = ProjektAllgemein.ID 
+AND Plan.ProjektID = ProjektAmort.ID
+AND ProjektAllgemein.Strategie = Kategorien.ID");
+
+        foreach ($query->result() as $row) {
+            if (isset($data[$row -> KategorieID])) {
+                $data[$row -> KategorieID]["Kategoriesinformationen"]["Gewinn"] = $data[$row -> KategorieID]["Kategoriesinformationen"]["Gewinn"] + $row -> Gewinn;
+                $data[$row -> KategorieID]["Kategoriesinformationen"]["Kosten"] = $data[$row -> KategorieID]["Kategoriesinformationen"]["Kosten"] + $this -> gibGesamtKosten($row -> ProjektID);
+            } else {
+                $data[$row -> KategorieID]["Kategoriesinformationen"]["Gewinn"] = $row -> Gewinn;
+                $data[$row -> KategorieID]["Kategoriesinformationen"]["Kosten"] = $this -> gibGesamtKosten($row -> ProjektID);
+            }
+            $data[$row -> KategorieID]["Kategoriesinformationen"]["Kategoriename"] = $row -> KategorieTitel;
+            $data[$row -> KategorieID]["Projekte"][$row -> ProjektID] = array("ID" => $row -> ProjektID, "Titel" => $row -> Titel);
+
+        }
+        return $data;
+    }
+
 }
