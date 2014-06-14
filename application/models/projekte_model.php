@@ -128,6 +128,10 @@ class Projekte_model extends CI_Model {
         $this -> db -> delete('ProjektStrategien');
         $this -> db -> where('ID', $ID);
         $this -> db -> delete('NutzenQualitativ');
+        $this -> db -> where('ProjektID', $ID);
+        $this -> db -> delete('Plan');
+        $this -> db -> where('ProjektID', $ID);
+        $this -> db -> delete('ProjektePMO');
     }
 
     function reicheProjektWeiter($ProjektID) {
@@ -643,7 +647,7 @@ AND Plan.ProjektID = ProjektAmort.ID");
         return $data;
     }
 
-    function gibGesamtKosten($ProjektID) {        $this -> db -> where('ID', $ProjektID);
+    function gibGesamtKosten($ProjektID) {
         $this -> db -> where('ID', $ProjektID);
         $projektKostenQuery = $this -> db -> get('ProjektKosten');
         $projektKosten = $projektKostenQuery -> first_row();
@@ -655,6 +659,29 @@ AND Plan.ProjektID = ProjektAmort.ID");
     function loescheProjektAusPlan($ProjektID) {
         $this -> db -> where("ProjektID", $ProjektID);
         $this -> db -> delete("Plan");
+    }
+
+    function strategieProjekte() {
+        $data = array();
+        $query = $this -> db -> query("SELECT Plan.ProjektID, ProjektAllgemein.Titel, ProjektAmort.Gewinn, Strategien.ID as StrategieID, Strategien.Bezeichnung
+FROM Plan, ProjektAllgemein, ProjektAmort, Strategien
+WHERE Plan.ProjektID = ProjektAllgemein.ID 
+AND Plan.ProjektID = ProjektAmort.ID
+AND ProjektAllgemein.Strategie = Strategien.ID");
+
+        foreach ($query->result() as $row) {
+            if (isset($data[$row -> StrategieID])) {
+                $data[$row -> StrategieID]["Strategiesinformationen"]["Gewinn"] = $data[$row -> StrategieID]["Strategiesinformationen"]["Gewinn"] + $row -> Gewinn;
+                $data[$row -> StrategieID]["Strategiesinformationen"]["Kosten"] = $data[$row -> StrategieID]["Strategiesinformationen"]["Kosten"] + $this -> gibGesamtKosten($row -> ProjektID);
+            } else {
+                $data[$row -> StrategieID]["Strategiesinformationen"]["Gewinn"] = $row -> Gewinn;
+                $data[$row -> StrategieID]["Strategiesinformationen"]["Kosten"] = $this -> gibGesamtKosten($row -> ProjektID);
+            }
+            $data[$row -> StrategieID]["Strategiesinformationen"]["Strategiename"] = $row -> Bezeichnung;
+            $data[$row -> StrategieID]["Projekte"][$row -> ProjektID] = array("ID" => $row -> ProjektID, "Titel" => $row -> Titel);
+
+        }
+        return $data;
     }
 
 }
