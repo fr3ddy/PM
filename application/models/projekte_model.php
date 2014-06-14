@@ -167,12 +167,20 @@ class Projekte_model extends CI_Model {
         } else if ($this -> session -> userdata['Rolle'] == "PMO") {
             $data = array("ProjektID" => $ProjektID);
             $this -> db -> insert('ProjektePMO', $data);
+        } else if ($this -> session -> userdata['Rolle'] == "Geschäftsleiter") {
+            $data = array("ProjektID" => $ProjektID);
+            $this -> db -> insert('Plan', $data);
         }
     }
 
     function loeschePMOListe() {
         $this -> db -> where("ProjektID >= 0");
         $this -> db -> delete("ProjektePMO");
+    }
+
+    function loeschePlan() {
+        $this -> db -> where("ProjektID >= 0");
+        $this -> db -> delete("Plan");
     }
 
     function gibProjektAllgemein($ID) {
@@ -273,7 +281,7 @@ class Projekte_model extends CI_Model {
         $query = $this -> db -> get('ProjektSonstig');
 
         $row = $query -> first_row();
-        $row -> VorgaengerRisiko = $this -> vorgaenger($row -> projektID);
+        $row -> VorgaengerRisiko = $this -> vorgaenger($ID);
         return $row;
     }
 
@@ -378,7 +386,12 @@ class Projekte_model extends CI_Model {
                     $data[$i]["Komplexitaet"] = $this -> komplextitaet($row -> projektID);
                     $data[$i]["Vorgaenger"] = $this -> vorgaenger($row -> projektID);
                     $data[$i]["Rating"] = $data[$i]['KostenDauer'] + $data[$i]['Kapitalwertrate'] + $data[$i]["Amortisationsrate"] + $data[$i]["qualiNutzen"] + $data[$i]["Risiken"] + $data[$i]["Strategien"] + $data[$i]["Komplexitaet"] + $this -> kanibalisierung($row -> projektID) + $data[$i]["Vorgaenger"];
-
+                    $data[$i]["Ausgewaehlt"] = 0;
+                    $this -> db -> where('ProjektID', $row -> projektID);
+                    $query = $this -> db -> get('Plan');
+                    if ($query -> num_rows() == 1) {
+                        $data[$i]['Ausgewaehlt'] = 1;
+                    }
                     $i++;
                 }
             }
@@ -557,11 +570,11 @@ class Projekte_model extends CI_Model {
         $konfigQuery = $this -> db -> get_where('Konfiguration', array('ID' => 1));
         $konfig = $konfigQuery -> first_row();
 
-        $this -> db -> where("ID", $ID);
+        $this -> db -> where("ID", $ProjektID);
         $porjektSonstigQuery = $this -> db -> get('ProjektSonstig');
         $projektSonstig = $porjektSonstigQuery -> first_row();
 
-        $kpi = $porjektSonstig -> KaniRate * $konfig -> GKanibal * (-1);
+        $kpi = $projektSonstig -> KaniRate * ($konfig -> GKanibal / 100) * (-1);
         return round($kpi, 2);
     }
 
@@ -584,11 +597,14 @@ class Projekte_model extends CI_Model {
     }
 
     function vorgaenger($ProjektID) {
-        $this -> db -> where("ID", $ID);
+        $this -> db -> where("ID", $ProjektID);
         $porjektSonstigQuery = $this -> db -> get('ProjektSonstig');
         $projektSonstig = $porjektSonstigQuery -> first_row();
+        $kpi = 0;
+        if ($projektSonstig -> Vorgaenger != 0) {
+            $kpi = $this -> riskien($projektSonstig -> Vorgaenger);
+        }
 
-        $kpi = $this -> riskien($projektSonstig -> Vorgaenger);
         return round($kpi, 2);
     }
 
