@@ -325,6 +325,8 @@ class Projekte extends CI_Controller {
 	
 	public function kategorie(){
 		$data["title"] = "Projekte pro Kategorie";
+		
+		$data["kategorien"] = $this->projekte_model->kategorieProjekte();
 
 		$this -> load -> view("templates/header", $data);
 		$this -> load -> view("projekte/kategorien", $data);
@@ -333,6 +335,8 @@ class Projekte extends CI_Controller {
 	
 	public function strategie(){
 		$data["title"] = "Projekte pro Strategie";
+		
+		$data["strategien"] = $this->projekte_model->strategieProjekte();
 
 		$this -> load -> view("templates/header", $data);
 		$this -> load -> view("projekte/strategien", $data);
