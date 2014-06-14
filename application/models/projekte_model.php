@@ -637,7 +637,6 @@ AND Plan.ProjektID = ProjektAmort.ID");
                 $data[$row -> BereichsID]["Bereichsinformationen"]["Kosten"] = $this -> gibGesamtKosten($row -> ProjektID);
             }
             $data[$row -> BereichsID]["Bereichsinformationen"]["Bereichsname"] = $row -> Bereichsname;
-            // $sumKosten = $sumKosten + $row->Kosten;
             $data[$row -> BereichsID]["Projekte"][$row -> ProjektID] = array("ID" => $row -> ProjektID, "Titel" => $row -> Titel);
 
         }
@@ -651,6 +650,11 @@ AND Plan.ProjektID = ProjektAmort.ID");
 
         $gesamtkosten = $projektKosten -> Intern1 + $projektKosten -> Intern2 + $projektKosten -> Intern3 + $projektKosten -> Extern1 + $projektKosten -> Extern2 + $projektKosten -> Extern3 + $projektKosten -> Sonstig1 + $projektKosten -> Sonstig2 + $projektKosten -> Sonstig3;
         return $gesamtkosten;
+    }
+
+    function loescheProjektAusPlan($ProjektID) {
+        $this -> db -> where("ProjektID", $ProjektID);
+        $this -> db -> delete("Plan");
     }
 
 }
