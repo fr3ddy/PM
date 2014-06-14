@@ -24,7 +24,8 @@ class Admin extends CI_Controller {
 	}
 
 	public function mitarbeiter() {
-		if ($this -> session -> userdata("Rolle") == "Abteilungsleiter" && $this -> session -> userdata("Abteilung") == 0) {
+		$gl = $this->user_model->gibAbteilung(0);
+		if ($gl["Abteilungsleiter"]["BenutzerID"] == $this -> session -> userdata("BenutzerID")) {
 
 			$data["title"] = "Administration";
 
@@ -42,7 +43,8 @@ class Admin extends CI_Controller {
 	}
 
 	public function neuerMitarbeiter() {
-		if ($this -> session -> userdata("Rolle") == "Abteilungsleiter" && $this -> session -> userdata("Abteilung") == 0) {
+		$gl = $this->user_model->gibAbteilung(0);
+		if ($gl["Abteilungsleiter"]["BenutzerID"] == $this -> session -> userdata("BenutzerID")) {
 
 			$data["title"] = "Administration";
 
@@ -61,7 +63,8 @@ class Admin extends CI_Controller {
 	}
 
 	public function speichereNeuenMitarbeiter() {
-		if ($this -> session -> userdata("Rolle") == "Abteilungsleiter" && $this -> session -> userdata("Abteilung") == 0) {
+		$gl = $this->user_model->gibAbteilung(0);
+		if ($gl["Abteilungsleiter"]["BenutzerID"] == $this -> session -> userdata("BenutzerID")) {
 			$this -> user_model -> erstelleBenutzer($this -> input -> post());
 			$this -> mitarbeiter();
 		} else {
@@ -70,7 +73,8 @@ class Admin extends CI_Controller {
 	}
 
 	public function mitarbeiterBearbeiten($id) {
-		if ($this -> session -> userdata("Rolle") == "Abteilungsleiter" && $this -> session -> userdata("Abteilung") == 0) {
+		$gl = $this->user_model->gibAbteilung(0);
+		if ($gl["Abteilungsleiter"]["BenutzerID"] == $this -> session -> userdata("BenutzerID")) {
 
 			$data["title"] = "Administration";
 
@@ -96,7 +100,8 @@ class Admin extends CI_Controller {
 	}
 
 	public function abteilungen() {
-		if ($this -> session -> userdata("Rolle") == "Abteilungsleiter" && $this -> session -> userdata("Abteilung") == 0) {
+		$gl = $this->user_model->gibAbteilung(0);
+		if ($gl["Abteilungsleiter"]["BenutzerID"] == $this -> session -> userdata("BenutzerID")) {
 			$data["title"] = "Administration";
 
 			$data["sidenavigation"] = $this -> sidenavigation;
@@ -113,7 +118,8 @@ class Admin extends CI_Controller {
 	}
 
 	public function neueAbteilung() {
-		if ($this -> session -> userdata("Rolle") == "Abteilungsleiter" && $this -> session -> userdata("Abteilung") == 0) {
+		$gl = $this->user_model->gibAbteilung(0);
+		if ($gl["Abteilungsleiter"]["BenutzerID"] == $this -> session -> userdata("BenutzerID")) {
 			$data["title"] = "Administration";
 
 			$data["sidenavigation"] = $this -> sidenavigation;
@@ -130,7 +136,8 @@ class Admin extends CI_Controller {
 	}
 
 	public function erstelleAbteilung() {
-		if ($this -> session -> userdata("Rolle") == "Abteilungsleiter" && $this -> session -> userdata("Abteilung") == 0) {
+		$gl = $this->user_model->gibAbteilung(0);
+		if ($gl["Abteilungsleiter"]["BenutzerID"] == $this -> session -> userdata("BenutzerID")) {
 			$postData = $this -> input -> post();
 			$this -> user_model -> erstelleAbteilung($postData["Abteilungsname"], $postData["Bereich"]);
 			$this -> abteilungen();
@@ -141,7 +148,8 @@ class Admin extends CI_Controller {
 	}
 
 	public function abteilungBearbeiten($id) {
-		if ($this -> session -> userdata("Rolle") == "Abteilungsleiter" && $this -> session -> userdata("Abteilung") == 0) {
+		$gl = $this->user_model->gibAbteilung(0);
+		if ($gl["Abteilungsleiter"]["BenutzerID"] == $this -> session -> userdata("BenutzerID")) {
 			$data["title"] = "Administration";
 
 			$data["sidenavigation"] = $this -> sidenavigation;
@@ -161,7 +169,8 @@ class Admin extends CI_Controller {
 	}
 
 	public function sendeGeaenderteAbteilung($id) {
-		if ($this -> session -> userdata("Rolle") == "Abteilungsleiter" && $this -> session -> userdata("Abteilung") == 0) {
+		$gl = $this->user_model->gibAbteilung(0);
+		if ($gl["Abteilungsleiter"]["BenutzerID"] == $this -> session -> userdata("BenutzerID")) {
 			$postData = $this -> input -> post();
 			$this -> user_model -> aendereAbteilung($id, $postData);
 			$this -> abteilungen();
@@ -171,7 +180,8 @@ class Admin extends CI_Controller {
 	}
 
 	public function abteilungLoeschen($id) {
-		if ($this -> session -> userdata("Rolle") == "Abteilungsleiter" && $this -> session -> userdata("Abteilung") == 0) {
+		$gl = $this->user_model->gibAbteilung(0);
+		if ($gl["Abteilungsleiter"]["BenutzerID"] == $this -> session -> userdata("BenutzerID")) {
 			$this -> user_model -> loescheAbteilung($id);
 			$this -> abteilungen();
 		} else {
@@ -180,7 +190,8 @@ class Admin extends CI_Controller {
 	}
 
 	public function bereiche() {
-		if ($this -> session -> userdata("Rolle") == "Abteilungsleiter" && $this -> session -> userdata("Abteilung") == 0) {
+		$gl = $this->user_model->gibAbteilung(0);
+		if ($gl["Abteilungsleiter"]["BenutzerID"] == $this -> session -> userdata("BenutzerID")) {
 			$data["title"] = "Administration";
 
 			$data["sidenavigation"] = $this -> sidenavigation;
@@ -197,7 +208,8 @@ class Admin extends CI_Controller {
 	}
 
 	public function neuerBereich() {
-		if ($this -> session -> userdata("Rolle") == "Abteilungsleiter" && $this -> session -> userdata("Abteilung") == 0) {
+		$gl = $this->user_model->gibAbteilung(0);
+		if ($gl["Abteilungsleiter"]["BenutzerID"] == $this -> session -> userdata("BenutzerID")) {
 			$data["title"] = "Administration";
 
 			$data["sidenavigation"] = $this -> sidenavigation;
@@ -214,7 +226,8 @@ class Admin extends CI_Controller {
 	}
 
 	public function erstelleBereich() {
-		if ($this -> session -> userdata("Rolle") == "Abteilungsleiter" && $this -> session -> userdata("Abteilung") == 0) {
+		$gl = $this->user_model->gibAbteilung(0);
+		if ($gl["Abteilungsleiter"]["BenutzerID"] == $this -> session -> userdata("BenutzerID")) {
 			$postData = $this -> input -> post();
 
 			$this -> user_model -> erstelleBereich($postData);
@@ -225,7 +238,8 @@ class Admin extends CI_Controller {
 	}
 
 	public function bereichBearbeiten($id) {
-		if ($this -> session -> userdata("Rolle") == "Abteilungsleiter" && $this -> session -> userdata("Abteilung") == 0) {
+		$gl = $this->user_model->gibAbteilung(0);
+		if ($gl["Abteilungsleiter"]["BenutzerID"] == $this -> session -> userdata("BenutzerID")) {
 			$data["title"] = "Administration";
 
 			$data["sidenavigation"] = $this -> sidenavigation;
@@ -243,7 +257,8 @@ class Admin extends CI_Controller {
 	}
 
 	public function speichereBereich($id) {
-		if ($this -> session -> userdata("Rolle") == "Abteilungsleiter" && $this -> session -> userdata("Abteilung") == 0) {
+		$gl = $this->user_model->gibAbteilung(0);
+		if ($gl["Abteilungsleiter"]["BenutzerID"] == $this -> session -> userdata("BenutzerID")) {
 			$postData = $this -> input -> post();
 			$postData["ID"] = $id;
 			$this -> user_model -> aenderBereich($postData);
@@ -254,7 +269,8 @@ class Admin extends CI_Controller {
 	}
 
 	public function bereichLoeschen($id) {
-		if ($this -> session -> userdata("Rolle") == "Abteilungsleiter" && $this -> session -> userdata("Abteilung") == 0) {
+		$gl = $this->user_model->gibAbteilung(0);
+		if ($gl["Abteilungsleiter"]["BenutzerID"] == $this -> session -> userdata("BenutzerID")) {
 			$this -> user_model -> loescheBereich($id);
 			$this -> bereiche();
 		} else {

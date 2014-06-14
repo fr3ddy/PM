@@ -169,3 +169,11 @@ output {
 #pmoOK{
 	display: none;
 }
+
+#glLoader{
+	display: none;
+}
+
+#glOK{
+	display: none;
+}
