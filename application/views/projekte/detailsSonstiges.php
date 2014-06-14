@@ -4,12 +4,20 @@
 		<div class="col-sm-5">
 			<div class="checkbox">
 				<label>
-					<input type="checkbox" name="NutzKosten" value="1" <?php if($ProjektSonstig->NutzKosten == 1) echo " checked "; ?>>
+					<input type="checkbox" name="NutzKosten" value="1" <?php
+					if ($ProjektSonstig -> NutzKosten == 1)
+						echo " checked ";
+ ?>
+					>
 					Kosteneinsparend</label>
 			</div>
 			<div class="checkbox">
 				<label>
-					<input type="checkbox" name="NutzUmsatz" value="1" <?php if($ProjektSonstig->NutzUmsatz == 1) echo " checked "; ?>>
+					<input type="checkbox" name="NutzUmsatz" value="1" <?php
+					if ($ProjektSonstig -> NutzUmsatz == 1)
+						echo " checked ";
+ ?>
+					>
 					Umsatzgenerierend</label>
 			</div>
 		</div>
@@ -22,7 +30,12 @@
 		<div class="col-sm-5">
 			<output for="KaniRate"></output>
 			<input type="range" min="0" max="100" step="1" name="KaniRate" id="KaniRate" value="<?php echo $ProjektSonstig -> KaniRate; ?>" />
-			<div style="float: left;">0%</div><div style="float: right;">100%</div>
+			<div style="float: left;">
+				0%
+			</div>
+			<div style="float: right;">
+				100%
+			</div>
 		</div>
 	</div>
 	<div class="form-group">
@@ -31,11 +44,14 @@
 			<select  class="form-control" name="Vorgaenger" id="Vorgaenger">
 				<option value="0">-- kein Vorgänger --</option>
 				<?php
-					foreach ($projekte as $projekt) {
-						echo '<option value="'.$projekt["ID"].'"';
-						if($ProjektSonstig -> Vorgaenger == $projekt["ID"]) echo " selected ";
-						echo '>'.$projekt["Titel"].'</option>';
+				foreach ($projekte as $projekt) {
+					if ($projekt["ID"] != $ProjektAllgemein -> ID) {
+						echo '<option value="' . $projekt["ID"] . '"';
+						if ($ProjektSonstig -> Vorgaenger == $projekt["ID"])
+							echo " selected ";
+						echo '>' . $projekt["Titel"] . '</option>';
 					}
+				}
 				?>
 			</select>
 		</div>
