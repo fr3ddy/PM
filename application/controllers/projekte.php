@@ -338,5 +338,18 @@ class Projekte extends CI_Controller {
 		$this -> load -> view("projekte/strategien", $data);
 		$this -> load -> view("templates/footer");
 	}
+	
+	public function loescheProjektAusPlan($herkunft , $id){
+		$this->projekte_model->loescheProjektAusPlan($id);
+		if($herkunft == "bereiche"){
+			$this->bereich();
+		}elseif($herkunft == "kategorie"){
+			$this->kategorie();
+		}elseif($herkunft == "strategie"){
+			$this->strategie();
+		}else{
+			$this->index();
+		}
+	}
 
 }

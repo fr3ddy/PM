@@ -13,7 +13,7 @@
 			foreach ($bereiche as $bereich) {
 				echo "<td>";
 				foreach ($bereich["Projekte"] as $projekt) {
-					echo $projekt["Titel"]."<br/>";
+					echo "<a style='color: #333;' href='projekte/details/".$projekt["ID"]."'>".$projekt["Titel"]."</a> <a style='color: #333;' href='projekte/loescheProjektAusPlan/bereiche/".$projekt["ID"]."'><span class='glyphicon glyphicon-remove'></span><br/>";
 				}
 				echo "</td>";
 			}
@@ -25,7 +25,7 @@
 		</td>
 		<?php
 			foreach ($bereiche as $bereich) {
-				echo "<td>".$bereich['Bereichsinformationen']["Gewinn"]."€ / ".$bereich['Bereichsinformationen']["Gewinn"]."€</td>";
+				echo "<td>".$bereich['Bereichsinformationen']["Kosten"]."€ / ".$bereich['Bereichsinformationen']["Gewinn"]."€</td>";
 			}
 		?>
 	</tr>
