@@ -608,4 +608,31 @@ class Projekte_model extends CI_Model {
         return round($kpi, 2);
     }
 
+    function gibBenutzerdatenID($ID) {
+        if ($ID != "") {
+            $query = $this -> db -> query('SELECT * FROM Benutzer WHERE ID = "' . $ID . '"');
+            $row = $query -> first_row();
+            return array("Benutzername" => $row -> Benutzername, "Abteilung" => $row -> Abteilung);
+        }
+    }
+
+    function bereichsProjekte() {
+        $data = array();
+        $i = 0;
+
+        $query = $this -> db -> query("SELECT Plan.ProjektID, Benutzer.Benutzername, ProjektAllgemein.Titel, Bereiche.Bereichsname, ProjektAmort.Gewinn 
+FROM Plan, Benutzer, Abteilungen, Bereiche, ProjektAllgemein, ProjektAmort 
+WHERE Plan.ProjektID = ProjektAllgemein.ID 
+AND ProjektAllgemein.Owner = Benutzer.ID 
+AND Benutzer.Abteilung = Abteilungen.ID 
+AND Abteilungen.Bereich = Bereiche.ID 
+AND Plan.ProjektID = ProjektAmort.ID");
+
+        foreach ($query as $row) {
+
+            $data[$row -> Bereichsname][$row -> ProjektID] = array("ID" => $row -> ProjektID, "Titel" => $row -> Titel, "Gewinn" => $row -> Gewinn);
+        }
+        return $data;
+    }
+
 }
