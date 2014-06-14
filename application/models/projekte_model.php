@@ -629,8 +629,11 @@ AND Abteilungen.Bereich = Bereiche.ID
 AND Plan.ProjektID = ProjektAmort.ID");
 
         foreach ($query as $row) {
+            $data[$row -> BereichsID]["Bereichsinformationen"]["Gewinn"] = $data[$row -> BereichsID]["Bereichsinformationen"]["Gewinn"] + $row -> Gewinn;
+            $data[$row -> BereichsID]["Bereichsinformationen"]["Bereichsname"] = $row -> Bereichsname;
+            // $sumKosten = $sumKosten + $row->Kosten;
+            $data[$row -> BereichesID]["Projekte"][$row -> ProjektID] = array("ID" => $row -> ProjektID, "Titel" => $row -> Titel);
 
-            $data[$row -> BereichesID][$row -> ProjektID] = array("ID" => $row -> ProjektID, "Titel" => $row -> Titel, "Gewinn" => $row -> Gewinn, "Bereichsname" => $row->Bereichsname);
         }
         return $data;
     }
