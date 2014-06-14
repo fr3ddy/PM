@@ -620,7 +620,7 @@ class Projekte_model extends CI_Model {
         $data = array();
         $i = 0;
 
-        $query = $this -> db -> query("SELECT Plan.ProjektID, Benutzer.Benutzername, ProjektAllgemein.Titel, Bereiche.Bereichsname, ProjektAmort.Gewinn 
+        $query = $this -> db -> query("SELECT Plan.ProjektID, Benutzer.Benutzername, ProjektAllgemein.Titel, Bereiche.ID as BereichsID, Bereiche.Bereichsname, ProjektAmort.Gewinn 
 FROM Plan, Benutzer, Abteilungen, Bereiche, ProjektAllgemein, ProjektAmort 
 WHERE Plan.ProjektID = ProjektAllgemein.ID 
 AND ProjektAllgemein.Owner = Benutzer.ID 
@@ -630,7 +630,7 @@ AND Plan.ProjektID = ProjektAmort.ID");
 
         foreach ($query as $row) {
 
-            $data[$row -> Bereichsname][$row -> ProjektID] = array("ID" => $row -> ProjektID, "Titel" => $row -> Titel, "Gewinn" => $row -> Gewinn);
+            $data[$row -> BereichesID][$row -> ProjektID] = array("ID" => $row -> ProjektID, "Titel" => $row -> Titel, "Gewinn" => $row -> Gewinn, "Bereichsname" => $row->Bereichsname);
         }
         return $data;
     }
