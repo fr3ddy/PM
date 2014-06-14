@@ -36,6 +36,9 @@
 				if ($gl["Abteilungsleiter"]["BenutzerID"] == $this -> session -> userdata("BenutzerID")) { ?>
 				<!-- Geschäftsleiter -->
 				<a href="<?php echo base_url(); ?>projekte"><div>Projekt&uuml;bersicht</div></a>
+				<a href="<?php echo base_url(); ?>projekte/strategie"><div>Strategie</div></a>
+				<a href="<?php echo base_url(); ?>projekte/kategorie"><div>Kategorie</div></a>
+				<a href="<?php echo base_url(); ?>projekte/bereich"><div>Bereich</div></a>
 				<a href="<?php echo base_url(); ?>admin"><div>Administration</div></a>
 				<a style="float: right;" href="<?php echo base_url(); ?>user/logout"><div><span class="glyphicon glyphicon-off" style="margin-right: 5px;"></span>Abmelden</div></a>
 				<?php

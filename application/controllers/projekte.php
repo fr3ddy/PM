@@ -312,5 +312,29 @@ class Projekte extends CI_Controller {
 			$this -> projekte_model -> reicheProjektWeiter($projekt[0]);
 		}
 	}
+	
+	public function bereich(){
+		$data["title"] = "Projekte pro Bereich";
+
+		$this -> load -> view("templates/header", $data);
+		$this -> load -> view("projekte/bereiche", $data);
+		$this -> load -> view("templates/footer");
+	}
+	
+	public function kategorie(){
+		$data["title"] = "Projekte pro Kategorie";
+
+		$this -> load -> view("templates/header", $data);
+		$this -> load -> view("projekte/kategorien", $data);
+		$this -> load -> view("templates/footer");
+	}
+	
+	public function strategie(){
+		$data["title"] = "Projekte pro Strategie";
+
+		$this -> load -> view("templates/header", $data);
+		$this -> load -> view("projekte/strategien", $data);
+		$this -> load -> view("templates/footer");
+	}
 
 }
