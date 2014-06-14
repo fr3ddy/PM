@@ -273,7 +273,7 @@ class Projekte_model extends CI_Model {
         $query = $this -> db -> get('ProjektSonstig');
 
         $row = $query -> first_row();
-        $row -> Vorgaenger = $this -> vorgaenger($row -> projektID);
+        $row -> VorgaengerRisiko = $this -> vorgaenger($row -> projektID);
         return $row;
     }
 
