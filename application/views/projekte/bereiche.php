@@ -3,7 +3,7 @@
 		<th></th>
 		<?php
 			foreach ($bereiche as $bereich) {
-				echo "<th>".$bereich['Bereichsname']."</th>";
+				echo "<th>".$bereich['Bereichsinformationen']['Bereichsname']."</th>";
 			}
 		?>
 	</tr>
@@ -12,7 +12,7 @@
 		<?php
 			foreach ($bereiche as $bereich) {
 				echo "<td>";
-				foreach ($bereiche["Projekte"] as $projekt) {
+				foreach ($bereich["Projekte"] as $projekt) {
 					echo $projekt["Titel"]."<br/>";
 				}
 				echo "</td>";
@@ -25,7 +25,7 @@
 		</td>
 		<?php
 			foreach ($bereiche as $bereich) {
-				echo "<td>".$bereich["Kosten"]."€ / ".$bereich["Gewinn"]."€</td>";
+				echo "<td>".$bereich['Bereichsinformationen']["Gewinn"]."€ / ".$bereich['Bereichsinformationen']["Gewinn"]."€</td>";
 			}
 		?>
 	</tr>
