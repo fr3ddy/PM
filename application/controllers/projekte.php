@@ -315,6 +315,8 @@ class Projekte extends CI_Controller {
 	
 	public function bereich(){
 		$data["title"] = "Projekte pro Bereich";
+		
+		$data["bereiche"] = $this->projekte_model->bereichsProjekte();
 
 		$this -> load -> view("templates/header", $data);
 		$this -> load -> view("projekte/bereiche", $data);
