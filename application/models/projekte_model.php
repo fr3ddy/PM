@@ -375,7 +375,8 @@ class Projekte_model extends CI_Model {
                     $data[$i]["Risiken"] = $this -> riskien($row -> projektID);
                     $data[$i]["Strategien"] = $this -> strategien($row -> projektID);
                     $data[$i]["Komplexitaet"] = $this -> komplextitaet($row -> projektID);
-                    $data[$i]["Rating"] = $data[$i]['KostenDauer'] + $data[$i]['Kapitalwertrate'] + $data[$i]["Amortisationsrate"] + $data[$i]["qualiNutzen"] + $data[$i]["Risiken"] + $data[$i]["Strategien"] + $data[$i]["Komplexitaet"];
+                    $data[$i]["Vorgaenger"] = $this -> vorgaenger($row -> projektID);
+                    $data[$i]["Rating"] = $data[$i]['KostenDauer'] + $data[$i]['Kapitalwertrate'] + $data[$i]["Amortisationsrate"] + $data[$i]["qualiNutzen"] + $data[$i]["Risiken"] + $data[$i]["Strategien"] + $data[$i]["Komplexitaet"] + $this -> kanibalisierung($row -> projektID) + $data[$i]["Vorgaenger"];
 
                     $i++;
                 }
@@ -414,7 +415,8 @@ class Projekte_model extends CI_Model {
                 $data[$i]["Risiken"] = $this -> riskien($row -> projektID);
                 $data[$i]["Strategien"] = $this -> strategien($row -> projektID);
                 $data[$i]["Komplexitaet"] = $this -> komplextitaet($row -> projektID);
-                $data[$i]["Rating"] = $data[$i]['KostenDauer'] + $data[$i]['Kapitalwertrate'] + $data[$i]["Amortisationsrate"] + $data[$i]["qualiNutzen"] + $data[$i]["Risiken"] + $data[$i]["Strategien"] + $data[$i]["Komplexitaet"];
+                $data[$i]["Vorgaenger"] = $this -> vorgaenger($row -> projektID);
+                $data[$i]["Rating"] = $data[$i]['KostenDauer'] + $data[$i]['Kapitalwertrate'] + $data[$i]["Amortisationsrate"] + $data[$i]["qualiNutzen"] + $data[$i]["Risiken"] + $data[$i]["Strategien"] + $data[$i]["Komplexitaet"] + $this -> kanibalisierung($row -> projektID) + $data[$i]["Vorgaenger"];
                 $data[$i]["Vorgeschlagen"] = 0;
                 $this -> db -> where('ProjektID', $row -> projektID);
                 $query = $this -> db -> get('ProjektePMO');
@@ -550,6 +552,18 @@ class Projekte_model extends CI_Model {
         return round($kpi, 2);
     }
 
+    function kanibalisierung($ProjektID) {
+        $konfigQuery = $this -> db -> get_where('Konfiguration', array('ID' => 1));
+        $konfig = $konfigQuery -> first_row();
+
+        $this -> db -> where("ID", $ID);
+        $porjektSonstigQuery = $this -> db -> get('ProjektSonstig');
+        $projektSonstig = $porjektSonstigQuery -> first_row();
+
+        $kpi = $porjektSonstig -> KaniRate * $konfig -> GKanibal * (-1);
+        return round($kpi, 2);
+    }
+
     function kostenDauerKPI($ProjektID) {
         $this -> db -> where('ID', $ProjektID);
         $projektKostenQuery = $this -> db -> get('ProjektKosten');
@@ -565,6 +579,15 @@ class Projekte_model extends CI_Model {
 
         $kpi = (($konfig -> KpMSchlecht - ($gesamtkosten / $projektAllgemein -> Dauer)) * (100 / ($konfig -> KpMSchlecht - $konfig -> KpMGut)));
         $kpi = $kpi * ($konfig -> GKostenDauer / 100);
+        return round($kpi, 2);
+    }
+
+    function vorgaenger($ProjektID) {
+        $this -> db -> where("ID", $ID);
+        $porjektSonstigQuery = $this -> db -> get('ProjektSonstig');
+        $projektSonstig = $porjektSonstigQuery -> first_row();
+
+        $kpi = $this -> riskien($projektSonstig -> Vorgaenger);
         return round($kpi, 2);
     }
 
