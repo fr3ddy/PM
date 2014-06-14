@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<?php $this->load->helper('url'); ?>
 <html lang="de">
 	<head>
 		<meta charset="utf-8">
@@ -45,19 +46,19 @@
 				<?php
 					}elseif($this->session->userdata("Rolle") == "Bereichsleiter"){
 				?>
-				<a href="<?php echo base_url(); ?>projekte/neu"><div <?php echo "class='active'"; ?>>Neues Projekt einreichen</div></a>
+				<a href="<?php echo base_url(); ?>projekte/neu"><div>Neues Projekt einreichen</div></a>
 				<a href="<?php echo base_url(); ?>projekte"><div>Projekt&uuml;bersicht</div></a>
 				<a style="float: right;" href="<?php echo base_url(); ?>user/logout"><div><span class="glyphicon glyphicon-off" style="margin-right: 5px;"></span>Abmelden</div></a>
 				<?php
 					}elseif($this->session->userdata("Rolle") == "Abteilungsleiter"){
 				?>
-				<a href="<?php echo base_url(); ?>projekte/neu"><div <?php echo "class='active'"; ?>>Neues Projekt einreichen</div></a>
+				<a href="<?php echo base_url(); ?>projekte/neu"><div>Neues Projekt einreichen</div></a>
 				<a href="<?php echo base_url(); ?>projekte"><div>Projekt&uuml;bersicht</div></a>
 				<a style="float: right;" href="<?php echo base_url(); ?>user/logout"><div><span class="glyphicon glyphicon-off" style="margin-right: 5px;"></span>Abmelden</div></a>
 				<?php
 					}elseif($this->session->userdata("Rolle") == "Mitarbeiter"){
 				?>
-				<a href="<?php echo base_url(); ?>projekte/neu"><div <?php echo "class='active'"; ?>>Neues Projekt einreichen</div></a>
+				<a href="<?php echo base_url(); ?>projekte/neu"><div>Neues Projekt einreichen</div></a>
 				<a href="<?php echo base_url(); ?>projekte"><div>Eingereichte Projekte</div></a>
 				<a href="<?php echo base_url(); ?>user/meinprofil"><div>Mein Profil</div></a>
 				<a style="float: right;" href="<?php echo base_url(); ?>user/logout"><div><span class="glyphicon glyphicon-off" style="margin-right: 5px;"></span>Abmelden</div></a>

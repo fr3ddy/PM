@@ -20,6 +20,7 @@
 	<div class="form-group">
 		<label for="KaniRate" class="col-sm-offset-2 col-sm-5 control-label" style="text-align: left;">Kanibalisierungsrate</label>
 		<div class="col-sm-5">
+			<output for="KaniRate"></output>
 			<input type="range" min="0" max="100" step="1" name="KaniRate" id="KaniRate" value="<?php echo $ProjektSonstig -> KaniRate; ?>" />
 			<div style="float: left;">0%</div><div style="float: right;">100%</div>
 		</div>

@@ -152,6 +152,7 @@
 			Kanibalisierungsrate:
 		</div>
 		<div class="col-xs-8">
+			<output for="GKanibal" ></output>
 			<input type="range" min="0" max="100" name="GKanibal" id="GKanibal" class="gewichtet" value="<?php echo $konfig -> GKanibal; ?>" />
 			<div class="row">
 				<div class="col-xs-2">

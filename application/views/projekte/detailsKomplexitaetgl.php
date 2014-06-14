@@ -1,6 +1,7 @@
 	<div class="row">
 		<label for="BeteilMit" class="col-sm-offset-1 col-sm-4 control-label" style="text-align: left;">Beteiligte Mitarbeiter</label>
 		<div class="col-sm-7">
+			<output for="BeteilMit"></output>
 			<input type="range" name="BeteilMit" id="BeteilMit" min="0" max="<?php echo $anzMitarbeiter -> AnzMitarbeiter; ?>" disabled value="<?php echo $ProjektKomplex -> BeteilMit; ?>">
 			<div style="float: left;">0</div><div style="float: right;"><?php echo $anzMitarbeiter -> AnzMitarbeiter; ?></div>
 		</div>
