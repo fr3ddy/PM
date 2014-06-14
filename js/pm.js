@@ -127,6 +127,32 @@ $(document).ready(function() {
 			}, 3000);
 		});
 	});
+	$('.glCheckbox').on("change", function() {
+		clearTimeout(timeout);
+		$('#glFlieger').hide();
+		$('#glOK').hide();
+		$('#glLoader').show();
+		var pro = "";
+		$.each($('.glCheckbox'), function(key, value) {
+			if (value.checked == true) {
+				pro = pro + "-" + value.name;
+			}
+		});
+		$.ajax({
+			type : "POST",
+			url : "projekte/speichereGLListe",
+			data : {
+				projekte : pro
+			},
+		}).done(function(data) {
+			$('#glLoader').hide();
+			$('#glOK').show();
+			timeout = setTimeout(function() {
+				$('#glOK').hide();
+				$('#glFlieger').show();
+			}, 3000);
+		});
+	});
 });
 
 var getTotal = function() {

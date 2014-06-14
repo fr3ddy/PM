@@ -303,5 +303,14 @@ class Projekte extends CI_Controller {
 			$this -> projekte_model -> reicheProjektWeiter($projekt[0]);
 		}
 	}
+	
+	public function speichereGLListe() {
+		$data = $this -> input -> post();
+		$projekte = explode("-", substr($data["projekte"] , 1));
+		$this -> projekte_model -> loeschePlan();
+		foreach ($projekte as $projekt) {
+			$this -> projekte_model -> reicheProjektWeiter($projekt[0]);
+		}
+	}
 
 }
