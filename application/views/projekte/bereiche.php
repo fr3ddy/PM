@@ -1,6 +1,6 @@
 <table class="table table-hover">
 	<tr>
-		<th></th>
+		<th>Bereich</th>
 		<?php
 			foreach ($bereiche as $bereich) {
 				echo "<th>".$bereich['Bereichsinformationen']['Bereichsname']."</th>";
