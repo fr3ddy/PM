@@ -57,7 +57,7 @@
 	</div>
 </div>
 <?php
-if(!$flag){
+if($flag){
 ?>
 <div class="row">
 	<label for="VorgaengerRisiko" class="col-sm-offset-2 col-sm-5 control-label" style="text-align: left;">Risiko des Vorgängerprojekts</label>
