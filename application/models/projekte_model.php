@@ -128,6 +128,10 @@ class Projekte_model extends CI_Model {
         $this -> db -> delete('ProjektStrategien');
         $this -> db -> where('ID', $ID);
         $this -> db -> delete('NutzenQualitativ');
+        $this -> db -> where('ProjektID', $ID);
+        $this -> db -> delete('Plan');
+        $this -> db -> where('ProjektID', $ID);
+        $this -> db -> delete('ProjektePMO');
     }
 
     function reicheProjektWeiter($ProjektID) {
