@@ -1,3 +1,8 @@
+.active {
+	color: #EE7F00;
+	background-color: #333;	
+}
+
 .btn-default {
 	color: #ccc;
 	background-color: #515151;
@@ -79,6 +84,9 @@ input[type='range']::-moz-range-thumb {
 	background-image: none;
 	color: #ee7f00;
 }
+.menu_active {
+	color: red;	
+}
 
 .navigation {
 	height: 40px;
@@ -104,6 +112,14 @@ input[type='range']::-moz-range-thumb {
 .navigation > a {
 	text-decoration: none;
 	color: #ccc;
+}
+
+output {
+    font-size: 12px;
+    color: #555;
+    position: absolute;
+    bottom: 29px;
+    margin-left: 1px;
 }
 
 .sidenavigationplaceholder {
