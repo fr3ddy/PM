@@ -53,6 +53,16 @@
 				echo "-- kein Vorgänger --";
 			}
 			?>
-		</select>
 	</div>
 </div>
+<?php
+if(!$flag){
+?>
+<div class="row">
+	<label for="VorgaengerRisiko" class="col-sm-offset-2 col-sm-5 control-label" style="text-align: left;">Risiko des Vorgängerprojekts</label>
+	<div class="col-sm-5">
+		<?php echo $ProjektSonstig->VorgaengerRisiko; ?>
+	</div>
+</div>
+<?php
+}
