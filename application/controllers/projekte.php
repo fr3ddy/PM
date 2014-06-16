@@ -296,11 +296,11 @@ class Projekte extends CI_Controller {
 	}
 
 	public function speicherePMOListe() {
-		$data = $this -> input -> post();
+		$data = $this -> input -> get();
 		$projekte = explode("-", substr($data["projekte"] , 1));
 		$this -> projekte_model -> loeschePMOListe();
 		foreach ($projekte as $projekt) {
-			$this -> projekte_model -> reicheProjektWeiter($projekt[0]);
+			$this -> projekte_model -> reicheProjektWeiter($projekt);
 		}
 	}
 	
@@ -309,7 +309,7 @@ class Projekte extends CI_Controller {
 		$projekte = explode("-", substr($data["projekte"] , 1));
 		$this -> projekte_model -> loeschePlan();
 		foreach ($projekte as $projekt) {
-			$this -> projekte_model -> reicheProjektWeiter($projekt[0]);
+			$this -> projekte_model -> reicheProjektWeiter($projekt);
 		}
 	}
 	

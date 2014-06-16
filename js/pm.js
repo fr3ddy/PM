@@ -114,7 +114,7 @@ $(document).ready(function() {
 		});
 		$.ajax({
 			type : "POST",
-			url : "projekte/speicherePMOListe",
+			url : "http://fallstudie.frederik-frey.de/projekte/speicherePMOListe",
 			data : {
 				projekte : pro
 			},
@@ -140,7 +140,7 @@ $(document).ready(function() {
 		});
 		$.ajax({
 			type : "POST",
-			url : "projekte/speichereGLListe",
+			url : "http://fallstudie.frederik-frey.de/projekte/speichereGLListe",
 			data : {
 				projekte : pro
 			},

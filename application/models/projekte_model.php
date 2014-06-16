@@ -497,7 +497,11 @@ class Projekte_model extends CI_Model {
         for ($a; $a < 3 + $b; $a++) {
             $kpi = $kpi + ((-$projektKosten -> KostNFertig + $projektAmort -> Gewinn) / pow(($konfig -> KalkZins / 100) + 1, 3 + $a));
         }
-        $kpi = $kpi / (($projektKosten -> Intern1 + $projektKosten -> Extern1 + $projektKosten -> Sonstig1) + ($projektKosten -> Intern2 + $projektKosten -> Extern2 + $projektKosten -> Sonstig2) + ($projektKosten -> Intern3 + $projektKosten -> Extern3 + $projektKosten -> Sonstig3));
+        if((($projektKosten -> Intern1 + $projektKosten -> Extern1 + $projektKosten -> Sonstig1) + ($projektKosten -> Intern2 + $projektKosten -> Extern2 + $projektKosten -> Sonstig2) + ($projektKosten -> Intern3 + $projektKosten -> Extern3 + $projektKosten -> Sonstig3)) == 0){
+			$kpi = 0;
+		}else{
+        	$kpi = $kpi / (($projektKosten -> Intern1 + $projektKosten -> Extern1 + $projektKosten -> Sonstig1) + ($projektKosten -> Intern2 + $projektKosten -> Extern2 + $projektKosten -> Sonstig2) + ($projektKosten -> Intern3 + $projektKosten -> Extern3 + $projektKosten -> Sonstig3));
+		}
         $kpi = $kpi * 100;
 
         $kpi = $kpi * ($konfig -> GKapitalwertrate / 100);

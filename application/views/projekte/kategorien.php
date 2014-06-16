@@ -1,6 +1,3 @@
-<?php
-print_r($kategorien);
-?>
 <table class="table table-hover">
 	<tr>
 		<th>Kategorie</th>
