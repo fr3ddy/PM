@@ -296,7 +296,7 @@ class Projekte extends CI_Controller {
 	}
 
 	public function speicherePMOListe() {
-		$data = $this -> input -> get();
+		$data = $this -> input -> post();
 		$projekte = explode("-", substr($data["projekte"] , 1));
 		$this -> projekte_model -> loeschePMOListe();
 		foreach ($projekte as $projekt) {
