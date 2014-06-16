@@ -542,7 +542,11 @@ class Projekte_model extends CI_Model {
         $projektAmortQuery = $this -> db -> get('ProjektAmort');
         $projektAmort = $projektAmortQuery -> first_row();
         $kostengesamt = $projektKosten -> Intern1 + $projektKosten -> Intern2 + $projektKosten -> Intern3 + $projektKosten -> Extern1 + $projektKosten -> Extern2 + $projektKosten -> Extern3 + $projektKosten -> Sonstig1 + $projektKosten -> Sonstig2 + $projektKosten -> Sonstig3;
-        $kpi = (($kostengesamt - $projektAmort -> Restwert) / ($projektAmort -> Gewinn - $projektAmort -> Abschreibung)) * 12;
+        if($projektAmort -> Gewinn - $projektAmort -> Abschreibung > 0){
+        	$kpi = (($kostengesamt - $projektAmort -> Restwert) / ($projektAmort -> Gewinn - $projektAmort -> Abschreibung)) * 12;
+		}else{
+			$kpi = 0;
+		}
         return round($kpi, 2);
     }
 
@@ -690,7 +694,7 @@ AND ProjektAllgemein.Strategie = Strategien.ID");
 FROM Plan, ProjektAllgemein, ProjektAmort, Kategorien
 WHERE Plan.ProjektID = ProjektAllgemein.ID 
 AND Plan.ProjektID = ProjektAmort.ID
-AND ProjektAllgemein.Strategie = Kategorien.ID");
+AND ProjektAllgemein.Kategorie = Kategorien.ID");
 
         foreach ($query->result() as $row) {
             if (isset($data[$row -> KategorieID])) {

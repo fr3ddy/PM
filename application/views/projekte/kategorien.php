@@ -1,6 +1,9 @@
+<?php
+print_r($kategorien);
+?>
 <table class="table table-hover">
 	<tr>
-		<th>Bereich</th>
+		<th>Kategorie</th>
 		<?php
 		foreach ($kategorien as $kategorie) {
 			echo "<th>" . $kategorie['Kategoriesinformationen']['Kategoriename'] . "</th>";
